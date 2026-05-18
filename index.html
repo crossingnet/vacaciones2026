@@ -336,6 +336,27 @@
     .badge-star { background: #3b3018; color: #f3c969; }
     .badge-booking { background: #3a1f1c; color: #ff8a7e; }
   }
+  .activity-history {
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-left: 3px solid var(--ink-3);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .activity-history-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--ink-3);
+    font-weight: 700;
+    margin-bottom: 3px;
+    font-style: normal;
+  }
   .activity-links {
     display: flex;
     gap: 8px;
@@ -868,17 +889,26 @@ function renderFlight(f) {
   `;
 }
 
+function photosLinkFor(name, city) {
+  const q = city ? `${name} ${city}` : name;
+  return `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`;
+}
+
 function renderActivity(a, city) {
   const isFree = /gratis/i.test(a.cost);
   const costBadge = isFree
     ? `<span class="badge badge-free">🆓 Gratis</span>`
-    : `<span class="badge badge-paid">💶 ${escapeHtml(a.cost)}</span>`;
+    : `<span class="badge badge-paid">🎟️ Entrada ${escapeHtml(a.cost)}</span>`;
   const timeBadge = a.time ? `<span class="badge badge-time">⏱️ ${escapeHtml(a.time)}</span>` : '';
   const starBadge = a.imperdible ? `<span class="badge badge-star">⭐ Imperdible</span>` : '';
   const bookingBadge = a.booking ? `<span class="badge badge-booking">🎫 ${escapeHtml(a.booking)}</span>` : '';
   const mapsUrl = mapsLinkFor(a.name, city);
+  const photosUrl = photosLinkFor(a.name, city);
   const bookingLink = a.bookingUrl
     ? `<a class="activity-link booking-link" href="${a.bookingUrl}" target="_blank" rel="noopener">🎫 Reservar</a>`
+    : '';
+  const historyBlock = a.history
+    ? `<div class="activity-history"><span class="activity-history-label">📜 Qué estás viendo</span>${escapeHtml(a.history)}</div>`
     : '';
 
   return `
@@ -893,8 +923,10 @@ function renderActivity(a, city) {
         ${timeBadge}
         ${bookingBadge}
       </div>
+      ${historyBlock}
       <div class="activity-links">
-        <a class="activity-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Ver en Maps</a>
+        <a class="activity-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Maps</a>
+        <a class="activity-link" href="${photosUrl}" target="_blank" rel="noopener">📸 Fotos</a>
         ${bookingLink}
       </div>
     </div>
