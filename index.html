@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#fafafa">
+<title>Mis Vacaciones</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fafafa; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #222;
+    line-height: 1.45;
+    padding: 18px 14px calc(40px + env(safe-area-inset-bottom));
+    max-width: 640px;
+    margin: 0 auto;
+    -webkit-text-size-adjust: 100%;
+  }
+  header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 2px 16px;
+    border-bottom: 1px solid #e3e3e3;
+    margin-bottom: 16px;
+  }
+  header h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+  .subtitle { font-size: 12px; color: #888; }
+  button.reload {
+    font: inherit;
+    font-size: 12px;
+    color: #555;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  button.reload:active { background: #f0f0f0; }
+  .stop {
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .stop-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .stop-place {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .stop-date {
+    font-size: 12px;
+    color: #888;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .nights {
+    display: inline-block;
+    font-size: 11px;
+    color: #555;
+    background: #f0f0f0;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: 1px;
+  }
+  .field { margin-top: 8px; font-size: 14px; }
+  .field-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #999;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+  .status {
+    text-align: center;
+    color: #888;
+    padding: 40px 16px;
+    font-size: 14px;
+  }
+  .status.error { color: #c33; }
+  .status small { display: block; margin-top: 8px; color: #aaa; font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Mis Vacaciones</h1>
+  <span class="subtitle" id="subtitle">Cargando…</span>
+  <button class="reload" id="reload" hidden>Actualizar</button>
+</header>
+<main id="list">
+  <p class="status">Cargando itinerario…</p>
+</main>
+
+<script>
+const SHEET_ID = '1RcBERqhrCAUS6irUN9rb3GZNLLnhzb6A5ZAa0fT4M7s';
+
+function csvUrl() {
+  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&_=${Date.now()}`;
+}
+
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let cell = '';
+  let inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (text[i + 1] === '"') { cell += '"'; i++; }
+        else { inQuotes = false; }
+      } else {
+        cell += c;
+      }
+    } else {
+      if (c === '"') inQuotes = true;
+      else if (c === ',') { row.push(cell); cell = ''; }
+      else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+      else if (c === '\r') { /* skip */ }
+      else cell += c;
+    }
+  }
+  if (cell.length || row.length) { row.push(cell); rows.push(row); }
+  return rows;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+async function load() {
+  const list = document.getElementById('list');
+  const subtitle = document.getElementById('subtitle');
+  list.innerHTML = '<p class="status">Cargando itinerario…</p>';
+  subtitle.textContent = 'Cargando…';
+
+  try {
+    const res = await fetch(csvUrl(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    render(rows);
+  } catch (e) {
+    list.innerHTML = `<p class="status error">No pude cargar los datos del Sheet.<small>${escapeHtml(e.message)}</small><small>Revisá que el Sheet siga compartido como “Cualquiera con el enlace”.</small></p>`;
+    subtitle.textContent = 'Error';
+  }
+}
+
+function render(rows) {
+  const list = document.getElementById('list');
+  const subtitle = document.getElementById('subtitle');
+  const reload = document.getElementById('reload');
+
+  // Skip header row, and rows where Fecha (col 0) is empty
+  const stops = rows.slice(1).filter(r => (r[0] || '').trim() !== '');
+
+  if (stops.length === 0) {
+    list.innerHTML = '<p class="status">El Sheet no tiene paradas todavía.</p>';
+    subtitle.textContent = '0 paradas';
+    reload.hidden = false;
+    return;
+  }
+
+  list.innerHTML = stops.map(r => {
+    const fecha = (r[0] || '').trim();
+    const lugar = (r[1] || '').trim();
+    const noches = (r[2] || '').trim();
+    const barrio = (r[3] || '').trim();
+    const logistica = (r[4] || '').trim();
+    const must = (r[5] || '').trim();
+
+    const nightsLabel = noches
+      ? `<span class="nights">${escapeHtml(noches)} ${noches === '1' ? 'noche' : 'noches'}</span>`
+      : '';
+
+    return `
+      <article class="stop">
+        <div class="stop-head">
+          <div>
+            <span class="stop-place">${escapeHtml(lugar || '—')}</span>
+            ${nightsLabel}
+          </div>
+          <span class="stop-date">${escapeHtml(fecha)}</span>
+        </div>
+        ${barrio ? `<div class="field"><span class="field-label">Barrio</span>${escapeHtml(barrio)}</div>` : ''}
+        ${logistica ? `<div class="field"><span class="field-label">Por qué / Logística</span>${escapeHtml(logistica)}</div>` : ''}
+        ${must ? `<div class="field"><span class="field-label">Imprescindibles</span>${escapeHtml(must)}</div>` : ''}
+      </article>
+    `;
+  }).join('');
+
+  subtitle.textContent = `${stops.length} paradas`;
+  reload.hidden = false;
+}
+
+document.getElementById('reload').addEventListener('click', load);
+load();
+</script>
+</body>
+</html>
