@@ -2,6 +2,29 @@
 // Las claves coinciden con el nombre de la ciudad en el Google Sheet (en minúsculas).
 // Para cada actividad: name, desc, cost ("Gratis" o "€X"), time, imperdible, booking, bookingUrl
 
+const FLIGHTS = {
+  outbound: {
+    label: 'Vuelo de ida',
+    airline: 'KLM',
+    flight: 'KL702',
+    booking: 'X6G5YP',
+    aircraft: null,
+    from: { airport: 'EZE', city: 'Buenos Aires', country: 'Argentina', y: 2026, m: 5, d: 9, time: '15:05' },
+    to:   { airport: 'AMS', city: 'Ámsterdam',    country: 'Países Bajos', y: 2026, m: 5, d: 10, time: '09:10' },
+    duration: '13h 05min',
+  },
+  return: {
+    label: 'Vuelo de vuelta',
+    airline: 'KLM',
+    flight: 'KL701',
+    booking: 'X6G5YP',
+    aircraft: 'Boeing 777-200',
+    from: { airport: 'AMS', city: 'Ámsterdam',    country: 'Países Bajos', y: 2026, m: 5, d: 29, time: '21:10' },
+    to:   { airport: 'EZE', city: 'Buenos Aires', country: 'Argentina', y: 2026, m: 5, d: 30, time: '~06:00', estimated: true },
+    duration: '~13h 50min',
+  },
+};
+
 const PLACES = {
 
   'luxemburgo': {
