@@ -225,7 +225,7 @@
   .field-body { color: var(--ink); }
 
   .maps-link {
-    margin-top: 14px;
+    margin-top: 10px;
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -239,6 +239,141 @@
     min-height: 36px;
   }
   .maps-link:active { opacity: 0.7; }
+
+  .station-row {
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--line);
+  }
+  .station-row:active { opacity: 0.7; }
+  .station-row .station-icon { font-size: 18px; flex-shrink: 0; }
+  .station-row .station-text { flex: 1; min-width: 0; }
+  .station-row .station-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--ink-3);
+    font-weight: 700;
+    display: block;
+  }
+  .station-row .station-name { color: var(--accent); font-weight: 600; }
+  .station-row .arrow { color: var(--ink-3); font-size: 16px; }
+
+  .activities {
+    margin-top: 14px;
+    display: grid;
+    gap: 10px;
+  }
+  .activity {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: var(--card);
+    position: relative;
+  }
+  .activity.imperdible {
+    border-color: #e6b800;
+    background: linear-gradient(180deg, rgba(255,215,0,0.06), transparent 60%);
+  }
+  @media (prefers-color-scheme: dark) {
+    .activity.imperdible {
+      border-color: #b58a00;
+      background: linear-gradient(180deg, rgba(255,215,0,0.08), transparent 60%);
+    }
+  }
+  .activity-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .activity-name {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink);
+    flex: 1;
+    line-height: 1.3;
+  }
+  .activity-desc {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .activity-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 999px;
+    line-height: 1.2;
+  }
+  .badge-free { background: #e6f6ea; color: #1a7a3e; }
+  .badge-paid { background: #f0f0f3; color: var(--ink-2); }
+  .badge-time { background: #eef3fc; color: #2b5fc2; }
+  .badge-star { background: #fff5d6; color: #8a6500; }
+  .badge-booking { background: #fdecea; color: #b3261e; }
+  @media (prefers-color-scheme: dark) {
+    .badge-free { background: #1a3a25; color: #6fdb95; }
+    .badge-paid { background: #2a2a30; color: var(--ink-2); }
+    .badge-time { background: #1c2a45; color: #79a5ff; }
+    .badge-star { background: #3b3018; color: #f3c969; }
+    .badge-booking { background: #3a1f1c; color: #ff8a7e; }
+  }
+  .activity-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .activity-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 6px 10px;
+    background: var(--accent-bg);
+    border-radius: 6px;
+    min-height: 32px;
+  }
+  .activity-link.booking-link {
+    color: #b3261e;
+    background: #fdecea;
+  }
+  @media (prefers-color-scheme: dark) {
+    .activity-link.booking-link { color: #ff8a7e; background: #3a1f1c; }
+  }
+  .activity-link:active { opacity: 0.7; }
+  .section-label {
+    margin-top: 18px;
+    margin-bottom: 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--ink-3);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
 
   .status {
     text-align: center;
@@ -284,6 +419,43 @@
   #map { flex: 1; background: var(--card); }
   .leaflet-popup-content { font-size: 13px; margin: 8px 10px; }
   .leaflet-popup-content strong { display: block; margin-bottom: 2px; }
+  .pin {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #2b7fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    position: relative;
+  }
+  .pin-num {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #2b7fff;
+    color: #fff;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+  }
+  .pin.today {
+    width: 50px; height: 50px;
+    font-size: 26px;
+    border-color: #ff5a3c;
+    border-width: 3px;
+    box-shadow: 0 0 0 5px rgba(255,90,60,0.25), 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .pin.today .pin-num { background: #ff5a3c; width: 22px; height: 22px; font-size: 11px; }
 </style>
 </head>
 <body>
@@ -312,6 +484,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="places.js"></script>
 <script>
 const TRIP_YEAR = 2026;
 const SHEET_ID = '1RcBERqhrCAUS6irUN9rb3GZNLLnhzb6A5ZAa0fT4M7s';
@@ -471,6 +644,74 @@ function computeTripStatus(stops) {
 
 let STOPS = [];
 
+function mapsLinkFor(name, city) {
+  const q = city ? `${name}, ${city}` : name;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+}
+
+function renderStation(places, city) {
+  if (!places || !places.station) return '';
+  const url = mapsLinkFor(places.station, city);
+  return `
+    <a class="station-row" href="${url}" target="_blank" rel="noopener">
+      <span class="station-icon">🚉</span>
+      <span class="station-text">
+        <span class="station-label">Estación de tren</span>
+        <span class="station-name">${escapeHtml(places.station)}</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+  `;
+}
+
+function renderActivities(places, city, noches) {
+  if (!places || !places.activities || !places.activities.length) return '';
+  const n = parseInt(noches) || 1;
+  const limit = n >= 2 ? 6 : 4;
+  const list = places.activities.slice(0, limit);
+  const title = n >= 2 ? `Cosas para hacer (${n} noches)` : 'Cosas para hacer';
+
+  return `
+    <div class="section-label">⭐ ${escapeHtml(title)}</div>
+    <div class="activities">
+      ${list.map(a => renderActivity(a, city)).join('')}
+    </div>
+  `;
+}
+
+function renderActivity(a, city) {
+  const isFree = /gratis/i.test(a.cost);
+  const costBadge = isFree
+    ? `<span class="badge badge-free">🆓 Gratis</span>`
+    : `<span class="badge badge-paid">💶 ${escapeHtml(a.cost)}</span>`;
+  const timeBadge = a.time ? `<span class="badge badge-time">⏱️ ${escapeHtml(a.time)}</span>` : '';
+  const starBadge = a.imperdible ? `<span class="badge badge-star">⭐ Imperdible</span>` : '';
+  const bookingBadge = a.booking ? `<span class="badge badge-booking">🎫 ${escapeHtml(a.booking)}</span>` : '';
+  const mapsUrl = mapsLinkFor(a.name, city);
+  const bookingLink = a.bookingUrl
+    ? `<a class="activity-link booking-link" href="${a.bookingUrl}" target="_blank" rel="noopener">🎫 Reservar</a>`
+    : '';
+
+  return `
+    <div class="activity ${a.imperdible ? 'imperdible' : ''}">
+      <div class="activity-head">
+        <div class="activity-name">${escapeHtml(a.name)}</div>
+      </div>
+      <div class="activity-desc">${escapeHtml(a.desc)}</div>
+      <div class="activity-badges">
+        ${starBadge}
+        ${costBadge}
+        ${timeBadge}
+        ${bookingBadge}
+      </div>
+      <div class="activity-links">
+        <a class="activity-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Ver en Maps</a>
+        ${bookingLink}
+      </div>
+    </div>
+  `;
+}
+
 async function load() {
   const list = document.getElementById('list');
   const statusLine = document.getElementById('status-line');
@@ -531,6 +772,7 @@ function render(rows) {
     const mapsQuery = s.code ? `${s.city} ${s.code}` : s.city;
     const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}`;
     const hasMapsLink = s.city && s.city.length > 1 && /[a-záéíóúñü]/i.test(s.city);
+    const places = PLACES[s.city.toLowerCase()] || null;
 
     return `
       <article class="stop ${isToday ? 'today open' : ''}" data-idx="${idx}">
@@ -551,7 +793,9 @@ function render(rows) {
         </button>
         <div class="stop-body">
           ${s.logistica ? `<div class="field"><span class="field-label">Por qué / Logística</span><div class="field-body">${escapeHtml(s.logistica)}</div></div>` : ''}
-          ${s.must ? `<div class="field"><span class="field-label">Imprescindibles</span><div class="field-body">${escapeHtml(s.must)}</div></div>` : ''}
+          ${s.must ? `<div class="field"><span class="field-label">Imprescindibles (Sheet)</span><div class="field-body">${escapeHtml(s.must)}</div></div>` : ''}
+          ${renderStation(places, s.city)}
+          ${renderActivities(places, s.city, s.noches)}
           ${hasMapsLink ? `<a class="maps-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Ver ${escapeHtml(s.city)} en Google Maps</a>` : ''}
         </div>
       </article>
@@ -610,18 +854,21 @@ function openMap() {
 
   withCoords.forEach((s, i) => {
     const isToday = STOPS.indexOf(s) === todayIdx;
-    const color = isToday ? '#ff5a3c' : '#2b7fff';
-    const size = isToday ? 34 : 26;
+    const orderNum = STOPS.indexOf(s) + 1;
+    const flagOrFallback = s.flag || '📍';
+    const size = isToday ? 50 : 38;
     const icon = L.divIcon({
-      className: 'trip-pin',
-      html: `<div style="background:${color};color:#fff;width:${size}px;height:${size}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${isToday ? 14 : 12}px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);">${i + 1}</div>`,
+      className: '',
+      html: `<div class="pin ${isToday ? 'today' : ''}">${flagOrFallback}<span class="pin-num">${orderNum}</span></div>`,
       iconSize: [size, size],
       iconAnchor: [size / 2, size / 2],
     });
     const marker = L.marker(s.coords, { icon }).addTo(mapInstance);
+    const mapsUrl = mapsLinkFor(s.city, s.code || '');
     marker.bindPopup(
-      `<strong>${s.flag} ${escapeHtml(s.city)}${isToday ? ' · 📍 Hoy' : ''}</strong>` +
-      `${escapeHtml(s.fecha)}${s.noches ? ' · ' + escapeHtml(s.noches) + ' ' + (s.noches === '1' ? 'noche' : 'noches') : ''}`
+      `<strong>${flagOrFallback} ${escapeHtml(s.city)}${isToday ? ' · 📍 Hoy' : ''}</strong>` +
+      `${escapeHtml(s.fecha)}${s.noches ? ' · ' + escapeHtml(s.noches) + ' ' + (s.noches === '1' ? 'noche' : 'noches') : ''}` +
+      `<br><a href="${mapsUrl}" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;color:#2b7fff;font-weight:600;text-decoration:none;">Abrir en Google Maps →</a>`
     );
   });
 
