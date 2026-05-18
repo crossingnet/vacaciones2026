@@ -129,6 +129,46 @@
     border-color: var(--today);
     border-width: 1.5px;
   }
+  .stop.visited { opacity: 0.55; }
+  .stop.visited .stop-place { text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: var(--ink-3); }
+  .visited-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a7a3e;
+    background: #e6f6ea;
+    padding: 2px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  @media (prefers-color-scheme: dark) {
+    .visited-badge { color: #6fdb95; background: #1a3a25; }
+  }
+
+  .day-divider {
+    display: flex;
+    align-items: center;
+    margin: 14px 6px 6px;
+    gap: 10px;
+    color: var(--ink-3);
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .day-divider::before, .day-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .day-divider.past { color: #1a7a3e; }
+  @media (prefers-color-scheme: dark) {
+    .day-divider.past { color: #6fdb95; }
+  }
   .stop-summary {
     width: 100%;
     text-align: left;
@@ -987,19 +1027,27 @@ function render(rows) {
 
   const outboundHtml = (typeof FLIGHTS !== 'undefined' && FLIGHTS.outbound) ? renderFlight(FLIGHTS.outbound) : '';
   const returnHtml = (typeof FLIGHTS !== 'undefined' && FLIGHTS.return) ? renderFlight(FLIGHTS.return) : '';
+  const today = todayStart();
 
   const stopsHtml = stops.map((s, idx) => {
     const isToday = trip && trip.phase === 'during' && trip.currentIdx === idx;
+    const isVisited = !isToday && s.dates && today >= s.dates.end;
     const nightsLabel = s.noches ? `<span class="nights">${escapeHtml(s.noches)} ${s.noches === '1' ? 'noche' : 'noches'}</span>` : '';
     const todayBadge = isToday ? `<span class="today-badge">📍 Hoy</span>` : '';
+    const visitedBadge = isVisited ? `<span class="visited-badge">✓ Visitado</span>` : '';
     const flagSpan = s.flag ? `<span class="stop-flag">${s.flag}</span>` : '';
     const mapsQuery = s.code ? `${s.city} ${s.code}` : s.city;
     const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}`;
     const hasMapsLink = s.city && s.city.length > 1 && /[a-záéíóúñü]/i.test(s.city);
     const places = PLACES[s.city.toLowerCase()] || null;
 
-    return `
-      <article class="stop ${isToday ? 'today open' : ''}" data-idx="${idx}">
+    // Divisor entre paradas: muestra la fecha de llegada a esta parada
+    const divider = (idx > 0 && s.dates)
+      ? `<div class="day-divider ${isVisited ? 'past' : ''}"><span>${escapeHtml(formatDateShort(s.dates.start.getFullYear(), s.dates.start.getMonth(), s.dates.start.getDate()))}</span></div>`
+      : '';
+
+    return divider + `
+      <article class="stop ${isToday ? 'today open' : ''} ${isVisited ? 'visited' : ''}" data-idx="${idx}">
         <button class="stop-summary" aria-expanded="${isToday ? 'true' : 'false'}">
           <div class="stop-line-1">
             <div class="stop-place">
@@ -1012,6 +1060,7 @@ function render(rows) {
             <span class="stop-date">${escapeHtml(s.fecha)}</span>
             ${nightsLabel}
             ${todayBadge}
+            ${visitedBadge}
           </div>
           ${s.barrio ? `<div class="stop-barrio">Barrio · <em>${escapeHtml(s.barrio)}</em></div>` : ''}
         </button>
