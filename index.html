@@ -4,108 +4,361 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#fafafa">
-<title>Mis Vacaciones</title>
+<title>Mis Vacaciones 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
+  :root {
+    --bg: #f6f6f7;
+    --card: #ffffff;
+    --ink: #1a1a1c;
+    --ink-2: #6b6b70;
+    --ink-3: #9a9a9f;
+    --line: #e6e6e9;
+    --accent: #2b7fff;
+    --accent-bg: #e8f1ff;
+    --today: #ff5a3c;
+    --today-bg: #fff1ed;
+    --radius: 12px;
+    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e0e10;
+      --card: #1a1a1d;
+      --ink: #f1f1f3;
+      --ink-2: #a0a0a5;
+      --ink-3: #6a6a70;
+      --line: #2a2a2e;
+      --accent: #5b9eff;
+      --accent-bg: #1b2840;
+      --today: #ff7a5f;
+      --today-bg: #3a1f17;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4);
+    }
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #fafafa; }
+  html, body { background: var(--bg); }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    color: #222;
+    color: var(--ink);
     line-height: 1.45;
     padding: 18px 14px calc(40px + env(safe-area-inset-bottom));
     max-width: 640px;
     margin: 0 auto;
     -webkit-text-size-adjust: 100%;
   }
+
   header {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 14px;
+  }
+  .top-row {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 12px;
-    padding: 4px 2px 16px;
-    border-bottom: 1px solid #e3e3e3;
-    margin-bottom: 16px;
   }
-  header h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
-  .subtitle { font-size: 12px; color: #888; }
-  button.reload {
+  header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .reload {
     font: inherit;
     font-size: 12px;
-    color: #555;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 5px 10px;
+    color: var(--ink-2);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 11px;
     cursor: pointer;
   }
-  button.reload:active { background: #f0f0f0; }
-  .stop {
-    background: #fff;
-    border: 1px solid #e6e6e6;
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
+  .reload:active { background: var(--line); }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 6px 11px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
   }
-  .stop-head {
+  .status-pill.during { background: var(--today-bg); color: var(--today); }
+
+  .actions {
+    margin-top: 12px;
     display: flex;
+    gap: 8px;
+  }
+  .btn-map {
+    flex: 1;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--ink);
+    border: none;
+    border-radius: 10px;
+    padding: 11px 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+  }
+  .btn-map:active { transform: scale(0.98); }
+
+  .stop {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .stop.today {
+    border-color: var(--today);
+    border-width: 1.5px;
+  }
+  .stop-summary {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font: inherit;
+    padding: 14px 16px;
+    cursor: pointer;
+    display: block;
+  }
+  .stop-summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .stop-line-1 {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 8px;
+    gap: 10px;
+    margin-bottom: 4px;
   }
   .stop-place {
     font-size: 16px;
     font-weight: 600;
     letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
   }
-  .stop-date {
-    font-size: 12px;
-    color: #888;
-    white-space: nowrap;
-    padding-top: 2px;
+  .stop-flag { font-size: 19px; line-height: 1; flex-shrink: 0; }
+  .stop-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .chev {
+    color: var(--ink-3);
+    font-size: 14px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
   }
+  .stop.open .chev { transform: rotate(180deg); }
+  .stop-line-2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-2);
+    flex-wrap: wrap;
+  }
+  .stop-date { font-weight: 500; }
   .nights {
-    display: inline-block;
     font-size: 11px;
-    color: #555;
-    background: #f0f0f0;
+    color: var(--ink-2);
+    background: var(--bg);
     padding: 2px 7px;
     border-radius: 4px;
-    margin-left: 6px;
-    vertical-align: 1px;
   }
-  .field { margin-top: 8px; font-size: 14px; }
+  .today-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--today);
+    background: var(--today-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .stop-barrio {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .stop-barrio em {
+    font-style: normal;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .stop-body {
+    display: none;
+    padding: 4px 16px 14px;
+    border-top: 1px solid var(--line);
+  }
+  .stop.open .stop-body { display: block; }
+  .field { margin-top: 12px; font-size: 14px; }
   .field-label {
     display: block;
     font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: #999;
-    margin-bottom: 2px;
-    font-weight: 600;
+    letter-spacing: 0.7px;
+    color: var(--ink-3);
+    margin-bottom: 3px;
+    font-weight: 700;
   }
+  .field-body { color: var(--ink); }
+
+  .maps-link {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 8px 12px;
+    background: var(--accent-bg);
+    border-radius: 8px;
+    min-height: 36px;
+  }
+  .maps-link:active { opacity: 0.7; }
+
   .status {
     text-align: center;
-    color: #888;
+    color: var(--ink-2);
     padding: 40px 16px;
     font-size: 14px;
   }
-  .status.error { color: #c33; }
-  .status small { display: block; margin-top: 8px; color: #aaa; font-size: 12px; }
+  .status.error { color: #e35353; }
+  .status small { display: block; margin-top: 8px; color: var(--ink-3); font-size: 12px; }
+
+  /* Map modal */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    z-index: 1000;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  .modal.open { display: flex; flex-direction: column; }
+  .modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+  }
+  .modal-title { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .modal-close {
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+  .modal-close:active { background: var(--bg); }
+  #map { flex: 1; background: var(--card); }
+  .leaflet-popup-content { font-size: 13px; margin: 8px 10px; }
+  .leaflet-popup-content strong { display: block; margin-bottom: 2px; }
 </style>
 </head>
 <body>
 <header>
-  <h1>Mis Vacaciones</h1>
-  <span class="subtitle" id="subtitle">Cargando…</span>
-  <button class="reload" id="reload" hidden>Actualizar</button>
+  <div class="top-row">
+    <h1>Mis Vacaciones 2026</h1>
+    <button class="reload" id="reload" hidden>↻ Actualizar</button>
+  </div>
+  <div id="status-line"></div>
+  <div class="actions">
+    <button class="btn-map" id="open-map">🗺️ Ver mapa del recorrido</button>
+  </div>
 </header>
+
 <main id="list">
   <p class="status">Cargando itinerario…</p>
 </main>
 
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Mapa del recorrido">
+  <div class="modal-head">
+    <div class="modal-title" id="modal-title">Mapa del recorrido</div>
+    <button class="modal-close" id="close-map" aria-label="Cerrar mapa">✕</button>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
+const TRIP_YEAR = 2026;
 const SHEET_ID = '1RcBERqhrCAUS6irUN9rb3GZNLLnhzb6A5ZAa0fT4M7s';
+
+const COUNTRIES = {
+  LUX: { iso: 'LU' }, FRA: { iso: 'FR' }, SUI: { iso: 'CH' }, CHE: { iso: 'CH' },
+  AUT: { iso: 'AT' }, ESL: { iso: 'SK' }, SVK: { iso: 'SK' }, HUN: { iso: 'HU' },
+  CZE: { iso: 'CZ' }, PB: { iso: 'NL' }, NLD: { iso: 'NL' }, HOL: { iso: 'NL' },
+  ITA: { iso: 'IT' }, ESP: { iso: 'ES' }, GBR: { iso: 'GB' }, UK: { iso: 'GB' },
+  DEU: { iso: 'DE' }, GER: { iso: 'DE' }, ALE: { iso: 'DE' }, POL: { iso: 'PL' },
+  PRT: { iso: 'PT' }, POR: { iso: 'PT' }, BEL: { iso: 'BE' }, GRC: { iso: 'GR' },
+  GRE: { iso: 'GR' }, DIN: { iso: 'DK' }, DNK: { iso: 'DK' }, SUE: { iso: 'SE' },
+  SWE: { iso: 'SE' }, NOR: { iso: 'NO' }, FIN: { iso: 'FI' }, IRL: { iso: 'IE' },
+  CRO: { iso: 'HR' }, HRV: { iso: 'HR' }, SLO: { iso: 'SI' }, SVN: { iso: 'SI' },
+  TUR: { iso: 'TR' }, MAR: { iso: 'MA' }, JPN: { iso: 'JP' }, USA: { iso: 'US' },
+  ARG: { iso: 'AR' }, BRA: { iso: 'BR' }, URU: { iso: 'UY' }, CHI: { iso: 'CL' },
+};
+
+const COORDS = {
+  'luxemburgo': [49.6116, 6.1319],
+  'metz': [49.1193, 6.1757],
+  'estrasburgo': [48.5734, 7.7521],
+  'colmar': [48.0794, 7.3585],
+  'berna': [46.9480, 7.4474], 'bern': [46.9480, 7.4474],
+  'zurich': [47.3769, 8.5417], 'zúrich': [47.3769, 8.5417],
+  'vaduz': [47.1410, 9.5209],
+  'salzburgo': [47.8095, 13.0550],
+  'viena': [48.2082, 16.3738],
+  'bratislava': [48.1486, 17.1077],
+  'budapest': [47.4979, 19.0402],
+  'praga': [50.0755, 14.4378],
+  'amsterdam': [52.3676, 4.9041], 'ámsterdam': [52.3676, 4.9041],
+  'paris': [48.8566, 2.3522], 'parís': [48.8566, 2.3522],
+  'londres': [51.5074, -0.1278],
+  'madrid': [40.4168, -3.7038], 'barcelona': [41.3851, 2.1734],
+  'roma': [41.9028, 12.4964], 'milán': [45.4642, 9.1900], 'milan': [45.4642, 9.1900],
+  'venecia': [45.4408, 12.3155], 'florencia': [43.7696, 11.2558],
+  'lisboa': [38.7223, -9.1393], 'oporto': [41.1579, -8.6291],
+  'berlín': [52.5200, 13.4050], 'berlin': [52.5200, 13.4050],
+  'múnich': [48.1351, 11.5820], 'munich': [48.1351, 11.5820],
+};
+
+const MONTHS = {
+  ene: 0, feb: 1, mar: 2, abr: 3, may: 4, jun: 5,
+  jul: 6, ago: 7, sep: 8, oct: 9, nov: 10, dic: 11,
+  jan: 0, apr: 3, aug: 7, dec: 11,
+};
 
 function csvUrl() {
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&_=${Date.now()}`;
@@ -113,23 +366,19 @@ function csvUrl() {
 
 function parseCSV(text) {
   const rows = [];
-  let row = [];
-  let cell = '';
-  let inQuotes = false;
+  let row = [], cell = '', inQuotes = false;
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
     if (inQuotes) {
       if (c === '"') {
         if (text[i + 1] === '"') { cell += '"'; i++; }
-        else { inQuotes = false; }
-      } else {
-        cell += c;
-      }
+        else inQuotes = false;
+      } else cell += c;
     } else {
       if (c === '"') inQuotes = true;
       else if (c === ',') { row.push(cell); cell = ''; }
       else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
-      else if (c === '\r') { /* skip */ }
+      else if (c === '\r') {}
       else cell += c;
     }
   }
@@ -143,11 +392,90 @@ function escapeHtml(s) {
   }[c]));
 }
 
+function isoToFlag(iso) {
+  if (!iso) return '';
+  return iso.toUpperCase().split('').map(c =>
+    String.fromCodePoint(127397 + c.charCodeAt(0))
+  ).join('');
+}
+
+function extractCityCountry(lugar) {
+  const m = lugar.match(/^(.+?)\s*\(([^)]+)\)\s*$/);
+  if (m) return { city: m[1].trim(), code: m[2].trim().toUpperCase() };
+  return { city: lugar.trim(), code: null };
+}
+
+function parseDateRange(s, year) {
+  if (!s) return null;
+  let m = s.match(/^\s*(\d{1,2})\s*[-–]\s*(\d{1,2})\s+(\w+)\s*$/i);
+  if (m) {
+    const month = MONTHS[m[3].toLowerCase().slice(0, 3)];
+    if (month == null) return null;
+    return {
+      start: new Date(year, month, +m[1]),
+      end: new Date(year, month, +m[2]),
+    };
+  }
+  m = s.match(/^\s*(\d{1,2})\s+(\w+)\s*[-–]\s*(\d{1,2})\s+(\w+)\s*$/i);
+  if (m) {
+    const m1 = MONTHS[m[2].toLowerCase().slice(0, 3)];
+    const m2 = MONTHS[m[4].toLowerCase().slice(0, 3)];
+    if (m1 == null || m2 == null) return null;
+    const y2 = m2 < m1 ? year + 1 : year;
+    return {
+      start: new Date(year, m1, +m[1]),
+      end: new Date(y2, m2, +m[3]),
+    };
+  }
+  return null;
+}
+
+function todayStart() {
+  const t = new Date();
+  return new Date(t.getFullYear(), t.getMonth(), t.getDate());
+}
+
+function daysBetween(a, b) {
+  return Math.round((b - a) / 86400000);
+}
+
+function computeTripStatus(stops) {
+  const today = todayStart();
+  const withDates = stops.filter(s => s.dates);
+  if (!withDates.length) return null;
+  const tripStart = withDates[0].dates.start;
+  const tripEnd = withDates[withDates.length - 1].dates.end;
+  const total = daysBetween(tripStart, tripEnd);
+
+  if (today < tripStart) {
+    const days = daysBetween(today, tripStart);
+    return {
+      phase: 'before',
+      label: `Faltan ${days} ${days === 1 ? 'día' : 'días'} para empezar · ${total} días de viaje`,
+    };
+  }
+  if (today >= tripEnd) {
+    return { phase: 'after', label: `Viaje finalizado · ${total} días` };
+  }
+  const currentIdx = stops.findIndex(s => s.dates && today >= s.dates.start && today < s.dates.end);
+  const dayN = daysBetween(tripStart, today) + 1;
+  const currentName = currentIdx >= 0 ? stops[currentIdx].city : '';
+  return {
+    phase: 'during',
+    currentIdx,
+    label: currentName
+      ? `Día ${dayN} de ${total} · Hoy en ${currentName}`
+      : `Día ${dayN} de ${total}`,
+  };
+}
+
+let STOPS = [];
+
 async function load() {
   const list = document.getElementById('list');
-  const subtitle = document.getElementById('subtitle');
+  const statusLine = document.getElementById('status-line');
   list.innerHTML = '<p class="status">Cargando itinerario…</p>';
-  subtitle.textContent = 'Cargando…';
+  statusLine.innerHTML = '';
 
   try {
     const res = await fetch(csvUrl(), { cache: 'no-store' });
@@ -156,59 +484,164 @@ async function load() {
     const rows = parseCSV(text);
     render(rows);
   } catch (e) {
-    list.innerHTML = `<p class="status error">No pude cargar los datos del Sheet.<small>${escapeHtml(e.message)}</small><small>Revisá que el Sheet siga compartido como “Cualquiera con el enlace”.</small></p>`;
-    subtitle.textContent = 'Error';
+    list.innerHTML = `<p class="status error">No pude cargar los datos del Sheet.<small>${escapeHtml(e.message)}</small><small>Revisá que el Sheet siga compartido como "Cualquiera con el enlace".</small></p>`;
   }
 }
 
 function render(rows) {
   const list = document.getElementById('list');
-  const subtitle = document.getElementById('subtitle');
+  const statusLine = document.getElementById('status-line');
   const reload = document.getElementById('reload');
 
-  // Skip header row, and rows where Fecha (col 0) is empty
-  const stops = rows.slice(1).filter(r => (r[0] || '').trim() !== '');
+  const stops = rows.slice(1)
+    .filter(r => (r[0] || '').trim() !== '')
+    .map((r, i) => {
+      const fecha = (r[0] || '').trim();
+      const lugar = (r[1] || '').trim();
+      const noches = (r[2] || '').trim();
+      const barrio = (r[3] || '').trim();
+      const logistica = (r[4] || '').trim();
+      const must = (r[5] || '').trim();
+      const { city, code } = extractCityCountry(lugar);
+      const country = code ? COUNTRIES[code] : null;
+      const flag = country ? isoToFlag(country.iso) : '';
+      const dates = parseDateRange(fecha, TRIP_YEAR);
+      const coords = COORDS[city.toLowerCase()] || null;
+      return { i, fecha, lugar, city, code, country, flag, noches, barrio, logistica, must, dates, coords };
+    });
+
+  STOPS = stops;
 
   if (stops.length === 0) {
     list.innerHTML = '<p class="status">El Sheet no tiene paradas todavía.</p>';
-    subtitle.textContent = '0 paradas';
     reload.hidden = false;
     return;
   }
 
-  list.innerHTML = stops.map(r => {
-    const fecha = (r[0] || '').trim();
-    const lugar = (r[1] || '').trim();
-    const noches = (r[2] || '').trim();
-    const barrio = (r[3] || '').trim();
-    const logistica = (r[4] || '').trim();
-    const must = (r[5] || '').trim();
+  const trip = computeTripStatus(stops);
+  if (trip) {
+    statusLine.innerHTML = `<span class="status-pill ${trip.phase === 'during' ? 'during' : ''}">${escapeHtml(trip.label)}</span>`;
+  }
 
-    const nightsLabel = noches
-      ? `<span class="nights">${escapeHtml(noches)} ${noches === '1' ? 'noche' : 'noches'}</span>`
-      : '';
+  list.innerHTML = stops.map((s, idx) => {
+    const isToday = trip && trip.phase === 'during' && trip.currentIdx === idx;
+    const nightsLabel = s.noches ? `<span class="nights">${escapeHtml(s.noches)} ${s.noches === '1' ? 'noche' : 'noches'}</span>` : '';
+    const todayBadge = isToday ? `<span class="today-badge">📍 Hoy</span>` : '';
+    const flagSpan = s.flag ? `<span class="stop-flag">${s.flag}</span>` : '';
+    const mapsQuery = s.code ? `${s.city} ${s.code}` : s.city;
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}`;
+    const hasMapsLink = s.city && s.city.length > 1 && /[a-záéíóúñü]/i.test(s.city);
 
     return `
-      <article class="stop">
-        <div class="stop-head">
-          <div>
-            <span class="stop-place">${escapeHtml(lugar || '—')}</span>
-            ${nightsLabel}
+      <article class="stop ${isToday ? 'today open' : ''}" data-idx="${idx}">
+        <button class="stop-summary" aria-expanded="${isToday ? 'true' : 'false'}">
+          <div class="stop-line-1">
+            <div class="stop-place">
+              ${flagSpan}
+              <span class="stop-name">${escapeHtml(s.lugar || '—')}</span>
+            </div>
+            <span class="chev">▾</span>
           </div>
-          <span class="stop-date">${escapeHtml(fecha)}</span>
+          <div class="stop-line-2">
+            <span class="stop-date">${escapeHtml(s.fecha)}</span>
+            ${nightsLabel}
+            ${todayBadge}
+          </div>
+          ${s.barrio ? `<div class="stop-barrio">Barrio · <em>${escapeHtml(s.barrio)}</em></div>` : ''}
+        </button>
+        <div class="stop-body">
+          ${s.logistica ? `<div class="field"><span class="field-label">Por qué / Logística</span><div class="field-body">${escapeHtml(s.logistica)}</div></div>` : ''}
+          ${s.must ? `<div class="field"><span class="field-label">Imprescindibles</span><div class="field-body">${escapeHtml(s.must)}</div></div>` : ''}
+          ${hasMapsLink ? `<a class="maps-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Ver ${escapeHtml(s.city)} en Google Maps</a>` : ''}
         </div>
-        ${barrio ? `<div class="field"><span class="field-label">Barrio</span>${escapeHtml(barrio)}</div>` : ''}
-        ${logistica ? `<div class="field"><span class="field-label">Por qué / Logística</span>${escapeHtml(logistica)}</div>` : ''}
-        ${must ? `<div class="field"><span class="field-label">Imprescindibles</span>${escapeHtml(must)}</div>` : ''}
       </article>
     `;
   }).join('');
 
-  subtitle.textContent = `${stops.length} paradas`;
   reload.hidden = false;
+
+  list.querySelectorAll('.stop-summary').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.stop');
+      const open = card.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  if (trip && trip.phase === 'during' && trip.currentIdx >= 0) {
+    requestAnimationFrame(() => {
+      const todayCard = list.querySelector('.stop.today');
+      if (todayCard) todayCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+}
+
+let mapInstance = null;
+
+function openMap() {
+  const modal = document.getElementById('modal');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  if (!mapInstance) {
+    mapInstance = L.map('map', { zoomControl: true });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© OpenStreetMap',
+    }).addTo(mapInstance);
+  }
+
+  mapInstance.eachLayer(layer => {
+    if (!(layer instanceof L.TileLayer)) mapInstance.removeLayer(layer);
+  });
+
+  const withCoords = STOPS.filter(s => s.coords);
+  if (!withCoords.length) {
+    mapInstance.setView([48, 10], 4);
+    setTimeout(() => mapInstance.invalidateSize(), 50);
+    return;
+  }
+
+  const trip = computeTripStatus(STOPS);
+  const todayIdx = trip && trip.phase === 'during' ? trip.currentIdx : -1;
+
+  const path = withCoords.map(s => s.coords);
+  L.polyline(path, { color: '#2b7fff', weight: 3, opacity: 0.7, dashArray: '6,6' }).addTo(mapInstance);
+
+  withCoords.forEach((s, i) => {
+    const isToday = STOPS.indexOf(s) === todayIdx;
+    const color = isToday ? '#ff5a3c' : '#2b7fff';
+    const size = isToday ? 34 : 26;
+    const icon = L.divIcon({
+      className: 'trip-pin',
+      html: `<div style="background:${color};color:#fff;width:${size}px;height:${size}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${isToday ? 14 : 12}px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);">${i + 1}</div>`,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+    });
+    const marker = L.marker(s.coords, { icon }).addTo(mapInstance);
+    marker.bindPopup(
+      `<strong>${s.flag} ${escapeHtml(s.city)}${isToday ? ' · 📍 Hoy' : ''}</strong>` +
+      `${escapeHtml(s.fecha)}${s.noches ? ' · ' + escapeHtml(s.noches) + ' ' + (s.noches === '1' ? 'noche' : 'noches') : ''}`
+    );
+  });
+
+  const bounds = L.latLngBounds(path);
+  mapInstance.fitBounds(bounds, { padding: [40, 40] });
+  setTimeout(() => mapInstance.invalidateSize(), 50);
+}
+
+function closeMap() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 document.getElementById('reload').addEventListener('click', load);
+document.getElementById('open-map').addEventListener('click', openMap);
+document.getElementById('close-map').addEventListener('click', closeMap);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeMap();
+});
+
 load();
 </script>
 </body>
