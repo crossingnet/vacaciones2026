@@ -32,14 +32,15 @@ const FLIGHTS = {
 const TRANSITS = {
   'luxemburgo': {
     date: { y: 2026, m: 5, d: 10 },
-    from: { name: 'Ámsterdam', code: 'AMS' },
-    to:   { name: 'Luxemburgo', code: 'LUX' },
+    from: { name: 'Aeropuerto de Schiphol', code: 'AMS' },
+    to:   { name: 'Estación Luxemburgo', code: 'LUX' },
     mode: 'Tren',
     departure: '11:12',
     arrival: '16:49',
     duration: '5h 37min',
+    transfers: 'Bruselas-Midi · 21 min de transbordo (Eurocity Direct 9532 → Intercity 2113)',
     bookedAt: 'Omio',
-    note: 'Pendiente confirmar si sale de Schiphol Airport o Amsterdam Centraal.',
+    note: 'Tren Eurocity Direct 9532 desde Schiphol. Transbordo en Bruselas-Midi. Luego Intercity 2113 hasta Luxemburgo (3h 17min).',
   },
   'metz': {
     date: { y: 2026, m: 5, d: 11 },
@@ -151,6 +152,14 @@ const TRANSITS = {
 
 // Hoteles por ciudad. Clave = ciudad (minúsculas).
 const HOTELS = {
+  'luxemburgo': {
+    name: 'Modern Studio Near Gare & City Center, Wi-Fi',
+    address: 'Rue de Vianden 45, Hollerich, Luxembourg, 2680',
+    phone: '+33 7 55 54 60 13',
+    bookingRef: '6773096856',
+    pin: '8130',
+    notes: '1 noche · barrio Hollerich (al lado de la estación, 15 min al casco histórico)',
+  },
   'metz': {
     name: 'Hôtel Escurial - Centre Gare',
     rating: '3★',
