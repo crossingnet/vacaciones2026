@@ -876,6 +876,10 @@ function parseCSV(text) {
   return rows;
 }
 
+function normCity(s) {
+  return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -1189,7 +1193,7 @@ function render(rows) {
       const country = code ? COUNTRIES[code] : null;
       const flag = country ? isoToFlag(country.iso) : '';
       const dates = parseDateRange(fecha, TRIP_YEAR);
-      const coords = COORDS[city.toLowerCase()] || null;
+      const coords = COORDS[city.toLowerCase()] || COORDS[normCity(city)] || null;
       return { i, fecha, lugar, city, code, country, flag, noches, barrio, logistica, must, dates, coords };
     });
 
@@ -1220,10 +1224,10 @@ function render(rows) {
     const mapsQuery = s.code ? `${s.city} ${s.code}` : s.city;
     const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}`;
     const hasMapsLink = s.city && s.city.length > 1 && /[a-záéíóúñü]/i.test(s.city);
-    const places = PLACES[s.city.toLowerCase()] || null;
+    const places = PLACES[s.city.toLowerCase()] || PLACES[normCity(s.city)] || null;
 
     // Traslado a esta parada (si está definido en places.js)
-    const transit = (typeof TRANSITS !== 'undefined') ? TRANSITS[s.city.toLowerCase()] : null;
+    const transit = (typeof TRANSITS !== 'undefined') ? (TRANSITS[s.city.toLowerCase()] || TRANSITS[normCity(s.city)]) : null;
     const transitHtml = renderTransit(transit);
 
     // Divisor entre paradas: muestra la fecha de llegada (se omite si ya hay tarjeta de traslado)
@@ -1232,7 +1236,7 @@ function render(rows) {
       : '';
 
     // Hotel reservado en Booking (si está cargado)
-    const hotel = (typeof HOTELS !== 'undefined') ? HOTELS[s.city.toLowerCase()] : null;
+    const hotel = (typeof HOTELS !== 'undefined') ? (HOTELS[s.city.toLowerCase()] || HOTELS[normCity(s.city)]) : null;
     const hotelHtml = renderHotel(hotel);
 
     return transitHtml + divider + `
