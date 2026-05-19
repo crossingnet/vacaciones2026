@@ -115,14 +115,14 @@ const TRANSITS = {
   },
   'budapest': {
     date: { y: 2026, m: 5, d: 22 },
-    from: { name: 'Bratislava (Bus Station)', code: 'BTS' },
+    from: { name: 'Bratislava Mlynské Nivy', code: 'BTS' },
     to:   { name: 'Budapest-Kelenföld', code: 'BUD' },
     mode: 'Autobús',
     departure: '10:00',
     arrival: '12:25',
     duration: '2h 25min',
-    bookedAt: 'Omio',
-    note: 'Sale desde Mlynské nivy (estación de buses Bratislava). Kelenföld está en Buda — metro M4 al centro.',
+    bookedAt: 'Omio · FlixBus',
+    note: 'Sale de Autobusová stanica Mlynské Nivy 31, Bratislava. Llega a Kelenföld Vasútállomás (Buda) — desde ahí metro M4 al centro (~15 min).',
   },
   'praga': {
     date: { y: 2026, m: 5, d: 24 },
@@ -212,6 +212,13 @@ const HOTELS = {
     bookingRef: '5986000607',
     pin: '2906',
     notes: '1 Twin Room · 2 noches · +10% VAT · +3.20% City tax',
+  },
+  'budapest': {
+    name: 'Danubius Hotel Astoria City Center',
+    rating: '4★',
+    address: 'Kossuth Lajos u. 19-21, Budapest, 1053, Hungría',
+    bookingRef: '6840927106',
+    notes: '2 noches · pleno centro de Pest, al lado del metro Astoria (M2)',
   },
   'bratislava': {
     name: 'Park Inn by Radisson Danube Bratislava',
