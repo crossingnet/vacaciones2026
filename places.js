@@ -20,8 +20,8 @@ const FLIGHTS = {
     booking: 'X6G5YP',
     aircraft: 'Boeing 777-200',
     from: { airport: 'AMS', city: 'Ámsterdam',    country: 'Países Bajos', y: 2026, m: 5, d: 29, time: '21:10' },
-    to:   { airport: 'EZE', city: 'Buenos Aires', country: 'Argentina', y: 2026, m: 5, d: 30, time: '~06:00', estimated: true },
-    duration: '~13h 50min',
+    to:   { airport: 'EZE', city: 'Buenos Aires', country: 'Argentina · Terminal 1A', y: 2026, m: 5, d: 30, time: '05:50' },
+    duration: '13h 40min',
   },
 };
 
