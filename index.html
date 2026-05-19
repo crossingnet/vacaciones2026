@@ -148,6 +148,121 @@
     .visited-badge { color: #6fdb95; background: #1a3a25; }
   }
 
+  /* Transit card (traslado entre ciudades) */
+  .transit {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 14px 0 10px;
+    display: grid;
+    gap: 6px;
+  }
+  .transit-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .transit-date {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .transit-tag {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .transit-route {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .transit-arrow {
+    color: var(--ink-3);
+    font-size: 14px;
+  }
+  .transit-note {
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+  .transit-times {
+    font-size: 13px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .transit-times .duration {
+    font-size: 11px;
+    color: var(--ink-3);
+    background: var(--card);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .transit-transfers, .transit-booking {
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .transit-pending {
+    font-size: 11.5px;
+    color: #b87100;
+    background: #fdf3e0;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-style: italic;
+  }
+  @media (prefers-color-scheme: dark) {
+    .transit-pending { color: #f3c969; background: #3b3018; }
+  }
+
+  /* Hotel block dentro de cada parada */
+  .hotel-row {
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: var(--accent-bg);
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border: 1px solid var(--line);
+  }
+  .hotel-icon { font-size: 18px; flex-shrink: 0; line-height: 1.3; }
+  .hotel-text { flex: 1; min-width: 0; font-size: 13px; }
+  .hotel-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--ink-3);
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .hotel-name { color: var(--ink); font-weight: 600; }
+  .hotel-address { color: var(--ink-2); font-size: 12px; margin-top: 2px; }
+  .hotel-ref { color: var(--ink-3); font-size: 11px; margin-top: 2px; }
+  .hotel-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: 6px;
+  }
+
   .day-divider {
     display: flex;
     align-items: center;
@@ -889,6 +1004,72 @@ function renderActivities(places, city, noches) {
   `;
 }
 
+function renderTransit(t) {
+  if (!t) return '';
+  const dateLabel = formatDateShort(t.date.y, t.date.m, t.date.d).toUpperCase();
+  const fromLabel = t.from.code ? `${t.from.name} (${t.from.code})` : t.from.name;
+  const toLabel = t.to.code ? `${t.to.name} (${t.to.code})` : t.to.name;
+
+  const timesLine = (t.departure && t.arrival)
+    ? `<div class="transit-times">
+         <strong>${escapeHtml(t.departure)}</strong>
+         ${t.duration ? `<span class="duration">${escapeHtml(t.duration)}</span>` : ''}
+         <strong>${escapeHtml(t.arrival)}</strong>
+       </div>`
+    : '';
+  const transfersLine = t.transfers
+    ? `<div class="transit-transfers">🔁 ${escapeHtml(t.transfers)}</div>`
+    : '';
+  const bookingBits = [];
+  if (t.bookedAt) bookingBits.push(escapeHtml(t.bookedAt));
+  if (t.bookingRef) bookingBits.push('Reserva ' + escapeHtml(t.bookingRef));
+  const bookingLine = bookingBits.length
+    ? `<div class="transit-booking">🎫 ${bookingBits.join(' · ')}</div>`
+    : '';
+  const pendingLine = (t.pending && !t.departure)
+    ? `<div class="transit-pending">⏳ Pendiente: pasame horarios y nº de reserva</div>`
+    : '';
+  const modeIcon = t.mode === 'Tren' ? '🚆' : (t.mode === 'Vuelo' ? '✈️' : '🚌');
+
+  return `
+    <article class="transit">
+      <div class="transit-head">
+        <span class="transit-date">${escapeHtml(dateLabel)}</span>
+        <span class="transit-tag">${modeIcon} Traslado · ${escapeHtml(t.mode)}</span>
+      </div>
+      <div class="transit-route">
+        <span>${escapeHtml(fromLabel)}</span>
+        <span class="transit-arrow">→</span>
+        <span>${escapeHtml(toLabel)}</span>
+      </div>
+      ${t.note ? `<div class="transit-note">${escapeHtml(t.note)}</div>` : ''}
+      ${timesLine}
+      ${transfersLine}
+      ${bookingLine}
+      ${pendingLine}
+    </article>
+  `;
+}
+
+function renderHotel(h) {
+  if (!h || !h.name) return '';
+  const link = h.bookingUrl
+    ? `<a class="hotel-link" href="${h.bookingUrl}" target="_blank" rel="noopener">Ver en Booking →</a>`
+    : '';
+  return `
+    <div class="hotel-row">
+      <span class="hotel-icon">🏨</span>
+      <div class="hotel-text">
+        <span class="hotel-label">Hotel (Booking)</span>
+        <div class="hotel-name">${escapeHtml(h.name)}</div>
+        ${h.address ? `<div class="hotel-address">${escapeHtml(h.address)}</div>` : ''}
+        ${h.bookingRef ? `<div class="hotel-ref">Reserva ${escapeHtml(h.bookingRef)}</div>` : ''}
+        ${link}
+      </div>
+    </div>
+  `;
+}
+
 function renderFlight(f) {
   if (!f) return '';
   const fromDate = formatDateShort(f.from.y, f.from.m, f.from.d);
@@ -1041,12 +1222,20 @@ function render(rows) {
     const hasMapsLink = s.city && s.city.length > 1 && /[a-záéíóúñü]/i.test(s.city);
     const places = PLACES[s.city.toLowerCase()] || null;
 
-    // Divisor entre paradas: muestra la fecha de llegada a esta parada
-    const divider = (idx > 0 && s.dates)
+    // Traslado a esta parada (si está definido en places.js)
+    const transit = (typeof TRANSITS !== 'undefined') ? TRANSITS[s.city.toLowerCase()] : null;
+    const transitHtml = renderTransit(transit);
+
+    // Divisor entre paradas: muestra la fecha de llegada (se omite si ya hay tarjeta de traslado)
+    const divider = (!transit && idx > 0 && s.dates)
       ? `<div class="day-divider ${isVisited ? 'past' : ''}"><span>${escapeHtml(formatDateShort(s.dates.start.getFullYear(), s.dates.start.getMonth(), s.dates.start.getDate()))}</span></div>`
       : '';
 
-    return divider + `
+    // Hotel reservado en Booking (si está cargado)
+    const hotel = (typeof HOTELS !== 'undefined') ? HOTELS[s.city.toLowerCase()] : null;
+    const hotelHtml = renderHotel(hotel);
+
+    return transitHtml + divider + `
       <article class="stop ${isToday ? 'today open' : ''} ${isVisited ? 'visited' : ''}" data-idx="${idx}">
         <button class="stop-summary" aria-expanded="${isToday ? 'true' : 'false'}">
           <div class="stop-line-1">
@@ -1065,6 +1254,7 @@ function render(rows) {
           ${s.barrio ? `<div class="stop-barrio">Barrio · <em>${escapeHtml(s.barrio)}</em></div>` : ''}
         </button>
         <div class="stop-body">
+          ${hotelHtml}
           ${s.logistica ? `<div class="field"><span class="field-label">Por qué / Logística</span><div class="field-body">${escapeHtml(s.logistica)}</div></div>` : ''}
           ${s.must ? `<div class="field"><span class="field-label">Imprescindibles (Sheet)</span><div class="field-body">${escapeHtml(s.must)}</div></div>` : ''}
           ${renderStation(places, s.city)}

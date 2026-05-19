@@ -25,6 +25,36 @@ const FLIGHTS = {
   },
 };
 
+// Traslados entre paradas. La clave es la ciudad de DESTINO (minúsculas).
+// El traslado aparece como rectángulo justo arriba de la tarjeta de esa ciudad.
+// Tickets comprados en Omio. Una vez que tengas los horarios reales, llename:
+//   departure (hora salida), arrival (hora llegada), duration, transfers, bookingRef
+const TRANSITS = {
+  'luxemburgo': {
+    date: { y: 2026, m: 5, d: 10 },
+    from: { name: 'Aeropuerto Schiphol', code: 'AMS' },
+    to:   { name: 'Luxemburgo',          code: 'LUX' },
+    mode: 'Tren',
+    departure: null,
+    arrival: null,
+    duration: null,
+    transfers: null,
+    bookedAt: 'Omio',
+    bookingRef: null,
+    note: 'Llegada del vuelo KL702 a las 09:10. Tren desde la estación de Schiphol Airport.',
+    pending: true,
+  },
+  // 'metz':      { date: { y:2026, m:5, d:11 }, from:{name:'Luxemburgo',code:'LUX'},   to:{name:'Metz',code:'MET'},          mode:'Tren', bookedAt:'Omio', pending:true },
+  // 'estrasburgo':{date:{ y:2026, m:5, d:12 }, from:{name:'Metz',code:'MET'},          to:{name:'Estrasburgo',code:'STR'},   mode:'Tren', bookedAt:'Omio', pending:true },
+  // ... agregar acá las demás cuando tengas los horarios
+};
+
+// Hoteles por ciudad. Clave = ciudad (minúsculas).
+// Una vez que tengas las reservas de Booking, agregá cada uno acá.
+const HOTELS = {
+  // 'luxemburgo': { name: 'Hotel XYZ', address: '...', bookingRef: 'ABC123', bookingUrl: 'https://booking.com/...' },
+};
+
 const PLACES = {
 
   'luxemburgo': {
