@@ -1057,18 +1057,29 @@ function renderTransit(t) {
 
 function renderHotel(h) {
   if (!h || !h.name) return '';
-  const link = h.bookingUrl
-    ? `<a class="hotel-link" href="${h.bookingUrl}" target="_blank" rel="noopener">Ver en Booking →</a>`
+  const mapsUrl = h.address ? mapsLinkFor(h.address, '') : null;
+  const mapsBtn = mapsUrl
+    ? `<a class="hotel-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Maps</a>`
     : '';
+  const phoneBtn = h.phone
+    ? `<a class="hotel-link" href="tel:${h.phone.replace(/\s/g, '')}">☎️ Llamar</a>`
+    : '';
+  const bookingUrl = h.bookingUrl || 'https://secure.booking.com/myreservations.html';
+  const bookingBtn = `<a class="hotel-link" href="${bookingUrl}" target="_blank" rel="noopener">Booking →</a>`;
   return `
     <div class="hotel-row">
       <span class="hotel-icon">🏨</span>
       <div class="hotel-text">
-        <span class="hotel-label">Hotel (Booking)</span>
+        <span class="hotel-label">Hotel ${h.rating ? '· ' + escapeHtml(h.rating) : ''}</span>
         <div class="hotel-name">${escapeHtml(h.name)}</div>
         ${h.address ? `<div class="hotel-address">${escapeHtml(h.address)}</div>` : ''}
-        ${h.bookingRef ? `<div class="hotel-ref">Reserva ${escapeHtml(h.bookingRef)}</div>` : ''}
-        ${link}
+        ${h.notes ? `<div class="hotel-address" style="margin-top:4px;font-style:italic;">${escapeHtml(h.notes)}</div>` : ''}
+        ${h.bookingRef ? `<div class="hotel-ref">Reserva <strong>${escapeHtml(h.bookingRef)}</strong>${h.pin ? ' · PIN ' + escapeHtml(h.pin) : ''}</div>` : ''}
+        <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
+          ${mapsBtn}
+          ${phoneBtn}
+          ${bookingBtn}
+        </div>
       </div>
     </div>
   `;
