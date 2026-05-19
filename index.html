@@ -1271,7 +1271,6 @@ function render(rows) {
         <div class="stop-body">
           ${hotelHtml}
           ${s.logistica ? `<div class="field"><span class="field-label">Por qué / Logística</span><div class="field-body">${escapeHtml(s.logistica)}</div></div>` : ''}
-          ${s.must ? `<div class="field"><span class="field-label">Imprescindibles (Sheet)</span><div class="field-body">${escapeHtml(s.must)}</div></div>` : ''}
           ${renderStation(places, s.city)}
           ${renderActivities(places, s.city, s.noches)}
           ${hasMapsLink ? `<a class="maps-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Ver ${escapeHtml(s.city)} en Google Maps</a>` : ''}
