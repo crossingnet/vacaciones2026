@@ -137,16 +137,15 @@ const TRANSITS = {
   },
   'amsterdam': {
     date: { y: 2026, m: 5, d: 27 },
-    from: { name: 'Aeropuerto de Praga (Ruzyně)', code: 'PRG' },
+    from: { name: 'Praga · Václav Havel (Terminal 2)', code: 'PRG' },
     to:   { name: 'Aeropuerto Schiphol', code: 'AMS' },
     mode: 'Vuelo',
     departure: '14:30',
     arrival: '16:00',
-    duration: '~1h 30min',
-    bookedAt: null,
+    duration: '1h 30min',
+    bookedAt: 'KLM Cityhopper · KL1356 (Embraer 195 E2)',
     bookingRef: null,
-    note: null,
-    pending: true,
+    note: 'Economy Class · 2 bolsos de mano por persona, SIN equipaje despachado. Confirmar nº reserva (¿misma X6G5YP?).',
   },
 };
 
@@ -227,6 +226,12 @@ const HOTELS = {
     bookingRef: '5881072658',
     pin: '6804',
     notes: '1 noche · sobre el Danubio, al lado del casco antiguo',
+  },
+  'amsterdam': {
+    name: 'Singel Hotel Amsterdam',
+    address: 'Singel 13-17, Amsterdam, 1012 VC, Países Bajos',
+    bookingRef: '6044568455',
+    notes: '2 noches · sobre el canal Singel, 5-10 min caminando de Amsterdam Centraal',
   },
   'praga': {
     name: 'Perla Hotel',
