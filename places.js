@@ -316,9 +316,9 @@ const PLACES = {
         history: 'Recorrido por el río Ill, que dividió Estrasburgo en una isla amurallada durante la Edad Media. La isla central conserva intacto su trazado medieval.',
       },
       {
-        name: 'Excursión a Colmar',
-        desc: 'Pueblo de cuento (inspiró "La Bella y la Bestia"). Tren ~30 min.',
-        cost: '€15 tren', time: 'Medio día', imperdible: true,
+        name: 'Excursión a Colmar (Sáb 13 Jun)',
+        desc: 'Pueblo de cuento (inspiró "La Bella y la Bestia"). 🚆 Ida 09:13→09:42 (TGV 2363, P3F3S8) · Vuelta 15:27→15:54 (TGV 12176, P3H8DF). ~5h 45min en Colmar.',
+        cost: 'Tren ida y vuelta (Omio)', time: 'Medio día', imperdible: true,
         history: 'Capital del Alto Rin alsaciano, milagrosamente intacta tras las dos guerras mundiales. Hayao Miyazaki se inspiró en sus calles para "Howl no Ugoku Shiro".',
       },
       {
