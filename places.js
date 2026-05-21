@@ -248,6 +248,7 @@ const PLACES = {
 
   'luxemburgo': {
     station: 'Gare de Luxembourg',
+    description: 'Capital del Gran Ducado de Luxemburgo, una pequeña pero próspera ciudad de 130.000 habitantes. El casco histórico medieval, encaramado sobre una meseta rocosa, es Patrimonio UNESCO. Se mezclan calles centenarias con barrios modernos llenos de bancos internacionales.',
     activities: [
       {
         name: 'Chemin de la Corniche',
@@ -278,6 +279,7 @@ const PLACES = {
 
   'metz': {
     station: 'Gare de Metz-Ville',
+    description: 'Ciudad histórica del noreste de Francia, capital de la región Mosela. Conocida por sus edificios de piedra amarilla (jaumont) y una catedral gótica con 6.500 m² de vitrales — la mayor superficie de Europa. Alemana entre 1871 y 1918, conserva un barrio entero de arquitectura wilhelmiana único.',
     activities: [
       {
         name: 'Cathédrale Saint-Étienne',
@@ -308,6 +310,7 @@ const PLACES = {
 
   'estrasburgo': {
     station: 'Gare de Strasbourg',
+    description: 'Capital alsaciana y sede del Parlamento Europeo. Mezcla francesa y alemana en gastronomía y arquitectura. Su catedral gótica fue el edificio más alto del mundo durante 227 años. El casco antiguo (Grande Île) es Patrimonio UNESCO. En diciembre tiene uno de los mercados navideños más famosos de Europa.',
     activities: [
       {
         name: 'Cathédrale Notre-Dame de Strasbourg',
@@ -352,6 +355,7 @@ const PLACES = {
 
   'berna': {
     station: 'Bern Hauptbahnhof',
+    description: 'Capital federal de Suiza y centro político del país. El casco antiguo medieval, con 6 km de arcadas cubiertas y fuentes pintadas del siglo XVI, es Patrimonio UNESCO. Albert Einstein desarrolló acá la Teoría de la Relatividad en 1905. Los osos son el símbolo de la ciudad desde 1224.',
     activities: [
       {
         name: 'Zytglogge (Torre del Reloj)',
@@ -388,6 +392,7 @@ const PLACES = {
 
   'zurich': {
     station: 'Zürich Hauptbahnhof',
+    description: 'Mayor ciudad de Suiza y centro financiero global. A orillas del lago homónimo, con vistas a los Alpes en días claros. Bahnhofstrasse es una de las calles comerciales más caras del mundo. La Reforma Protestante suiza nació acá con Zwingli en 1519. Es la ciudad con mejor calidad de vida del mundo según múltiples rankings.',
     activities: [
       {
         name: 'Lago de Zúrich (Bürkliplatz)',
@@ -432,6 +437,7 @@ const PLACES = {
 
   'salzburgo': {
     station: 'Salzburg Hauptbahnhof',
+    description: 'Cuna de Mozart y escenario de "Sonido de la Música". Ciudad barroca austríaca con un casco antiguo Patrimonio UNESCO. Los arzobispos-príncipes la convirtieron en una de las ciudades más bellas de Europa central. La Fortaleza Hohensalzburg sobre la colina domina la ciudad — es una de las fortalezas medievales más grandes y mejor conservadas de Europa.',
     activities: [
       {
         name: 'Festung Hohensalzburg',
@@ -476,6 +482,7 @@ const PLACES = {
 
   'viena': {
     station: 'Wien Hauptbahnhof',
+    description: 'Capital de Austria, centro del Imperio Austrohúngaro durante siglos. La ciudad imperial por excelencia: palacios, cafés históricos y salas de conciertos. Mozart, Beethoven, Schubert y Strauss vivieron y compusieron acá. Tiene la mejor calidad de vida según el ranking Mercer desde 2018. Sus cafés son Patrimonio Cultural Inmaterial UNESCO.',
     activities: [
       {
         name: 'Schloss Schönbrunn',
@@ -522,6 +529,7 @@ const PLACES = {
 
   'bratislava': {
     station: 'Bratislava hlavná stanica',
+    description: 'Capital de Eslovaquia, a orillas del Danubio y sorprendentemente cerca de Viena (1h en tren). Casco antiguo compacto, perfecto para recorrer a pie en un día. Fue capital del Reino de Hungría entre 1536 y 1783 — 11 reyes húngaros fueron coronados acá. Los precios son notablemente más bajos que en Viena o Praga.',
     activities: [
       {
         name: 'Hrad Bratislava (Castillo)',
@@ -552,6 +560,7 @@ const PLACES = {
 
   'budapest': {
     station: 'Budapest-Keleti pályaudvar',
+    description: 'Capital de Hungría, formada por la unión de Buda (montañosa) y Pest (plana) en 1873, separadas por el Danubio. La llaman "la París del Este" por su arquitectura monumental. Tiene más de 100 termas (es la "ciudad de los baños"). El Parlamento iluminado de noche es una de las vistas urbanas más espectaculares de Europa.',
     activities: [
       {
         name: 'Termas Széchenyi',
@@ -600,6 +609,7 @@ const PLACES = {
 
   'praga': {
     station: 'Praha hlavní nádraží',
+    description: '"La ciudad de las cien torres" y capital de Chequia. Casco antiguo medieval casi intacto tras las dos guerras mundiales, Patrimonio UNESCO. Capital del Sacro Imperio Romano en el siglo XIV bajo Carlos IV. Tiene el complejo de castillos más grande del mundo (Guinness). La cerveza checa es de las mejores del planeta — los checos consumen más cerveza per cápita que ningún otro país.',
     activities: [
       {
         name: 'Karlův most (Puente de Carlos)',
@@ -642,6 +652,7 @@ const PLACES = {
 
   'amsterdam': {
     station: 'Amsterdam Centraal',
+    description: 'Capital de los Países Bajos, ciudad de 165 canales y más de 1.500 puentes — más que Venecia. Su Siglo de Oro (XVII) la convirtió en epicentro del comercio mundial. El anillo de canales es Patrimonio UNESCO. Famosa por sus museos (Rijksmuseum, Van Gogh, Anne Frank) y la bicicleta como medio principal de transporte. Hay más bicis que habitantes.',
     activities: [
       {
         name: 'Anne Frank Huis',

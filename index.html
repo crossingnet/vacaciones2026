@@ -400,6 +400,87 @@
     padding: 4px 16px 14px;
     border-top: 1px solid var(--line);
   }
+  .city-cover {
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--bg);
+    background-image: linear-gradient(135deg, var(--bg) 0%, var(--line) 100%);
+    border-radius: 10px;
+    margin: 14px 0 0;
+    position: relative;
+    overflow: hidden;
+    transition: opacity 0.3s;
+  }
+  .city-cover.loading { opacity: 0.6; }
+  .city-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.55));
+    pointer-events: none;
+  }
+  .city-cover-caption {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    right: 12px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 1;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+  .city-description {
+    font-size: 13.5px;
+    color: var(--ink);
+    line-height: 1.55;
+    padding: 12px 14px;
+    background: var(--bg);
+    border-radius: 8px;
+    margin-top: 14px;
+    border-left: 3px solid var(--accent);
+  }
+  .next-leg {
+    margin-top: 18px;
+    padding: 12px 14px;
+    background: var(--accent-bg);
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .next-leg-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--ink-3);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .next-leg-route {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .next-leg-details {
+    font-size: 12.5px;
+    color: var(--ink-2);
+    margin-bottom: 10px;
+  }
+  .next-leg-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 8px 12px;
+    background: var(--card);
+    border-radius: 6px;
+    border: 1px solid var(--line);
+  }
+  .next-leg-action:active { opacity: 0.7; }
   .stop.open .stop-body { display: block; }
   .field { margin-top: 12px; font-size: 14px; }
   .field-label {
@@ -1164,6 +1245,92 @@ function photosLinkFor(name, city) {
   return `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`;
 }
 
+const WIKI_OVERRIDES = {
+  'luxemburgo': 'Ciudad de Luxemburgo',
+  'amsterdam':  'Ámsterdam',
+  'ámsterdam':  'Ámsterdam',
+};
+
+function isBadCoverUrl(u) {
+  if (!u) return true;
+  return /Flag_of|Coat_of_arms|Escudo|Bandera/i.test(u);
+}
+
+async function loadCityCover(elem, cityName) {
+  if (elem.dataset.loaded === '1') return;
+  elem.dataset.loaded = '1';
+  const key = cityName.toLowerCase();
+  const cacheKey = `cityimg:${key}`;
+  let url = localStorage.getItem(cacheKey);
+  if (url && isBadCoverUrl(url)) {
+    localStorage.removeItem(cacheKey);
+    url = null;
+  }
+  if (!url) {
+    elem.classList.add('loading');
+    const candidates = [
+      WIKI_OVERRIDES[key],
+      cityName,
+      cityName + ' (ciudad)',
+      cityName + ' (city)',
+    ].filter(Boolean);
+    try {
+      for (const cand of candidates) {
+        const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cand)}`, { cache: 'force-cache' });
+        if (res.ok) {
+          const data = await res.json();
+          const candUrl = data.originalimage?.source || data.thumbnail?.source;
+          if (candUrl && !isBadCoverUrl(candUrl)) { url = candUrl; break; }
+        }
+      }
+      if (url) localStorage.setItem(cacheKey, url);
+    } catch (e) {}
+    elem.classList.remove('loading');
+  }
+  if (url) elem.style.backgroundImage = `url("${url}")`;
+}
+
+function renderNextLeg(stops, idx) {
+  const next = stops[idx + 1];
+  const currentCity = stops[idx]?.city;
+  if (!next) {
+    // Last city — link to return flight
+    if (typeof FLIGHTS !== 'undefined' && FLIGHTS.return) {
+      const f = FLIGHTS.return;
+      const hotel = (HOTELS[currentCity.toLowerCase()] || HOTELS[normCity(currentCity)]);
+      const fromAddr = hotel?.address || currentCity;
+      const destStation = `${f.from.airport} ${f.from.city} airport`;
+      const dirUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(fromAddr)}&destination=${encodeURIComponent(destStation)}`;
+      return `
+        <div class="next-leg">
+          <div class="next-leg-label">Salida del viaje</div>
+          <div class="next-leg-route">✈️ ${escapeHtml(f.airline)} ${escapeHtml(f.flight)} · ${escapeHtml(f.from.time)}</div>
+          <div class="next-leg-details">${escapeHtml(formatDateShort(f.from.y, f.from.m, f.from.d))} desde Aeropuerto ${escapeHtml(f.from.airport)}</div>
+          <a class="next-leg-action" href="${dirUrl}" target="_blank" rel="noopener">📍 Ruta hotel → aeropuerto</a>
+        </div>
+      `;
+    }
+    return '';
+  }
+  const transit = (typeof TRANSITS !== 'undefined') ? (TRANSITS[next.city.toLowerCase()] || TRANSITS[normCity(next.city)]) : null;
+  if (!transit) return '';
+  const hotel = (HOTELS[currentCity.toLowerCase()] || HOTELS[normCity(currentCity)]);
+  const fromAddr = hotel?.address || currentCity;
+  const stationLabel = transit.from?.name || PLACES[currentCity.toLowerCase()]?.station || currentCity;
+  const dirUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(fromAddr)}&destination=${encodeURIComponent(stationLabel + ', ' + currentCity)}`;
+  const dateLabel = formatDateShort(transit.date.y, transit.date.m, transit.date.d);
+  const modeIcon = transit.mode === 'Tren' ? '🚆' : (transit.mode === 'Vuelo' ? '✈️' : '🚌');
+  const depTime = transit.departure || '';
+  return `
+    <div class="next-leg">
+      <div class="next-leg-label">Cómo salir hacia ${escapeHtml(next.city)}</div>
+      <div class="next-leg-route">${modeIcon} ${escapeHtml(dateLabel)} · ${escapeHtml(depTime)} desde ${escapeHtml(stationLabel)}</div>
+      <div class="next-leg-details">Próxima parada: <strong>${escapeHtml(next.city)}</strong></div>
+      <a class="next-leg-action" href="${dirUrl}" target="_blank" rel="noopener">📍 Ruta hotel → estación</a>
+    </div>
+  `;
+}
+
 function renderActivity(a, city) {
   const isFree = /gratis/i.test(a.cost);
   const costBadge = isFree
@@ -1315,10 +1482,15 @@ function render(rows) {
           ${s.barrio ? `<div class="stop-barrio">Barrio · <em>${escapeHtml(s.barrio)}</em></div>` : ''}
         </button>
         <div class="stop-body">
+          <div class="city-cover" data-city="${escapeHtml(s.city)}">
+            <div class="city-cover-caption">${escapeHtml(s.city)}</div>
+          </div>
+          ${places?.description ? `<div class="city-description">${escapeHtml(places.description)}</div>` : ''}
           ${hotelHtml}
           ${s.logistica ? `<div class="field"><span class="field-label">Por qué / Logística</span><div class="field-body">${escapeHtml(s.logistica)}</div></div>` : ''}
           ${renderStation(places, s.city)}
           ${renderActivities(places, s.city, s.noches)}
+          ${renderNextLeg(stops, idx)}
           ${hasMapsLink ? `<a class="maps-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Ver ${escapeHtml(s.city)} en Google Maps</a>` : ''}
         </div>
       </article>
@@ -1334,8 +1506,15 @@ function render(rows) {
       const card = btn.closest('.stop');
       const open = card.classList.toggle('open');
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) {
+        const cover = card.querySelector('.city-cover');
+        if (cover) loadCityCover(cover, cover.dataset.city);
+      }
     });
   });
+
+  // Si hay una tarjeta abierta por defecto (hoy), cargar su portada también
+  list.querySelectorAll('.stop.open .city-cover').forEach(c => loadCityCover(c, c.dataset.city));
 
   if (trip && trip.phase === 'during' && trip.currentIdx >= 0) {
     requestAnimationFrame(() => {
