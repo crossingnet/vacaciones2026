@@ -431,6 +431,31 @@
     z-index: 1;
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   }
+  .city-weather {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .city-weather .icon { font-size: 24px; line-height: 1; }
+  .city-weather .temps { font-weight: 700; font-size: 15px; }
+  .city-weather .max { color: #d96b3c; }
+  .city-weather .min { color: #5b9eff; }
+  .city-weather .label {
+    font-size: 11px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 600;
+  }
+  .city-weather .meta { flex: 1; min-width: 0; }
+  .city-weather.loading { opacity: 0.6; }
   .city-description {
     font-size: 13.5px;
     color: var(--ink);
@@ -1256,6 +1281,88 @@ function isBadCoverUrl(u) {
   return /Flag_of|Coat_of_arms|Escudo|Bandera/i.test(u);
 }
 
+function weatherIconForCode(code) {
+  if (code === 0) return { icon: '☀️', desc: 'Despejado' };
+  if (code <= 2) return { icon: '🌤️', desc: 'Parcialmente nublado' };
+  if (code === 3) return { icon: '☁️', desc: 'Nublado' };
+  if (code >= 45 && code <= 48) return { icon: '🌫️', desc: 'Niebla' };
+  if (code >= 51 && code <= 57) return { icon: '🌦️', desc: 'Lluvia ligera' };
+  if (code >= 61 && code <= 65) return { icon: '🌧️', desc: 'Lluvia' };
+  if (code >= 66 && code <= 67) return { icon: '🌧️', desc: 'Lluvia helada' };
+  if (code >= 71 && code <= 77) return { icon: '❄️', desc: 'Nieve' };
+  if (code >= 80 && code <= 82) return { icon: '🌧️', desc: 'Chubascos' };
+  if (code >= 85 && code <= 86) return { icon: '🌨️', desc: 'Chubascos de nieve' };
+  if (code >= 95) return { icon: '⛈️', desc: 'Tormenta' };
+  return { icon: '🌤️', desc: '' };
+}
+
+function isoDate(dateObj) {
+  const y = dateObj.getFullYear();
+  const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const d = String(dateObj.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+async function fetchWeather(lat, lng, targetIso) {
+  const today = todayStart();
+  const target = new Date(targetIso);
+  const daysDiff = daysBetween(today, target);
+
+  let url, isProxy = false, proxyYear = null;
+  if (daysDiff >= 0 && daysDiff <= 15) {
+    url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto&start_date=${targetIso}&end_date=${targetIso}`;
+  } else {
+    // Far future or past: use last year's same date as climatological proxy
+    const lastYear = target.getFullYear() - 1;
+    proxyYear = lastYear;
+    const proxyIso = `${lastYear}-${String(target.getMonth() + 1).padStart(2, '0')}-${String(target.getDate()).padStart(2, '0')}`;
+    url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lng}&start_date=${proxyIso}&end_date=${proxyIso}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`;
+    isProxy = true;
+  }
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('weather fetch failed');
+  const data = await res.json();
+  if (!data?.daily?.temperature_2m_max?.length) throw new Error('no daily data');
+  return {
+    max: Math.round(data.daily.temperature_2m_max[0]),
+    min: Math.round(data.daily.temperature_2m_min[0]),
+    code: data.daily.weathercode[0],
+    isProxy,
+    proxyYear,
+  };
+}
+
+async function loadCityWeather(elem, lat, lng, targetIso) {
+  if (elem.dataset.loaded === '1') return;
+  elem.dataset.loaded = '1';
+  const cacheKey = `weather:${lat},${lng}:${targetIso}`;
+  let cached = localStorage.getItem(cacheKey);
+  let data = null;
+  try {
+    if (cached) data = JSON.parse(cached);
+    if (!data) {
+      elem.classList.add('loading');
+      data = await fetchWeather(lat, lng, targetIso);
+      localStorage.setItem(cacheKey, JSON.stringify(data));
+      elem.classList.remove('loading');
+    }
+  } catch (e) {
+    elem.style.display = 'none';
+    return;
+  }
+  const info = weatherIconForCode(data.code);
+  const label = data.isProxy
+    ? `Mismo día en ${data.proxyYear} (referencia)`
+    : 'Pronóstico';
+  elem.innerHTML = `
+    <span class="icon">${info.icon}</span>
+    <div class="meta">
+      <div class="label">${label}</div>
+      <div class="temps"><span class="max">${data.max}°</span> · <span class="min">${data.min}°</span> ${info.desc ? '· ' + info.desc : ''}</div>
+    </div>
+  `;
+}
+
 async function loadCityCover(elem, cityName) {
   if (elem.dataset.loaded === '1') return;
   elem.dataset.loaded = '1';
@@ -1485,6 +1592,7 @@ function render(rows) {
           <div class="city-cover" data-city="${escapeHtml(s.city)}">
             <div class="city-cover-caption">${escapeHtml(s.city)}</div>
           </div>
+          ${s.coords && s.dates ? `<div class="city-weather" data-lat="${s.coords[0]}" data-lng="${s.coords[1]}" data-date="${isoDate(s.dates.start)}"></div>` : ''}
           ${places?.description ? `<div class="city-description">${escapeHtml(places.description)}</div>` : ''}
           ${hotelHtml}
           ${s.logistica ? `<div class="field"><span class="field-label">Por qué / Logística</span><div class="field-body">${escapeHtml(s.logistica)}</div></div>` : ''}
@@ -1509,12 +1617,15 @@ function render(rows) {
       if (open) {
         const cover = card.querySelector('.city-cover');
         if (cover) loadCityCover(cover, cover.dataset.city);
+        const w = card.querySelector('.city-weather');
+        if (w) loadCityWeather(w, +w.dataset.lat, +w.dataset.lng, w.dataset.date);
       }
     });
   });
 
-  // Si hay una tarjeta abierta por defecto (hoy), cargar su portada también
+  // Si hay una tarjeta abierta por defecto (hoy), cargar su portada y clima también
   list.querySelectorAll('.stop.open .city-cover').forEach(c => loadCityCover(c, c.dataset.city));
+  list.querySelectorAll('.stop.open .city-weather').forEach(w => loadCityWeather(w, +w.dataset.lat, +w.dataset.lng, w.dataset.date));
 
   if (trip && trip.phase === 'during' && trip.currentIdx >= 0) {
     requestAnimationFrame(() => {
