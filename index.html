@@ -371,6 +371,19 @@
     padding: 2px 7px;
     border-radius: 4px;
   }
+  .weather-chip {
+    font-size: 11px;
+    color: var(--ink);
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    border: 1px solid var(--line);
+  }
+  .weather-chip:empty { display: none; }
   .today-badge {
     display: inline-flex;
     align-items: center;
@@ -561,6 +574,18 @@
   }
   .station-row .station-name { color: var(--accent); font-weight: 600; }
   .station-row .arrow { color: var(--ink-3); font-size: 16px; }
+  .station-row .station-go {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 6px 10px;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .station-row .station-go:active { opacity: 0.7; }
 
   .activities {
     margin-top: 14px;
@@ -1118,18 +1143,25 @@ function mapsLinkFor(name, city) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 }
 
+function directionsLinkFor(name, city) {
+  const q = city ? `${name}, ${city}` : name;
+  // Sin origin: Google Maps usa tu ubicación actual (app mobile o web)
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q)}`;
+}
+
 function renderStation(places, city) {
   if (!places || !places.station) return '';
   const url = mapsLinkFor(places.station, city);
+  const dirUrl = directionsLinkFor(places.station, city);
   return `
-    <a class="station-row" href="${url}" target="_blank" rel="noopener">
+    <div class="station-row">
       <span class="station-icon">🚉</span>
       <span class="station-text">
         <span class="station-label">Estación de tren</span>
-        <span class="station-name">${escapeHtml(places.station)}</span>
+        <a href="${url}" target="_blank" rel="noopener" class="station-name">${escapeHtml(places.station)}</a>
       </span>
-      <span class="arrow">→</span>
-    </a>
+      <a href="${dirUrl}" target="_blank" rel="noopener" class="station-go" aria-label="Cómo llegar a la estación">🧭 Ir</a>
+    </div>
   `;
 }
 
@@ -1198,8 +1230,12 @@ function renderTransit(t) {
 function renderHotel(h) {
   if (!h || !h.name) return '';
   const mapsUrl = h.address ? mapsLinkFor(h.address, '') : null;
+  const dirsUrl = h.address ? directionsLinkFor(h.address, '') : null;
   const mapsBtn = mapsUrl
     ? `<a class="hotel-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Maps</a>`
+    : '';
+  const dirsBtn = dirsUrl
+    ? `<a class="hotel-link" href="${dirsUrl}" target="_blank" rel="noopener">🧭 Ir</a>`
     : '';
   const phoneBtn = h.phone
     ? `<a class="hotel-link" href="tel:${h.phone.replace(/\s/g, '')}">☎️ Llamar</a>`
@@ -1216,6 +1252,7 @@ function renderHotel(h) {
         ${h.notes ? `<div class="hotel-address" style="margin-top:4px;font-style:italic;">${escapeHtml(h.notes)}</div>` : ''}
         ${h.bookingRef ? `<div class="hotel-ref">Reserva <strong>${escapeHtml(h.bookingRef)}</strong>${h.pin ? ' · PIN ' + escapeHtml(h.pin) : ''}</div>` : ''}
         <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
+          ${dirsBtn}
           ${mapsBtn}
           ${phoneBtn}
           ${bookingBtn}
@@ -1330,6 +1367,30 @@ async function fetchWeather(lat, lng, targetIso) {
     isProxy,
     proxyYear,
   };
+}
+
+async function loadWeatherChip(elem, lat, lng, targetIso) {
+  const cacheKey = `weather:${lat},${lng}:${targetIso}`;
+  let data = null;
+  const cached = localStorage.getItem(cacheKey);
+  if (cached) {
+    try { data = JSON.parse(cached); } catch (e) {}
+  }
+  if (!data) {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        data = await fetchWeather(lat, lng, targetIso);
+        localStorage.setItem(cacheKey, JSON.stringify(data));
+        break;
+      } catch (e) {
+        if (attempt < 2) await new Promise(r => setTimeout(r, 600 * (attempt + 1)));
+      }
+    }
+  }
+  if (!data) return;
+  const info = weatherIconForCode(data.code);
+  elem.innerHTML = `${info.icon} ${data.max}°/${data.min}°`;
+  elem.title = data.isProxy ? `Mismo día en ${data.proxyYear} (referencia)` : 'Pronóstico';
 }
 
 async function loadCityWeather(elem, lat, lng, targetIso) {
@@ -1469,6 +1530,7 @@ function renderActivity(a, city) {
       </div>
       ${historyBlock}
       <div class="activity-links">
+        <a class="activity-link" href="${directionsLinkFor(a.name, city)}" target="_blank" rel="noopener">🧭 Ir</a>
         <a class="activity-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Maps</a>
         <a class="activity-link" href="${photosUrl}" target="_blank" rel="noopener">📸 Fotos</a>
         ${bookingLink}
@@ -1583,6 +1645,7 @@ function render(rows) {
           <div class="stop-line-2">
             <span class="stop-date">${escapeHtml(s.fecha)}</span>
             ${nightsLabel}
+            ${s.coords && s.dates ? `<span class="weather-chip" data-lat="${s.coords[0]}" data-lng="${s.coords[1]}" data-date="${isoDate(s.dates.start)}"></span>` : ''}
             ${todayBadge}
             ${visitedBadge}
           </div>
@@ -1626,6 +1689,11 @@ function render(rows) {
   // Si hay una tarjeta abierta por defecto (hoy), cargar su portada y clima también
   list.querySelectorAll('.stop.open .city-cover').forEach(c => loadCityCover(c, c.dataset.city));
   list.querySelectorAll('.stop.open .city-weather').forEach(w => loadCityWeather(w, +w.dataset.lat, +w.dataset.lng, w.dataset.date));
+
+  // Cargar chips de clima en todas las tarjetas (siempre visibles), escalonados para evitar rate limit
+  list.querySelectorAll('.weather-chip').forEach((chip, i) => {
+    setTimeout(() => loadWeatherChip(chip, +chip.dataset.lat, +chip.dataset.lng, chip.dataset.date), i * 120);
+  });
 
   if (trip && trip.phase === 'during' && trip.currentIdx >= 0) {
     requestAnimationFrame(() => {
