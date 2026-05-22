@@ -1335,8 +1335,34 @@ function renderActivities(places, city, noches) {
   `;
 }
 
+function transitToFlight(t) {
+  const parts = (t.bookedAt || '').split('·').map(s => s.trim());
+  const airline = parts[0] || 'Vuelo';
+  let flight = '', aircraft = '';
+  if (parts[1]) {
+    const m = parts[1].match(/^([A-Z]{1,3}\d+)\s*\((.+?)\)?$/);
+    if (m) { flight = m[1]; aircraft = m[2]; }
+    else { flight = parts[1]; }
+  }
+  const cleanCity = (name) => (name || '').split('·')[0].trim().replace(/^Aeropuerto( de)?\s+/i, '');
+  return {
+    label: 'Vuelo',
+    airline,
+    flight,
+    aircraft,
+    booking: t.bookingRef,
+    from: { airport: t.from.code, city: cleanCity(t.from.name), y: t.date.y, m: t.date.m, d: t.date.d, time: t.departure },
+    to:   { airport: t.to.code,   city: cleanCity(t.to.name),   y: t.date.y, m: t.date.m, d: t.date.d, time: t.arrival },
+    duration: t.duration,
+  };
+}
+
 function renderTransit(t) {
   if (!t) return '';
+  // Si el traslado es un vuelo, lo renderizo con el mismo estilo que las otras tarjetas de vuelo
+  if (t.mode === 'Vuelo') {
+    return renderFlight(transitToFlight(t));
+  }
   const dateLabel = formatDateShort(t.date.y, t.date.m, t.date.d).toUpperCase();
   const fromLabel = t.from.code ? `${t.from.name} (${t.from.code})` : t.from.name;
   const toLabel = t.to.code ? `${t.to.name} (${t.to.code})` : t.to.name;
