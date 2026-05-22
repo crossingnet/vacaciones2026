@@ -1899,6 +1899,16 @@ function closeMap() {
 // City tour modal
 let tourMap = null;
 
+function haversineKm(a, b) {
+  const R = 6371;
+  const toRad = x => x * Math.PI / 180;
+  const dLat = toRad(b[0] - a[0]);
+  const dLng = toRad(b[1] - a[1]);
+  const lat1 = toRad(a[0]), lat2 = toRad(b[0]);
+  const h = Math.sin(dLat/2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng/2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
 function openCityTour(cityName) {
   const key = normCity(cityName);
   const places = PLACES[cityName.toLowerCase()] || PLACES[key];
@@ -1906,15 +1916,26 @@ function openCityTour(cityName) {
   const acts = places.activities.filter(a => a.lat && a.lng);
   if (!acts.length) return;
 
+  // Calcular centroide y separar paradas céntricas vs excursiones (>10km)
+  const avgLat = acts.reduce((s, a) => s + a.lat, 0) / acts.length;
+  const avgLng = acts.reduce((s, a) => s + a.lng, 0) / acts.length;
+  // Usar mediana en vez de promedio para que outliers no muevan el centro
+  const sortedLat = [...acts].sort((a, b) => a.lat - b.lat);
+  const sortedLng = [...acts].sort((a, b) => a.lng - b.lng);
+  const mid = Math.floor(acts.length / 2);
+  const center = [sortedLat[mid].lat, sortedLng[mid].lng];
+  const central = acts.filter(a => haversineKm([a.lat, a.lng], center) <= 8);
+  const farAway = acts.filter(a => haversineKm([a.lat, a.lng], center) > 8);
+
   const modal = document.getElementById('tour-modal');
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
   document.getElementById('tour-title').textContent = `Recorrido a pie · ${cityName}`;
 
   const list = document.getElementById('tour-list');
-  list.innerHTML = acts.map((a, i) => `
+  const renderItem = (a, i) => `
     <article class="tour-item">
-      <div class="num">${i + 1}</div>
+      <div class="num">${i}</div>
       <div class="body">
         <div class="name">${escapeHtml(a.name)}</div>
         <div class="meta">${escapeHtml(a.cost || '')}${a.time ? ' · ⏱️ ' + escapeHtml(a.time) : ''}${a.imperdible ? ' · ⭐ Imperdible' : ''}</div>
@@ -1926,7 +1947,14 @@ function openCityTour(cityName) {
         </div>
       </div>
     </article>
-  `).join('');
+  `;
+  let html = '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--ink-3);font-weight:700;margin:4px 4px 8px;">🚶 En el centro (a pie)</div>';
+  html += central.map((a, i) => renderItem(a, i + 1)).join('');
+  if (farAway.length) {
+    html += '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--ink-3);font-weight:700;margin:18px 4px 8px;">🚆 Excursiones / lugares lejanos</div>';
+    html += farAway.map((a, i) => renderItem(a, central.length + i + 1)).join('');
+  }
+  list.innerHTML = html;
 
   if (!tourMap) {
     tourMap = L.map('tour-map', { zoomControl: true });
@@ -1937,10 +1965,14 @@ function openCityTour(cityName) {
   }
   tourMap.eachLayer(layer => { if (!(layer instanceof L.TileLayer)) tourMap.removeLayer(layer); });
 
-  const path = acts.map(a => [a.lat, a.lng]);
-  L.polyline(path, { color: '#2b7fff', weight: 4, opacity: 0.85 }).addTo(tourMap);
+  // Polyline solo conecta las paradas céntricas (recorrido a pie real)
+  if (central.length >= 2) {
+    const path = central.map(a => [a.lat, a.lng]);
+    L.polyline(path, { color: '#2b7fff', weight: 4, opacity: 0.85 }).addTo(tourMap);
+  }
 
-  acts.forEach((a, i) => {
+  // Pines azules para céntricas
+  central.forEach((a, i) => {
     const icon = L.divIcon({
       className: '',
       html: `<div class="tour-pin">${i + 1}</div>`,
@@ -1951,7 +1983,25 @@ function openCityTour(cityName) {
       .bindPopup(`<strong>${i + 1}. ${escapeHtml(a.name)}</strong>${a.time ? '<br>⏱️ ' + escapeHtml(a.time) : ''}`);
   });
 
-  tourMap.fitBounds(L.latLngBounds(path), { padding: [40, 40], maxZoom: 16 });
+  // Pines naranjas para excursiones (más allá del centro)
+  farAway.forEach((a, i) => {
+    const num = central.length + i + 1;
+    const icon = L.divIcon({
+      className: '',
+      html: `<div class="tour-pin" style="background:#ff8a3c;">${num}</div>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+    });
+    L.marker([a.lat, a.lng], { icon }).addTo(tourMap)
+      .bindPopup(`<strong>${num}. ${escapeHtml(a.name)}</strong> (excursión)${a.time ? '<br>⏱️ ' + escapeHtml(a.time) : ''}`);
+  });
+
+  // Ajustar zoom para que vea todo pero priorizando el centro
+  if (central.length) {
+    tourMap.fitBounds(L.latLngBounds(central.map(a => [a.lat, a.lng])), { padding: [40, 40], maxZoom: 15 });
+  } else {
+    tourMap.fitBounds(L.latLngBounds(acts.map(a => [a.lat, a.lng])), { padding: [40, 40] });
+  }
   setTimeout(() => tourMap.invalidateSize(), 80);
 }
 
