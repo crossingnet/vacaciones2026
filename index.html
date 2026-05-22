@@ -19,6 +19,8 @@
     --accent-bg: #e8f1ff;
     --today: #ff5a3c;
     --today-bg: #fff1ed;
+    --action: #ff6b35;
+    --action-shadow: rgba(255,107,53,0.35);
     --radius: 12px;
     --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03);
   }
@@ -34,9 +36,66 @@
       --accent-bg: #1b2840;
       --today: #ff7a5f;
       --today-bg: #3a1f17;
+      --action: #ff8557;
+      --action-shadow: rgba(255,133,87,0.35);
       --shadow: 0 1px 2px rgba(0,0,0,0.4);
     }
   }
+
+  /* === Botón "Ir" UNIFICADO (siempre igual, siempre naranja, siempre visible) === */
+  .ir-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--action);
+    color: #fff !important;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none;
+    box-shadow: 0 2px 6px var(--action-shadow);
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 36px;
+  }
+  .ir-btn:active { transform: scale(0.96); }
+  .ir-btn.small {
+    padding: 6px 11px;
+    font-size: 12px;
+    min-height: 30px;
+  }
+  .ir-btn.large {
+    padding: 11px 18px;
+    font-size: 14px;
+    min-height: 44px;
+  }
+
+  /* === Badge de clima destacado (siempre arriba a la derecha de cada tarjeta) === */
+  .weather-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    background: linear-gradient(135deg, #fff7e6, #ffe8d4);
+    color: #8a4d00;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(138,77,0,0.15);
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .weather-badge .icon { font-size: 17px; }
+  @media (prefers-color-scheme: dark) {
+    .weather-badge {
+      background: linear-gradient(135deg, #2a2010, #3a2a18);
+      color: #f3c969;
+      border-color: rgba(243,201,105,0.25);
+    }
+  }
+  .weather-badge:empty { display: none; }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--bg); }
@@ -325,10 +384,29 @@
     border: none;
     color: inherit;
     font: inherit;
-    padding: 14px 16px;
+    padding: 14px 16px 12px;
     cursor: pointer;
     display: block;
+    position: relative;
   }
+  .stop-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .stop-footer .expand-hint {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .stop.open .stop-footer .expand-hint::after { content: 'Ocultar detalle'; }
+  .stop:not(.open) .stop-footer .expand-hint::after { content: 'Ver más'; }
   .stop-summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   .stop-line-1 {
     display: flex;
@@ -371,19 +449,8 @@
     padding: 2px 7px;
     border-radius: 4px;
   }
-  .weather-chip {
-    font-size: 11px;
-    color: var(--ink);
-    background: var(--bg);
-    padding: 2px 8px;
-    border-radius: 999px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-weight: 600;
-    border: 1px solid var(--line);
-  }
-  .weather-chip:empty { display: none; }
+  /* Legacy weather-chip removed in favor of .weather-badge (top-right placement) */
+  .weather-chip { display: none; }
   .today-badge {
     display: inline-flex;
     align-items: center;
@@ -1243,7 +1310,7 @@ function renderStation(places, city) {
         <span class="station-label">Estación de tren</span>
         <a href="${url}" target="_blank" rel="noopener" class="station-name">${escapeHtml(places.station)}</a>
       </span>
-      <a href="${dirUrl}" target="_blank" rel="noopener" class="station-go" aria-label="Cómo llegar a la estación">🧭 Ir</a>
+      <a href="${dirUrl}" target="_blank" rel="noopener" class="ir-btn small" aria-label="Cómo llegar a la estación">🧭 Ir</a>
     </div>
   `;
 }
@@ -1323,7 +1390,7 @@ function renderHotel(h) {
     ? `<a class="hotel-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Maps</a>`
     : '';
   const dirsBtn = dirsUrl
-    ? `<a class="hotel-link" href="${dirsUrl}" target="_blank" rel="noopener">🧭 Ir</a>`
+    ? `<a class="ir-btn small" href="${dirsUrl}" target="_blank" rel="noopener">🧭 Ir</a>`
     : '';
   const phoneBtn = h.phone
     ? `<a class="hotel-link" href="tel:${h.phone.replace(/\s/g, '')}">☎️ Llamar</a>`
@@ -1477,7 +1544,7 @@ async function loadWeatherChip(elem, lat, lng, targetIso) {
   }
   if (!data) return;
   const info = weatherIconForCode(data.code);
-  elem.innerHTML = `${info.icon} ${data.max}°/${data.min}°`;
+  elem.innerHTML = `<span class="icon">${info.icon}</span><span class="temps">${data.max}°/${data.min}°</span>`;
   elem.title = data.isProxy ? `Mismo día en ${data.proxyYear} (referencia)` : 'Pronóstico';
 }
 
@@ -1562,7 +1629,7 @@ function renderNextLeg(stops, idx) {
           <div class="next-leg-label">Salida del viaje</div>
           <div class="next-leg-route">✈️ ${escapeHtml(f.airline)} ${escapeHtml(f.flight)} · ${escapeHtml(f.from.time)}</div>
           <div class="next-leg-details">${escapeHtml(formatDateShort(f.from.y, f.from.m, f.from.d))} desde Aeropuerto ${escapeHtml(f.from.airport)}</div>
-          <a class="next-leg-action" href="${dirUrl}" target="_blank" rel="noopener">📍 Ruta hotel → aeropuerto</a>
+          <a class="ir-btn" href="${dirUrl}" target="_blank" rel="noopener">🧭 Ruta hotel → aeropuerto</a>
         </div>
       `;
     }
@@ -1582,7 +1649,7 @@ function renderNextLeg(stops, idx) {
       <div class="next-leg-label">Cómo salir hacia ${escapeHtml(next.city)}</div>
       <div class="next-leg-route">${modeIcon} ${escapeHtml(dateLabel)} · ${escapeHtml(depTime)} desde ${escapeHtml(stationLabel)}</div>
       <div class="next-leg-details">Próxima parada: <strong>${escapeHtml(next.city)}</strong></div>
-      <a class="next-leg-action" href="${dirUrl}" target="_blank" rel="noopener">📍 Ruta hotel → estación</a>
+      <a class="ir-btn" href="${dirUrl}" target="_blank" rel="noopener">🧭 Ruta hotel → estación</a>
     </div>
   `;
 }
@@ -1622,7 +1689,7 @@ function renderActivity(a, city, order) {
       </div>
       ${historyBlock}
       <div class="activity-links">
-        <a class="activity-link" href="${directionsLinkFor(a.name, city)}" target="_blank" rel="noopener">🧭 Ir</a>
+        <a class="ir-btn small" href="${directionsLinkFor(a.name, city)}" target="_blank" rel="noopener">🧭 Ir</a>
         <a class="activity-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 Maps</a>
         <a class="activity-link" href="${photosUrl}" target="_blank" rel="noopener">📸 Fotos</a>
         ${moreLink}
@@ -1725,25 +1792,30 @@ function render(rows) {
     const hotel = (typeof HOTELS !== 'undefined') ? (HOTELS[s.city.toLowerCase()] || HOTELS[normCity(s.city)]) : null;
     const hotelHtml = renderHotel(hotel);
 
+    const cityIrUrl = hasMapsLink ? directionsLinkFor(s.city, s.code || '') : null;
+
     return transitHtml + divider + `
       <article class="stop ${isToday ? 'today open' : ''} ${isVisited ? 'visited' : ''}" data-idx="${idx}">
-        <button class="stop-summary" aria-expanded="${isToday ? 'true' : 'false'}">
+        <div class="stop-summary" role="button" tabindex="0" aria-expanded="${isToday ? 'true' : 'false'}">
           <div class="stop-line-1">
             <div class="stop-place">
               ${flagSpan}
               <span class="stop-name">${escapeHtml(s.lugar || '—')}</span>
             </div>
-            <span class="chev">▾</span>
+            ${s.coords && s.dates ? `<span class="weather-badge" data-lat="${s.coords[0]}" data-lng="${s.coords[1]}" data-date="${isoDate(s.dates.start)}"></span>` : ''}
           </div>
           <div class="stop-line-2">
             <span class="stop-date">${escapeHtml(s.fecha)}</span>
             ${nightsLabel}
-            ${s.coords && s.dates ? `<span class="weather-chip" data-lat="${s.coords[0]}" data-lng="${s.coords[1]}" data-date="${isoDate(s.dates.start)}"></span>` : ''}
             ${todayBadge}
             ${visitedBadge}
           </div>
           ${s.barrio ? `<div class="stop-barrio">Barrio · <em>${escapeHtml(s.barrio)}</em></div>` : ''}
-        </button>
+          <div class="stop-footer">
+            <span class="expand-hint"><span class="chev">▾</span> </span>
+            ${cityIrUrl ? `<a href="${cityIrUrl}" target="_blank" rel="noopener" class="ir-btn" onclick="event.stopPropagation()">🧭 Ir</a>` : ''}
+          </div>
+        </div>
         <div class="stop-body">
           <div class="city-cover" data-city="${escapeHtml(s.city)}">
             <div class="city-cover-caption">${escapeHtml(s.city)}</div>
@@ -1792,7 +1864,7 @@ function render(rows) {
   list.querySelectorAll('.stop.open .city-weather').forEach(w => loadCityWeather(w, +w.dataset.lat, +w.dataset.lng, w.dataset.date));
 
   // Cargar chips de clima en todas las tarjetas (siempre visibles), escalonados para evitar rate limit
-  list.querySelectorAll('.weather-chip').forEach((chip, i) => {
+  list.querySelectorAll('.weather-badge').forEach((chip, i) => {
     setTimeout(() => loadWeatherChip(chip, +chip.dataset.lat, +chip.dataset.lng, chip.dataset.date), i * 120);
   });
 
@@ -1941,7 +2013,7 @@ function openCityTour(cityName) {
         <div class="meta">${escapeHtml(a.cost || '')}${a.time ? ' · ⏱️ ' + escapeHtml(a.time) : ''}${a.imperdible ? ' · ⭐ Imperdible' : ''}</div>
         ${a.desc ? `<div class="meta" style="margin-top:6px;">${escapeHtml(a.desc)}</div>` : ''}
         <div class="actions">
-          <a href="${directionsLinkFor(a.name, cityName)}" target="_blank" rel="noopener" class="activity-link">🧭 Ir</a>
+          <a href="${directionsLinkFor(a.name, cityName)}" target="_blank" rel="noopener" class="ir-btn small">🧭 Ir</a>
           <a href="${mapsLinkFor(a.name, cityName)}" target="_blank" rel="noopener" class="activity-link">📍 Maps</a>
           ${a.moreUrl ? `<a href="${a.moreUrl}" target="_blank" rel="noopener" class="activity-link">📖 Más info</a>` : ''}
         </div>
