@@ -76,18 +76,20 @@
   .weather-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 5px 11px;
-    background: linear-gradient(135deg, #fff7e6, #ffe8d4);
-    color: #8a4d00;
+    gap: 7px;
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #fff7e6, #ffe0c0);
+    color: #7a3f00;
     border-radius: 999px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(138,77,0,0.15);
+    font-size: 15px;
+    font-weight: 800;
+    border: 1px solid rgba(138,77,0,0.2);
     white-space: nowrap;
     line-height: 1;
+    box-shadow: 0 1px 3px rgba(138,77,0,0.08);
   }
-  .weather-badge .icon { font-size: 17px; }
+  .weather-badge .icon { font-size: 22px; }
+  .weather-badge .temps { letter-spacing: -0.01em; }
   @media (prefers-color-scheme: dark) {
     .weather-badge {
       background: linear-gradient(135deg, #2a2010, #3a2a18);
@@ -892,7 +894,21 @@
   .pin.today .pin-num { background: #ff5a3c; width: 22px; height: 22px; font-size: 11px; }
 
   /* Tour modal (recorrido a pie por ciudad) */
-  .tour-map { height: 35vh; min-height: 220px; background: var(--card); }
+  .tour-context {
+    padding: 10px 14px;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12.5px;
+  }
+  .tour-context .tour-date {
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  .tour-map { height: 32vh; min-height: 220px; background: var(--card); }
   .tour-list {
     flex: 1;
     overflow-y: auto;
@@ -1122,6 +1138,7 @@
     <div class="modal-title" id="tour-title">Recorrido a pie</div>
     <button class="modal-close" id="close-tour" aria-label="Cerrar recorrido">✕</button>
   </div>
+  <div id="tour-context" class="tour-context"></div>
   <div id="tour-map" class="tour-map"></div>
   <div id="tour-list" class="tour-list"></div>
 </div>
@@ -2044,6 +2061,26 @@ function openCityTour(cityName) {
   if (!places || !places.activities) return;
   const acts = places.activities.filter(a => a.lat && a.lng);
   if (!acts.length) return;
+
+  // Buscar el stop correspondiente para mostrar fecha + clima
+  const stop = STOPS.find(s => normCity(s.city) === key || s.city.toLowerCase() === cityName.toLowerCase());
+  const ctx = document.getElementById('tour-context');
+  if (stop?.dates) {
+    const startStr = formatDateShort(stop.dates.start.getFullYear(), stop.dates.start.getMonth(), stop.dates.start.getDate());
+    const endStr = formatDateShort(stop.dates.end.getFullYear(), stop.dates.end.getMonth(), stop.dates.end.getDate());
+    const dateRange = `${startStr} → ${endStr}`;
+    const wbId = `tour-weather-${Date.now()}`;
+    ctx.innerHTML = `
+      <span class="tour-date">📅 ${escapeHtml(dateRange)}</span>
+      <span class="weather-badge" id="${wbId}" data-lat="${stop.coords[0]}" data-lng="${stop.coords[1]}" data-date="${isoDate(stop.dates.start)}"></span>
+    `;
+    setTimeout(() => {
+      const elem = document.getElementById(wbId);
+      if (elem) loadWeatherChip(elem, +elem.dataset.lat, +elem.dataset.lng, elem.dataset.date);
+    }, 50);
+  } else {
+    ctx.innerHTML = '';
+  }
 
   // Calcular centroide y separar paradas céntricas vs excursiones (>10km)
   const avgLat = acts.reduce((s, a) => s + a.lat, 0) / acts.length;

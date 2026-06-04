@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fafafa">
+<title>Historia del viaje · Europa 2026</title>
+<style>
+  :root {
+    --bg: #f8f6f0;
+    --paper: #ffffff;
+    --ink: #1a1815;
+    --ink-2: #5b5851;
+    --ink-3: #8e8a82;
+    --line: #e6e1d6;
+    --accent: #8a4d00;
+    --accent-bg: #fff7e6;
+    --quote: #a07028;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1815;
+      --paper: #23201c;
+      --ink: #f1ede4;
+      --ink-2: #b8b3a8;
+      --ink-3: #7e7a72;
+      --line: #36322c;
+      --accent: #f0c074;
+      --accent-bg: #2e2614;
+      --quote: #f0c074;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+    line-height: 1.65;
+    padding: 20px 18px 60px;
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 16px;
+  }
+  header.main {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+  }
+  header.main h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  header.main .subtitle {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin-top: 6px;
+    font-style: italic;
+  }
+  .toc {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 32px;
+  }
+  .toc-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+    font-family: -apple-system, sans-serif;
+    font-weight: 700;
+  }
+  .toc ul { list-style: none; columns: 2; column-gap: 18px; }
+  .toc li { font-size: 14px; padding: 3px 0; break-inside: avoid; }
+  .toc a {
+    color: var(--accent);
+    text-decoration: none;
+    font-family: -apple-system, sans-serif;
+  }
+  .toc a:hover { text-decoration: underline; }
+  section.city {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 12px;
+  }
+  section.city h2 {
+    font-size: 26px;
+    color: var(--accent);
+    margin-bottom: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .city-overview {
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .city-overview p { margin-bottom: 12px; }
+  article.place {
+    background: var(--paper);
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    border-radius: 0 8px 8px 0;
+    scroll-margin-top: 12px;
+  }
+  article.place h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+    font-family: -apple-system, sans-serif;
+  }
+  article.place p { margin-bottom: 10px; font-size: 15px; }
+  article.place p:last-child { margin-bottom: 0; }
+  .pull-quote {
+    font-style: italic;
+    color: var(--quote);
+    border-left: 3px solid var(--quote);
+    padding-left: 14px;
+    margin: 14px 0;
+    font-size: 14.5px;
+  }
+  .sources {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    font-size: 12px;
+    color: var(--ink-3);
+    font-family: -apple-system, sans-serif;
+    font-style: normal;
+  }
+  .sources strong {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+  .sources a { color: var(--accent); text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+  footer.about {
+    margin-top: 48px;
+    padding: 22px 20px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+    font-family: -apple-system, sans-serif;
+    line-height: 1.55;
+  }
+  footer.about strong { color: var(--ink); }
+  .back-top {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    font-size: 18px;
+    font-family: -apple-system, sans-serif;
+  }
+  .home-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: -apple-system, sans-serif;
+  }
+</style>
+</head>
+<body>
+<a href="#top" class="back-top" aria-label="Volver arriba">↑</a>
+
+<header class="main" id="top">
+  <h1>Historia del viaje · Europa 2026</h1>
+  <p class="subtitle">Resúmenes históricos curados para cada parada del recorrido, desde Luxemburgo hasta Ámsterdam.</p>
+  <a class="home-link" href="index.html">← Volver al itinerario</a>
+</header>
+
+<div class="toc">
+  <div class="toc-title">📖 Índice</div>
+  <ul>
+    <li><a href="#luxemburgo">Luxemburgo</a></li>
+    <li><a href="#metz">Metz</a></li>
+    <li><a href="#estrasburgo">Estrasburgo</a></li>
+    <li><a href="#berna">Berna</a></li>
+    <li><a href="#zurich">Zúrich</a></li>
+    <li><a href="#salzburgo">Salzburgo</a></li>
+    <li><a href="#viena">Viena</a></li>
+    <li><a href="#bratislava">Bratislava</a></li>
+    <li><a href="#budapest">Budapest</a></li>
+    <li><a href="#praga">Praga</a></li>
+    <li><a href="#amsterdam">Ámsterdam</a></li>
+  </ul>
+</div>
+
+<!-- ============ LUXEMBURGO ============ -->
+<section class="city" id="luxemburgo">
+  <h2>Luxemburgo</h2>
+  <div class="city-overview">
+    <p>Luxemburgo es el último Gran Ducado que queda en el mundo. La ciudad, de apenas 130.000 habitantes, está construida sobre dos profundos cañones rocosos formados por los ríos Alzette y Pétrusse, lo que la convirtió desde la Edad Media en una de las plazas fuertes más codiciadas de Europa. Los franceses la llamaron "la Gibraltar del Norte" por sus 23 km de túneles y casamatas defensivas.</p>
+    <p>Fundada en 963 por el conde Sigfrido de las Ardenas, pasó por manos borgoñonas, españolas (siglos XVI-XVII), francesas y austríacas antes de su independencia en 1839. Es uno de los seis países fundadores de la UE y sede de varias instituciones europeas (Tribunal de Justicia, Tribunal de Cuentas, Banco Europeo de Inversiones).</p>
+  </div>
+
+  <article class="place" id="luxemburgo-palais-grand-ducal">
+    <h3>Palais Grand-Ducal</h3>
+    <p>Residencia oficial del Gran Duque desde 1890, el palacio fue construido originalmente en 1573 como Ayuntamiento de la ciudad. Su fachada es uno de los mejores ejemplos de arquitectura renacentista flamenca en Europa.</p>
+    <p>El edificio sufrió daños durante la ocupación nazi (Hitler lo utilizó como sala de conciertos y taberna para sus tropas), pero fue cuidadosamente restaurado tras la liberación. La familia gran-ducal actual, los Nassau-Weilbourg, accedió al trono en 1890 tras un complejo arreglo dinástico con los Países Bajos.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://monarchie.lu/" target="_blank">Cour Grand-Ducale (sitio oficial)</a> · <a href="https://www.britannica.com/place/Luxembourg" target="_blank">Britannica: Luxembourg</a>
+    </div>
+  </article>
+
+  <article class="place" id="luxemburgo-casamatas-del-bock">
+    <h3>Casemates du Bock</h3>
+    <p>El sistema de túneles fortificados más extenso de Europa, declarado Patrimonio de la Humanidad por UNESCO en 1994. Las primeras excavaciones datan de 1644, durante el dominio español, sobre la base de fortificaciones medievales ya existentes en el promontorio del Bock. Posteriormente fueron ampliados por austríacos y franceses (Vauban dirigió obras en 1684).</p>
+    <p>En su máxima extensión, las casamatas albergaban guarniciones de 35.000 soldados, 50 cañones, cocinas, panaderías, talleres y mataderos — una ciudad subterránea autosuficiente. Tras el Tratado de Londres de 1867 (que declaró Luxemburgo neutral), se demolieron 24 km de fortificaciones en superficie, pero los túneles bajo el Bock se conservaron.</p>
+    <p>Durante la Segunda Guerra Mundial sirvieron como refugio antiaéreo para 35.000 personas.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://whc.unesco.org/en/list/699/" target="_blank">UNESCO World Heritage</a> · <a href="https://www.luxembourg-city.com/en/place/fortifications/the-casemates-of-the-bock" target="_blank">Luxembourg City Tourist Office</a>
+    </div>
+  </article>
+
+  <article class="place" id="luxemburgo-chemin-de-la-corniche">
+    <h3>Chemin de la Corniche</h3>
+    <p>Caminata de 600 metros sobre las antiguas murallas españolas y francesas del siglo XVII. El escritor luxemburgués Batty Weber la describió como "el balcón más bello de Europa" — desde el sendero se ve el valle del Alzette, el Grund y las ruinas del castillo medieval.</p>
+    <p>Esta sección de muralla sobrevivió a la demolición de 1867 porque servía de paso peatonal entre la Ciudad Alta y los barrios del valle. Hoy es uno de los miradores urbanos más espectaculares de Europa Occidental.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.visitluxembourg.com/" target="_blank">Visit Luxembourg (sitio oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="luxemburgo-grund">
+    <h3>Vallée du Grund</h3>
+    <p>El Grund es el barrio más antiguo de Luxemburgo, surgido en el siglo X como asentamiento monástico en torno a la Abadía de Neumünster (fundada en 1083). Durante siglos fue zona de molineros, curtidores y artesanos que aprovechaban el agua del río Alzette.</p>
+    <p>La abadía fue convertida en prisión militar por los austríacos y luego por los nazis (donde encarcelaron a luchadores de la resistencia luxemburguesa). Tras su restauración en 2004, hoy funciona como Centro Cultural de Encuentro. El barrio del Grund es Patrimonio UNESCO desde 1994.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.neimenster.lu/" target="_blank">Centre Culturel de Rencontre Neumünster</a> · <a href="https://whc.unesco.org/en/list/699/" target="_blank">UNESCO</a>
+    </div>
+  </article>
+</section>
+
+<!-- ============ METZ ============ -->
+<section class="city" id="metz">
+  <h2>Metz</h2>
+  <div class="city-overview">
+    <p>Metz es una de las ciudades más antiguas de Francia, fundada como Divodurum por los celtas mediomátricos y romanizada bajo el nombre de Mediomatricorum. Bajo el Imperio Romano fue una de las cuatro grandes ciudades de la Galia, con un anfiteatro para 25.000 espectadores. En 511 se convirtió en capital del Reino de Austrasia bajo los merovingios — el rey Sigeberto I y la reina Brunilda hicieron de Metz uno de los centros culturales más importantes de Europa Occidental.</p>
+    <p>Por su ubicación fronteriza, Metz pasó alternativamente entre dominio francés y alemán: anexada por el Sacro Imperio en el siglo X, conquistada por Francia en 1552, alemana de nuevo entre 1871 y 1918, francesa desde 1918 salvo durante la ocupación nazi (1940-1944). Esta historia bicultural se ve en cada edificio.</p>
+  </div>
+
+  <article class="place" id="metz-place-saint-louis">
+    <h3>Place Saint-Louis</h3>
+    <p>Una de las plazas medievales mejor conservadas de Francia. Construida en el siglo XIII sobre el antiguo foso romano de la ciudad, fue centro del comercio internacional durante la Edad Media. Bajo sus arcadas hacían sus negocios los cambistas lombardos — banqueros italianos llegados de Florencia y Lucca que financiaban el comercio europeo desde el siglo XIV.</p>
+    <p>El nombre "Saint-Louis" se le dio en 1872 en homenaje a Luis IX. Las arcadas todavía conservan su forma original.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://tourisme.eurometropolemetz.eu/" target="_blank">Inspire Metz (oficina de turismo)</a>
+    </div>
+  </article>
+
+  <article class="place" id="metz-cathedrale-saint-etienne">
+    <h3>Cathédrale Saint-Étienne</h3>
+    <p>Iniciada en 1220 y consagrada en 1552, la catedral de Metz es una obra maestra del gótico clásico, conocida como "la linterna del Buen Dios" (<em>la lanterne du Bon Dieu</em>) por sus 6.500 m² de vitrales — la mayor superficie de vidrieras de cualquier catedral del mundo.</p>
+    <p>Tiene vitrales medievales de los siglos XIII a XVI, vitrales renacentistas de Valentin Bousch (1521-1539) y, lo más sorprendente, vitrales modernos de Jacques Villon (1957) y especialmente <strong>Marc Chagall</strong> (1959-1963), quien realizó tres ventanas con escenas bíblicas que combinan el simbolismo judío con la luz cristiana.</p>
+    <p class="pull-quote">"Si Chartres es la luminosa, Metz es la transparente. La piedra desaparece y solo queda la luz." — André Maurois</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://cathedrale-metz.fr/" target="_blank">Sitio oficial de la catedral</a> · <a href="https://www.britannica.com/topic/Metz-Cathedral" target="_blank">Britannica</a>
+    </div>
+  </article>
+
+  <article class="place" id="metz-temple-neuf">
+    <h3>Temple Neuf y Plan d'Eau</h3>
+    <p>El Temple Neuf es un templo protestante de estilo neorrománico renano construido entre 1901 y 1904, durante la anexión alemana de Alsacia-Lorena (1871-1918). El emperador Guillermo II en persona supervisó el proyecto, que pretendía afirmar la identidad alemana de Metz frente a la mayoría católica.</p>
+    <p>Su ubicación es deliberadamente icónica: una pequeña isla en el río Mosela, lo que permite que se refleje en el agua del Plan d'Eau. Es probablemente la fotografía más reproducida de la ciudad.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://tourisme.eurometropolemetz.eu/" target="_blank">Inspire Metz</a>
+    </div>
+  </article>
+
+  <article class="place" id="metz-centre-pompidou">
+    <h3>Centre Pompidou-Metz</h3>
+    <p>Inaugurado el 12 de mayo de 2010 como filial regional del Centre Pompidou de París, es el primer experimento de descentralización de un gran museo francés. El edificio, diseñado por el arquitecto japonés <strong>Shigeru Ban</strong> (Premio Pritzker 2014) junto con el francés Jean de Gastines, tiene un techo de membrana de madera laminada en forma de sombrero de paja chino.</p>
+    <p>Ban se inspiró en una pieza de mimbre que compró en un anticuario parisino. La estructura es de 17.000 m² y soporta 1.500 toneladas de madera tejida bajo una membrana translúcida. Recibe en promedio 350.000 visitantes al año.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.centrepompidou-metz.fr/" target="_blank">Sitio oficial</a> · <a href="https://www.britannica.com/biography/Shigeru-Ban" target="_blank">Britannica: Shigeru Ban</a>
+    </div>
+  </article>
+</section>
+
+<!-- ============ ESTRASBURGO ============ -->
+<section class="city" id="estrasburgo">
+  <h2>Estrasburgo</h2>
+  <div class="city-overview">
+    <p>Estrasburgo es la capital histórica y administrativa de Alsacia, una región que ha cambiado entre Francia y Alemania cuatro veces entre 1870 y 1945. Esta cultura de frontera dejó una huella profunda: el dialecto alsaciano es de raíz alemana, la gastronomía mezcla <em>choucroute</em> con foie gras, y la arquitectura de la "Grande Île" (su casco antiguo, Patrimonio UNESCO desde 1988) combina entramados de madera germánicos con tejados de pizarra franceses.</p>
+    <p>Tras la Segunda Guerra Mundial, Estrasburgo fue elegida deliberadamente como sede del Consejo de Europa (1949) y del Parlamento Europeo, como símbolo de la reconciliación franco-alemana y de la unidad europea.</p>
+  </div>
+
+  <article class="place" id="estrasburgo-place-kleber">
+    <h3>Place Kléber</h3>
+    <p>La plaza principal de Estrasburgo está dedicada a Jean-Baptiste Kléber (1753-1800), general nacido en Estrasburgo que comandó el ejército francés en Egipto tras la partida de Napoleón. Murió asesinado por un estudiante sirio en El Cairo. Su cuerpo fue repatriado y reposa bajo la estatua central de la plaza, obra de Philippe Grass (1840).</p>
+    <p>Durante diciembre, la plaza alberga el <em>Christkindelsmärik</em>, mercado navideño documentado desde 1570 — uno de los más antiguos del mundo cristiano.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.visitstrasbourg.fr/" target="_blank">Office de Tourisme de Strasbourg</a>
+    </div>
+  </article>
+
+  <article class="place" id="estrasburgo-catedral">
+    <h3>Cathédrale Notre-Dame</h3>
+    <p>Construida entre 1015 y 1439 sobre un templo romano dedicado a Marte, la catedral de Estrasburgo fue el edificio más alto del mundo durante 227 años (1647-1874), con sus 142 metros de altura. Su flecha asimétrica (originalmente debían ser dos) es la firma de la ciudad.</p>
+    <p>Víctor Hugo la describió como "prodigio de lo gigante y lo delicado". Goethe, que estudió derecho en Estrasburgo en 1770-1771, escribió que la catedral fue clave en su comprensión del arte gótico.</p>
+    <p>El <strong>reloj astronómico</strong> dentro de la catedral data de 1843 (la versión actual; hubo dos predecesoras desde el siglo XIV). Cada día a las 12:30 (no a las 12:00) se activa la procesión de los Doce Apóstoles ante Cristo, mientras un gallo de cobre canta tres veces. El retraso de 30 minutos se debe a que el mecanismo astronómico calcula el "mediodía solar verdadero" en Estrasburgo.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.cathedrale-strasbourg.fr/" target="_blank">Sitio oficial de la catedral</a> · <a href="https://whc.unesco.org/en/list/495/" target="_blank">UNESCO Grande Île</a>
+    </div>
+  </article>
+
+  <article class="place" id="estrasburgo-petite-france">
+    <h3>Petite France</h3>
+    <p>Antiguo barrio de curtidores, molineros y pescadores del siglo XVI, situado donde el río Ill se divide en cuatro brazos. Las casas de entramado de madera (<em>Fachwerkhaus</em>) tienen techos muy inclinados y abiertos en la parte superior — eso permitía secar las pieles tratadas con sustancias químicas al aire libre.</p>
+    <p>El nombre "Petite France" no es un homenaje sino una burla: en el siglo XV había allí un hospital para enfermos de sífilis, llamada por los alemanes "<em>Franzosenkrankheit</em>" (la enfermedad francesa). El barrio entero es Patrimonio UNESCO.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://whc.unesco.org/en/list/495/" target="_blank">UNESCO World Heritage</a>
+    </div>
+  </article>
+
+  <article class="place" id="estrasburgo-parlamento">
+    <h3>Parlamento Europeo</h3>
+    <p>Sede del Parlamento Europeo desde 1979 (cuando se realizaron las primeras elecciones directas). El edificio actual, diseñado por Architecture Studio, fue inaugurado en 1999. Su torre central inacabada de cristal y acero está deliberadamente diseñada con esa apariencia de "obra en construcción": simboliza que la integración europea es un proceso inconcluso, basado en el mito de la Torre de Babel.</p>
+    <p>El hemiciclo tiene 750 asientos para los eurodiputados. Las visitas guiadas son gratuitas pero requieren reserva previa.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.europarl.europa.eu/visiting/es" target="_blank">Sitio oficial del Parlamento Europeo</a>
+    </div>
+  </article>
+
+  <article class="place" id="estrasburgo-colmar">
+    <h3>Colmar (excursión)</h3>
+    <p>Capital del Alto Rin alsaciano, 70 km al sur de Estrasburgo. Milagrosamente, Colmar escapó casi sin daños a las dos guerras mundiales — el general francés Edgard de Larminat la rodeó en 1945 para evitar bombardearla. El resultado es un casco antiguo intacto desde el siglo XV.</p>
+    <p>El director japonés <strong>Hayao Miyazaki</strong> visitó Colmar en los años 90 y se inspiró en sus calles para la ciudad de "El castillo ambulante" (2004). Los cineastas de Disney también la estudiaron para "La Bella y la Bestia" (1991): la aldea de Bella tiene tejados, fuentes y proporciones de Colmar.</p>
+    <p>El barrio de la <em>Petite Venise</em> (donde el río Lauch atraviesa el casco antiguo) es la postal más conocida.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.tourisme-colmar.com/" target="_blank">Office de Tourisme de Colmar</a> · <a href="https://www.britannica.com/place/Colmar" target="_blank">Britannica</a>
+    </div>
+  </article>
+</section>
+
+<!-- ============ BERNA ============ -->
+<section class="city" id="berna">
+  <h2>Berna</h2>
+  <div class="city-overview">
+    <p>Berna es la capital federal de la Confederación Suiza (no oficialmente "capital", el término técnico es "Bundesstadt" o "ciudad federal"). Fue fundada en 1191 por el duque Berthold V de Zähringen sobre una península del río Aare. La leyenda dice que el duque prometió bautizar la ciudad con el nombre del primer animal que cazara: fue un oso (<em>Bär</em> en alemán), y desde entonces el oso es el símbolo de la ciudad — aparece en el escudo, en monedas y en parques.</p>
+    <p>El casco antiguo de Berna es uno de los mejor conservados de Europa, declarado Patrimonio UNESCO en 1983. Sus 6 km de arcadas cubiertas (<em>Lauben</em>) son las más largas del continente. Albert Einstein vivió en Berna entre 1903 y 1909 y allí desarrolló la Teoría de la Relatividad Especial — su casa en Kramgasse 49 es hoy museo.</p>
+  </div>
+
+  <article class="place" id="berna-zytglogge">
+    <h3>Zytglogge (Torre del Reloj)</h3>
+    <p>La Zytglogge fue construida entre 1218 y 1220 como puerta oeste de la primera muralla de Berna. Cuando la ciudad creció, se convirtió en torre de prisión para mujeres (1256-1344). El reloj astronómico actual fue instalado en 1530 por Kaspar Brunner y su mecanismo original sigue funcionando casi 500 años después.</p>
+    <p>Cuatro minutos antes de cada hora se activa el carillón: un gallo canta, una procesión de osos desfila y la figura de Cronos hace sonar las campanas. Hasta 1798 el reloj sincronizaba toda la actividad pública de Berna.</p>
+    <p>Albert Einstein vivía a 200 metros de aquí. Su biógrafa Pais sugiere que la observación del Zytglogge desde su ventana pudo inspirar uno de los experimentos mentales que llevaron a la Relatividad: ¿qué pasaría si un tranvía se alejara del reloj a la velocidad de la luz?</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.bern.com/en/detail/zytglogge-clock-tower" target="_blank">Bern Tourism (oficial)</a> · <a href="https://www.britannica.com/biography/Albert-Einstein" target="_blank">Britannica: Einstein</a>
+    </div>
+  </article>
+
+  <article class="place" id="berna-munster">
+    <h3>Catedral Münster</h3>
+    <p>La catedral protestante de Berna, iniciada en 1421 sobre los cimientos de una iglesia anterior. La construcción duró 472 años: la flecha de la torre, de 100 metros, se completó recién en 1893, lo que la convierte en la torre eclesiástica más alta de Suiza.</p>
+    <p>Su tímpano del Juicio Final (1495), del taller del maestro Erhart Küng, es uno de los conjuntos escultóricos gótico-tardíos mejor conservados de Europa: muestra 234 figuras pintadas con sus colores originales.</p>
+    <p>Subiendo los 312 escalones de la torre se accede al mejor mirador de la ciudad — sobre los tejados rojos del casco antiguo y el río Aare formando su característico meandro.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.bernermuenster.ch/" target="_blank">Münster Bern (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="berna-aare">
+    <h3>Río Aare</h3>
+    <p>El Aare es el río más largo enteramente suizo (295 km). Nace en los glaciares de los Alpes berneses y rodea el casco antiguo de Berna formando una península natural, lo que explica por qué Berthold V eligió este sitio para fundar la ciudad en 1191 — era fácil de defender en tres de sus cuatro lados.</p>
+    <p>El color verde-turquesa del agua se debe al "harina glacial" — partículas microscópicas de roca que reflejan la luz. En verano, una tradición local muy fuerte es bajar caminando río arriba hasta el Marzili, tirarse al agua con una bolsa estanca y dejar que la corriente lleve a los bañistas de vuelta al centro. Los berneses lo hacen incluso en horario de oficina.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.bern.com/en/" target="_blank">Bern Tourism</a>
+    </div>
+  </article>
+
+  <article class="place" id="berna-barenpark">
+    <h3>BärenPark</h3>
+    <p>El oso es el símbolo de Berna desde por lo menos 1224 (primer registro escrito). Durante siglos los berneses mantuvieron osos vivos en la ciudad: los primeros documentos hablan de un foso en lo que hoy es Bärenplatz (1480), luego se trasladaron al Bärengraben actual en 1857 — un foso circular de 9 metros de profundidad en pleno centro.</p>
+    <p>El foso fue criticado por décadas como cruel. En 2009 se inauguró el BärenPark moderno: 6.000 m² al borde del río Aare donde los osos pueden nadar, escalar y enterrarse. Es uno de los proyectos de bienestar animal urbano más estudiados del mundo.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.tierpark-bern.ch/en/baerenpark" target="_blank">Tierpark Bern (oficial)</a>
+    </div>
+  </article>
+</section>
+
+<!-- ============ ZÚRICH ============ -->
+<section class="city" id="zurich">
+  <h2>Zúrich</h2>
+  <div class="city-overview">
+    <p>Zúrich es la mayor ciudad de Suiza (430.000 habitantes; un millón en el área metropolitana) y uno de los principales centros financieros del mundo. Fundada en época romana como aduana sobre el río Limmat (<em>Turicum</em>), creció en la Edad Media como ciudad-Estado autónoma dentro del Sacro Imperio y se unió a la Confederación Helvética en 1351.</p>
+    <p>Es la cuna de la Reforma Protestante suiza: en 1519, el sacerdote <strong>Huldrych Zwingli</strong> comenzó a predicar en la Grossmünster contra las indulgencias, las imágenes religiosas y el celibato sacerdotal — un movimiento paralelo al de Lutero en Alemania. Zwingli murió en 1531 en la batalla de Kappel.</p>
+    <p>Según los rankings Mercer y EIU, Zúrich figura sistemáticamente entre las 3 ciudades con mejor calidad de vida del mundo desde hace dos décadas.</p>
+  </div>
+
+  <article class="place" id="zurich-bahnhofstrasse">
+    <h3>Bahnhofstrasse</h3>
+    <p>La avenida principal de Zúrich fue inaugurada en 1864 sobre el antiguo foso medieval de la ciudad — llamado <em>Fröschengraben</em>, "foso de las ranas". Conecta la estación central (Hauptbahnhof) con el lago, en una recta peatonal de 1,4 km.</p>
+    <p>Bajo sus calles hay bóvedas blindadas: aquí están sedes de UBS, Credit Suisse (ahora absorbido por UBS), Julius Bär y otros bancos suizos. Por concentración de oro y activos, se dice que la Bahnhofstrasse es la calle más cara del mundo para alquilar locales comerciales — supera a la Quinta Avenida de Nueva York y a New Bond Street en Londres.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.zuerich.com/en" target="_blank">Zürich Tourism (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="zurich-grossmunster">
+    <h3>Grossmünster</h3>
+    <p>Iglesia románica del siglo XII con dos torres gemelas que son la silueta de Zúrich. La leyenda dice que Carlomagno encontró aquí las tumbas de los santos Félix y Régula (mártires del siglo III) y ordenó construir un monasterio sobre ellas.</p>
+    <p>En 1519, Huldrych Zwingli fue nombrado párroco. Predicó la Reforma directamente desde estos púlpitos: eliminó las imágenes religiosas, abolió el celibato (él mismo se casó en 1522) y simplificó la liturgia. Sus reformas afectaron a toda la Europa de habla alemana — Calvino lo reconoció como precursor de su propia Reforma en Ginebra.</p>
+    <p>Las vidrieras modernas de Augusto Giacometti (1932) y Sigmar Polke (2009) son una sorprendente adición contemporánea a un edificio de mil años.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.grossmuenster.ch/" target="_blank">Grossmünster (oficial)</a> · <a href="https://www.britannica.com/biography/Huldrych-Zwingli" target="_blank">Britannica: Zwingli</a>
+    </div>
+  </article>
+
+  <article class="place" id="zurich-lago">
+    <h3>Lago de Zúrich</h3>
+    <p>Lago glacial de 40 km de largo, formado al final de la última era glaciar (hace 10.000 años) cuando los glaciares alpinos retrocedieron. La parte norte, el "Untersee", es donde se asoma la ciudad; al sur se conecta con el "Obersee" más profundo (hasta 143 m).</p>
+    <p>El paseo costero de Bürkliplatz (en el extremo norte) ofrece vistas a los Alpes en días claros — el monte Glärnisch al sur (2.914 m) y, más lejos, los picos de la cordillera de Glarus. El agua del lago es la fuente de agua potable de la ciudad: se puede beber directamente.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.zuerich.com/en" target="_blank">Zürich Tourism</a>
+    </div>
+  </article>
+
+  <article class="place" id="zurich-lindt">
+    <h3>Lindt Home of Chocolate</h3>
+    <p>La firma Lindt fue fundada en 1845 por David Sprüngli-Schwarz. Pero el verdadero quiebre llegó en 1879 con <strong>Rodolphe Lindt</strong>, hijo del fundador, quien inventó por accidente el proceso de <em>conchado</em> (<em>conching</em>): dejó una máquina mezcladora funcionando todo el fin de semana por error, y el resultado fue un chocolate de textura sedosa nunca antes lograda. Esa innovación cambió el chocolate moderno para siempre.</p>
+    <p>El museo Home of Chocolate (inaugurado en 2020 en Kilchberg, a 20 minutos en S-Bahn) tiene la fuente de chocolate más alta del mundo (9 metros) y un recorrido sobre la historia mundial del cacao desde los mayas. Hay degustación incluida.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.lindt-home-of-chocolate.com/" target="_blank">Lindt Home of Chocolate (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="zurich-vaduz">
+    <h3>Vaduz (Liechtenstein) — excursión</h3>
+    <p>Vaduz es la capital del Principado de Liechtenstein, el sexto país más pequeño del mundo (160 km², 40.000 habitantes). El principado fue creado en 1719 por el emperador Carlos VI cuando la familia Liechtenstein compró las baronías de Schellenberg (1699) y Vaduz (1712) para tener un territorio propio dentro del Sacro Imperio — ya eran una de las familias más ricas de Europa Central pero no tenían tierra independiente.</p>
+    <p>El castillo de Vaduz, sobre la colina, sigue siendo residencia oficial de la familia principesca y no está abierto al público. La economía del país combina servicios financieros, manufactura de precisión y, sorprendentemente, una industria de dentaduras postizas que abastece al 20% del mundo.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://tourismus.li/en/" target="_blank">Liechtenstein Tourism (oficial)</a> · <a href="https://www.britannica.com/place/Liechtenstein" target="_blank">Britannica</a>
+    </div>
+  </article>
+</section>
+
+<!-- ============ SALZBURGO ============ -->
+<section class="city" id="salzburgo">
+  <h2>Salzburgo</h2>
+  <div class="city-overview">
+    <p>Salzburgo (literalmente "Castillo de la Sal") debe su existencia a las minas de sal de Hallein, cuya explotación se documenta desde la Edad de Hierro. En 696, el arzobispo San Ruperto fundó la Abadía de San Pedro y la diócesis. Los <strong>arzobispos-príncipes de Salzburgo</strong> gobernaron como soberanos absolutos sobre un territorio independiente desde el siglo XIII hasta 1803, financiando con el monopolio de la sal una de las cortes barrocas más espléndidas de Europa central.</p>
+    <p>Mozart nació aquí en 1756. El casco antiguo es Patrimonio UNESCO desde 1996. La película <em>The Sound of Music</em> (1965), basada en la vida real de la familia von Trapp (que escapó del nazismo en 1938), hizo que Salzburgo sea de los destinos turísticos más visitados de Austria — paradójicamente, la película es casi desconocida en Austria misma.</p>
+  </div>
+
+  <article class="place" id="salzburgo-mirabell">
+    <h3>Mirabellgarten</h3>
+    <p>Los jardines del Palacio Mirabell fueron encargados en 1606 por el arzobispo <strong>Wolf Dietrich von Raitenau</strong> para Salome Alt, su amante, con quien tuvo 15 hijos a pesar de su voto de celibato. El palacio se llamaba originalmente "Altenau" en honor a Salome. Wolf Dietrich fue eventualmente derrocado por sus enemigos y murió encarcelado en la Fortaleza Hohensalzburg en 1617.</p>
+    <p>Su sucesor, el arzobispo Markus Sittikus, renombró el palacio "Mirabell" ("bellísima" en italiano) y rediseñó los jardines en estilo barroco con las cuatro estatuas alegóricas (Tierra, Agua, Aire, Fuego) que todavía vemos. Aquí filmaron la secuencia de <em>"Do-Re-Mi"</em> en The Sound of Music.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.salzburg.info/en/sights/top10/mirabell-palace-gardens" target="_blank">Salzburg Tourism (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="salzburgo-mozart-haus">
+    <h3>Mozarts Geburtshaus</h3>
+    <p><strong>Wolfgang Amadeus Mozart</strong> nació en Getreidegasse 9 el 27 de enero de 1756, a las 8 de la noche. La familia Mozart ocupó el tercer piso de este edificio del siglo XV durante 26 años, desde 1747 hasta 1773. El padre, Leopold Mozart, era músico de la corte arzobispal; la madre, Anna Maria Pertl, dio a luz allí a siete hijos — solo dos sobrevivieron: Wolfgang y su hermana Nannerl, también virtuosa del clavicordio.</p>
+    <p>El museo conserva el violín de la infancia de Mozart, el clavicordio donde compuso, partituras originales y cartas familiares. Mozart abandonó Salzburgo definitivamente en 1781 tras un duro enfrentamiento con el arzobispo Colloredo, y se mudó a Viena donde murió a los 35 años (1791).</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://mozarteum.at/en/museums/mozarts-birthplace" target="_blank">Stiftung Mozarteum (oficial)</a> · <a href="https://www.britannica.com/biography/Wolfgang-Amadeus-Mozart" target="_blank">Britannica: Mozart</a>
+    </div>
+  </article>
+
+  <article class="place" id="salzburgo-getreidegasse">
+    <h3>Getreidegasse</h3>
+    <p>Calle medieval que era la principal arteria comercial de Salzburgo desde el siglo XII (su nombre significa "calle del cereal"). La característica más distintiva son los carteles de hierro forjado que cuelgan sobre cada negocio: en la época medieval, cuando la mayoría de la población era analfabeta, cada gremio tenía un símbolo identificable — pretzel para el panadero, llave para el cerrajero, tijera para el sastre. La ley municipal exigía mostrarlos.</p>
+    <p>Lo curioso es que la tradición se mantiene: incluso McDonald's y H&M tienen sus carteles en hierro forjado con la estética medieval para encajar con el conjunto.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.salzburg.info/en" target="_blank">Salzburg Tourism</a>
+    </div>
+  </article>
+
+  <article class="place" id="salzburgo-hohensalzburg">
+    <h3>Festung Hohensalzburg</h3>
+    <p>Una de las fortalezas medievales más grandes de Europa (250 metros de largo, 150 de ancho), construida a partir de 1077 por el arzobispo Gebhard durante la Querella de las Investiduras — la disputa entre el papado y el Sacro Imperio. Durante los siglos XV-XVII fue ampliada y fortificada hasta convertirse en inexpugnable.</p>
+    <p>Nunca fue conquistada militarmente en sus 950 años de historia, aunque sí cambió de manos por rendición negociada en 1809 (a Napoleón). Durante la Primera Guerra Mundial sirvió como prisión militar; los nazis la usaron como campo de detención.</p>
+    <p>Hoy se accede por el funicular de Festungsbahn (inaugurado en 1892, el más antiguo de Austria) o caminando. Las vistas sobre Salzburgo y los Alpes Tauern son inolvidables.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.salzburg-burgen.at/en/hohensalzburg-fortress/" target="_blank">Salzburger Burgen (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="salzburgo-monchsberg">
+    <h3>Mönchsberg</h3>
+    <p>"Monte de los Monjes" — colina de toba caliza de 508 metros que domina el casco antiguo. Su nombre viene de la Abadía de San Pedro, fundada en 696 por San Ruperto, que es <strong>la abadía católica más antigua del mundo de habla alemana en funcionamiento continuo</strong>. Los monjes benedictinos viven y rezan allí desde hace casi 1.330 años.</p>
+    <p>Sus catacumbas excavadas en la roca albergan capillas paleocristianas (siglos VIII-IX). El Friedhof St. Peter es un cementerio activo, donde están enterrados varios miembros de la familia Mozart.</p>
+    <p>Desde el mirador del Mönchsberg (al que se accede por el Mönchsbergaufzug, ascensor moderno) se obtiene la vista más completa de Salzburgo.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.stift-stpeter.at/" target="_blank">Stift St. Peter (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="salzburgo-sound-of-music">
+    <h3>Sound of Music Tour</h3>
+    <p>La película musical <em>The Sound of Music</em> (1965), dirigida por Robert Wise con Julie Andrews como María, está basada en las memorias reales de <strong>María Augusta von Trapp</strong> (1905-1987), monja postulante que se casó con el viudo capitán Georg von Trapp en 1927 y educó a sus 7 hijos como cantantes de música sacra y folclórica.</p>
+    <p>En 1938, tras el <em>Anschluss</em> (anexión nazi de Austria), la familia rechazó cantar en el cumpleaños de Hitler y emigró a Estados Unidos, donde se convirtieron en el "Trapp Family Singers". El tour recorre locaciones reales: Mirabellgarten, Schloss Hellbrunn, el monasterio de Nonnberg (donde María era postulante), el Lago Wolfgang y la villa Leopoldskron (la mansión que en la película es su casa).</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.panoramatours.com/en/salzburg/the-original-sound-of-music-tour/" target="_blank">Panorama Tours (operador histórico, oficial desde 1965)</a> · <a href="https://www.britannica.com/topic/The-Sound-of-Music-film-by-Wise" target="_blank">Britannica</a>
+    </div>
+  </article>
+</section>
+
+<!-- ============ VIENA ============ -->
+<section class="city" id="viena">
+  <h2>Viena</h2>
+  <div class="city-overview">
+    <p>Viena fue durante más de 600 años (1278-1918) la capital del Imperio Habsburgo, una de las dinastías más influyentes de la historia europea: gobernaron Austria, Hungría, Bohemia, parte de Italia, los Países Bajos españoles, y por momentos España, México y gran parte de Sudamérica. La ciudad se diseñó conscientemente como capital imperial — la Ringstrasse, anillo de avenidas monumentales construido entre 1857 y 1888 sobre las antiguas murallas, es un manifiesto urbano del poder Habsburgo.</p>
+    <p>Es la ciudad de la música clásica por excelencia: aquí vivieron y compusieron Mozart, Haydn, Beethoven, Schubert, Brahms, Mahler y la familia Strauss. También es la cuna del psicoanálisis (Freud), del Círculo de Viena en filosofía, de la Secesión vienesa en artes plásticas (Klimt, Schiele, Kokoschka) y del modernismo arquitectónico (Otto Wagner, Adolf Loos).</p>
+    <p>El ranking Mercer la nombra "ciudad con mejor calidad de vida del mundo" desde 2018.</p>
+  </div>
+
+  <article class="place" id="viena-stephansdom">
+    <h3>Stephansdom</h3>
+    <p>La catedral metropolitana de Viena fue iniciada en 1137 en estilo románico, ampliada como obra maestra del gótico tardío entre 1304 y 1511. Su torre sur (<em>Steffl</em>) mide 136,7 metros — el austro-húngaro Habsburgo prohibió por ley en 1860 construir nada más alto en Viena, regla que se mantuvo hasta el siglo XX.</p>
+    <p>El techo de 230.000 tejas cerámicas vidriadas forma dos escudos: el del águila bicéfala imperial Habsburgo (lado norte) y el de la ciudad de Viena con el águila monocéfala (lado sur). Fue gravemente dañado por el incendio durante la liberación soviética de Viena en abril de 1945 (no por bombardeos aliados, como suele decirse, sino por saqueadores que robaron contenido y prendieron fuego al techo).</p>
+    <p>En las catacumbas reposan los corazones embalsamados de 54 miembros de los Habsburgo. Mozart se casó aquí con Constanze Weber en 1782; su funeral parcial se celebró en la capilla del Crucifijo en 1791.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.stephanskirche.at/" target="_blank">Stephansdom (oficial)</a> · <a href="https://www.britannica.com/place/Vienna" target="_blank">Britannica: Vienna</a>
+    </div>
+  </article>
+
+  <article class="place" id="viena-hofburg">
+    <h3>Hofburg & Sisi Museum</h3>
+    <p>El Hofburg fue la residencia imperial de invierno de los Habsburgo durante 645 años (1273-1918). El complejo creció orgánicamente desde un castillo medieval del siglo XIII hasta el palacio actual de 2.600 habitaciones repartidas en 18 alas. Cada emperador agregó nuevas zonas: el rey Maximiliano construyó la Stallburg para sus caballos lipizzanos (que todavía vive como Escuela Española de Equitación), la emperatriz María Teresa amplió las dependencias en el siglo XVIII, Francisco José I construyó la Neue Burg a fines del XIX.</p>
+    <p>El <strong>Sisi Museum</strong> está dedicado a la emperatriz <strong>Elisabeth "Sisi" de Wittelsbach</strong> (1837-1898), esposa del emperador Francisco José I. Bávara liberal, alta (1,72 m), delgada obsesivamente (vivió a base de leche y carne cruda) y melancólica, Sisi pasó la mayor parte de su vida lejos de la corte vienesa, viajando por Europa. Fue asesinada en Ginebra el 10 de septiembre de 1898 por el anarquista italiano Luigi Lucheni, que la apuñaló con una lima. Murió sin saber que había sido herida — la herida era tan pequeña que no se desangró hasta una hora después.</p>
+    <p>Hoy el Hofburg es la oficina del presidente de Austria.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.sisimuseum-hofburg.at/en/" target="_blank">Sisi Museum (oficial)</a> · <a href="https://www.britannica.com/biography/Elizabeth-Empress-of-Austria" target="_blank">Britannica: Sisi</a>
+    </div>
+  </article>
+
+  <article class="place" id="viena-sacher">
+    <h3>Café Sacher y la Sachertorte</h3>
+    <p>En 1832, el príncipe Klemens von Metternich, canciller de Austria y arquitecto del orden post-napoleónico de Europa, encargó a su cocinero un postre nuevo para una recepción importante. El cocinero estaba enfermo y la tarea cayó en su aprendiz de 16 años, <strong>Franz Sacher</strong>. El resultado fue el bizcocho de chocolate con mermelada de damasco y baño de chocolate negro que hoy conocemos como Sachertorte.</p>
+    <p>Su hijo Eduard perfeccionó la receta mientras trabajaba en la pastelería Demel. Más tarde fundó el Hotel Sacher (1876) frente a la Ópera, donde la torta se sirve hasta hoy con su sello en marzapán "Original Sacher Torte" y un copete de crema sin azúcar (<em>Schlagobers</em>). Hubo un juicio histórico de 30 años entre Sacher y Demel por el derecho a usar el nombre — finalmente Sacher ganó en 1963.</p>
+    <p class="pull-quote">Hay que pedir un "<em>Sachertorte mit Schlagobers</em>" y un melange. Es ritual.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.sacher.com/en/" target="_blank">Hotel Sacher (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="viena-naschmarkt">
+    <h3>Naschmarkt</h3>
+    <p>El Naschmarkt funciona como mercado desde el siglo XVI. Su nombre viene del verbo "<em>naschen</em>" (picotear dulces). Originalmente vendía leche y productos lácteos (estaba al lado del río Wien, hoy entubado bajo el mercado).</p>
+    <p>A fines del siglo XIX, con la expansión otomana en retirada y la llegada de inmigrantes balcánicos, turcos y árabes, el Naschmarkt se convirtió en el primer punto de fusión gastronómica multicultural de Europa central. Hoy es la mayor concentración de bares y restaurantes étnicos de Viena: turcos, persas, vietnamitas, japoneses, italianos. Los sábados se suma el Flohmarkt (mercado de pulgas) en la zona oeste.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.wien.info/en/locations/naschmarkt" target="_blank">Wien Tourism (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="viena-belvedere">
+    <h3>Belvedere y El Beso de Klimt</h3>
+    <p>El Palacio Belvedere fue construido entre 1714 y 1723 para el <strong>príncipe Eugenio de Saboya</strong> (1663-1736), el general más brillante del ejército Habsburgo. Eugenio (nacido en Francia pero rechazado por Luis XIV por su frágil físico) se convirtió en el comandante que detuvo a los otomanos en 1697 en la batalla de Zenta y luego junto al duque de Marlborough derrotó a los franceses en Blenheim (1704). Murió soltero y sin herederos: su fortuna fue subastada y dispersada por toda Europa.</p>
+    <p>Hoy el Belvedere alberga la mayor colección de arte austríaco. La pieza más famosa es <strong>"El Beso"</strong> de Gustav Klimt (1907-1908), que muestra una pareja en abrazo dorado sobre un campo florido. Klimt pintó la obra durante su "período dorado", influenciado por los mosaicos bizantinos de Ravena que había visitado en 1903. Usó láminas de oro auténtico, técnica heredada de su padre (que era grabador en oro).</p>
+    <p>La modelo del beso podría ser Emilie Flöge, compañera sentimental de Klimt por 27 años — aunque él nunca lo confirmó.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.belvedere.at/en" target="_blank">Belvedere (oficial)</a> · <a href="https://www.britannica.com/biography/Gustav-Klimt" target="_blank">Britannica: Klimt</a>
+    </div>
+  </article>
+
+  <article class="place" id="viena-schonbrunn">
+    <h3>Schloss Schönbrunn</h3>
+    <p>Palacio imperial de verano de los Habsburgo, con 1.441 habitaciones (de las cuales solo 45 son visitables). El sitio fue residencia de caza desde el siglo XVI. El nombre "Schönbrunn" ("fuente bella") viene de un manantial descubierto en 1612 por el emperador Matías. El palacio actual fue construido entre 1696 y 1712 bajo Leopoldo I, y agrandado durante el reinado de la emperatriz <strong>María Teresa</strong> (1740-1780), quien lo convirtió en su residencia favorita.</p>
+    <p>Aquí <strong>María Antonieta</strong> (hija menor de María Teresa) vivió hasta los 14 años, cuando fue enviada a Francia para casarse con el futuro Luis XVI en 1770 — un matrimonio dinástico que selló la alianza franco-austríaca y la condujo a la guillotina 23 años después. <strong>Mozart</strong>, a los 6 años, dio su primer concierto privado para María Teresa aquí en 1762.</p>
+    <p>El parque tiene 160 hectáreas con jardines barrocos, el zoológico más antiguo del mundo (fundado en 1752, todavía activo), un laberinto y la Gloriette en lo alto de la colina con vista a todo Viena.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.schoenbrunn.at/en/" target="_blank">Schloss Schönbrunn (oficial)</a> · <a href="https://whc.unesco.org/en/list/786/" target="_blank">UNESCO</a>
+    </div>
+  </article>
+</section>
+
+<!-- ============ BRATISLAVA ============ -->
+<section class="city" id="bratislava">
+  <h2>Bratislava</h2>
+  <div class="city-overview">
+    <p>Bratislava (Pressburg en alemán, Pozsony en húngaro) es la capital de Eslovaquia y una de las capitales europeas más jóvenes — la actual República Eslovaca solo existe desde 1993, cuando Checoslovaquia se dividió en dos pacíficamente. Pero la ciudad es muy antigua: fue importante centro romano (<em>Gerulata</em>), capital del Reino de Hungría entre 1536 y 1783 (cuando los otomanos ocupaban Buda y la corte húngara huyó al norte), y aquí fueron coronados 11 reyes y 8 reinas consorte húngaras en la Catedral de San Martín — incluida María Teresa de Habsburgo en 1741.</p>
+    <p>Es la única capital del mundo que limita con dos países distintos (Austria y Hungría) y está a solo 60 km de Viena — la distancia entre dos capitales más corta del mundo.</p>
+  </div>
+
+  <article class="place" id="bratislava-hrad">
+    <h3>Hrad Bratislava (Castillo)</h3>
+    <p>El castillo blanco con sus cuatro torres en las esquinas es la imagen icónica de Bratislava. Los eslovacos lo apodan cariñosamente "la mesa volcada" (<em>obrátený stôl</em>). El sitio ha estado fortificado desde el Neolítico; los celtas, romanos y eslavos sucesivamente lo usaron como acrópolis.</p>
+    <p>El castillo medieval actual fue iniciado en el siglo IX por el Reino de Gran Moravia. Bajo los Habsburgo (siglos XVII-XVIII) fue residencia real y guardó las joyas de la corona húngara. María Teresa lo amplió en estilo barroco. En 1811 un soldado borracho prendió fuego al castillo accidentalmente; quedó en ruinas hasta su reconstrucción completa en 1953-1968, durante el régimen comunista.</p>
+    <p>Hoy alberga el Museo Nacional Eslovaco y el parlamento del país funciona al lado.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.snm.sk/" target="_blank">Museo Nacional Eslovaco (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="bratislava-stare-mesto">
+    <h3>Staré Mesto (Casco Antiguo)</h3>
+    <p>El centro histórico de Bratislava es compacto, peatonal y conservado en el estilo barroco-rococó que le dieron los arquitectos de María Teresa en el siglo XVIII. La Hlavné námestie (Plaza Principal) tiene el Antiguo Ayuntamiento con su torre de 45 metros y el museo de historia urbana.</p>
+    <p>La Catedral de San Martín (1452) fue iglesia de coronación de los reyes húngaros entre 1563 y 1830: la corona dorada de la cúspide de la torre (170 kg, dorada en oro de 24 quilates) es la réplica exacta de la Corona de San Esteban, la insignia real húngara. Una réplica más pequeña de esa corona se ve en cada esquina del casco viejo, marcando la "ruta de coronación".</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.visitbratislava.com/" target="_blank">Visit Bratislava (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="bratislava-cumil">
+    <h3>Čumil ("Man at Work")</h3>
+    <p>Estatua de bronce instalada en 1997 en la esquina de Panská y Rybárska brána. Representa a un obrero de mantenimiento sonriente que se asoma desde una alcantarilla. El escultor <strong>Viktor Hulík</strong> la concibió como sátira al estereotipo del trabajador comunista que "trabajaba poco y miraba mucho" — una crítica suave a los hábitos laborales de la era soviética que Eslovaquia acababa de dejar atrás.</p>
+    <p>La estatua tiene su propio drama: ha sido decapitada accidentalmente dos veces por camiones, y un par de veces por borrachos que se sentaron sobre ella. La pierna izquierda ha sido reparada al menos tres veces. Hoy es la atracción más fotografiada de Bratislava.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.visitbratislava.com/" target="_blank">Visit Bratislava</a>
+    </div>
+  </article>
+
+  <article class="place" id="bratislava-ufo">
+    <h3>UFO Observation Deck</h3>
+    <p>Mirador a 95 metros de altura sobre el puente Most SNP (Puente del Levantamiento Nacional Eslovaco), inaugurado en 1972 durante la era comunista. El nombre oficial fue "Nový Most" (Puente Nuevo); los locales lo apodaron desde el principio "el UFO" por su forma de disco volador encaramado sobre un pilón asimétrico.</p>
+    <p>La construcción tuvo un costo cultural inmenso: para hacer espacio al acceso del puente, los planificadores comunistas demolieron casi todo el antiguo barrio judío de Bratislava, incluida la sinagoga neológica (1893) y decenas de edificios históricos. Es considerado uno de los actos urbanísticos más destructivos del bloque soviético en los años 70.</p>
+    <p>Hoy el UFO es restaurante y observatorio. Las vistas alcanzan Austria y Hungría en días claros.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.u-f-o.sk/en/" target="_blank">UFO Observation Deck (oficial)</a>
+    </div>
+  </article>
+</section>
+
+<!-- ============ BUDAPEST ============ -->
+<section class="city" id="budapest">
+  <h2>Budapest</h2>
+  <div class="city-overview">
+    <p>Budapest existe como ciudad unificada solo desde 1873, cuando se fusionaron tres ciudades históricamente independientes: <strong>Buda</strong> (montañosa, en la orilla oeste del Danubio, antigua capital real medieval), <strong>Óbuda</strong> ("vieja Buda", asentamiento romano de Aquincum) y <strong>Pest</strong> (plana, comercial, en la orilla este). El Danubio las separa físicamente pero las une como ciudad.</p>
+    <p>Bajo el Imperio Austrohúngaro (1867-1918), Budapest vivió su edad de oro: en 50 años se construyeron el Parlamento, el Bastión de los Pescadores, la Ópera, casi todos los puentes, y se inauguró la primera línea de metro de Europa continental (1896). La población pasó de 200.000 a 1 millón.</p>
+    <p>Es la "ciudad de las termas": tiene más de 100 manantiales naturales de agua caliente, herencia del agua geotérmica que aprovecharon ya los romanos. La tradición de baños públicos viene reforzada por la ocupación otomana del siglo XVI, que dejó al menos 4 baños turcos en funcionamiento desde entonces.</p>
+  </div>
+
+  <article class="place" id="budapest-parlamento">
+    <h3>Parlamento Húngaro</h3>
+    <p>Edificio neogótico construido entre 1885 y 1904 por el arquitecto Imre Steindl como sede del nuevo parlamento húngaro tras el Compromiso Austro-Húngaro de 1867. Inspirado deliberadamente en el Palacio de Westminster, mide 268 metros de largo, 123 metros de alto en la cúpula central, tiene 691 habitaciones, 27 puertas y unas escaleras adornadas con 88 estatuas de gobernantes húngaros desde el siglo VIII.</p>
+    <p>Es el tercer parlamento más grande del mundo (tras el de Rumania y Argentina). Bajo la cúpula central se guarda la <strong>Sagrada Corona de San Esteban</strong>, el ícono nacional húngaro: forjada en oro al final del siglo XII, lleva colocada en la cabeza de 50 reyes húngaros desde Esteban I (coronado en el año 1000 como primer rey cristiano de Hungría). La cruz inclinada en la cúspide de la corona es accidental — fue doblada cuando un emperador la guardó apresuradamente en una caja.</p>
+    <p>Imre Steindl, el arquitecto, quedó ciego antes de ver terminada su obra.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://parlament.hu/en/web/parliament-tours" target="_blank">Parlamento Húngaro (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="budapest-bastion">
+    <h3>Halászbástya (Bastión de los Pescadores)</h3>
+    <p>Mirador neorrománico construido entre 1895 y 1902 por Frigyes Schulek como parte de las celebraciones del milenio de la llegada de los magiares a la cuenca de los Cárpatos (895-995). Sus <strong>siete torres puntiagudas</strong> representan a las siete tribus magiares originales que lideró el caudillo Árpád al cruzar los Cárpatos hacia el oeste en el año 895.</p>
+    <p>El nombre "Bastión de los Pescadores" tiene dos explicaciones: era el sector de muralla defendido por el gremio de pescadores en la Edad Media, y/o la zona donde estaba el mercado de pescado del Buda medieval. Junto a la fachada está la estatua ecuestre de San Esteban I, primer rey cristiano de Hungría.</p>
+    <p>La vista nocturna del Parlamento iluminado al otro lado del Danubio es probablemente la postal urbana más fotografiada de Europa Central.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.fishermansbastion.com/" target="_blank">Halászbástya (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="budapest-szimpla">
+    <h3>Szimpla Kert (Ruin Bar)</h3>
+    <p>Considerado el primer "ruin bar" (<em>romkocsma</em>) del mundo, abierto en 2002 en una fábrica abandonada en el corazón del antiguo barrio judío (Distrito VII). Los fundadores no tenían dinero para renovar el edificio, así que lo dejaron tal como estaba — paredes descascaradas, muebles rescatados, bicicletas colgadas del techo — y se volvió la estética definitoria.</p>
+    <p>El movimiento de los ruin bars solo fue posible por una razón histórica trágica: el Distrito VII era el gueto judío durante la ocupación nazi de 1944 (cuando los húngaros fascistas Cruz Flechada deportaron a Auschwitz a 437.000 judíos en dos meses). Tras la guerra, gran parte de los edificios quedaron abandonados durante el régimen comunista. Los jóvenes los ocuparon en los 90.</p>
+    <p>Hoy hay más de 30 ruin bars en el barrio. Szimpla sigue siendo el referente.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://szimpla.hu/en/" target="_blank">Szimpla (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="budapest-szechenyi">
+    <h3>Termas Széchenyi</h3>
+    <p>El balneario neobarroco más grande de Europa, inaugurado en 1913 en el parque Városliget. El agua brota a 76°C de dos pozos geotérmicos a 1.250 y 970 metros de profundidad. Contiene minerales (sulfato de calcio-magnesio, bicarbonato, fluoruro y ácido metabórico) que se recetan medicalmente para problemas reumáticos.</p>
+    <p>El balneario tiene 18 piscinas (3 al aire libre, 15 cubiertas) y 10 saunas. La estampa más icónica de Budapest es la pileta exterior con jugadores de ajedrez sumergidos hasta el pecho — costumbre local incluso en invierno con nieve cayendo sobre el agua humeante.</p>
+    <p>El nombre Széchenyi honra al conde <strong>István Széchenyi</strong> (1791-1860), aristócrata húngaro que se conoce como "el más grande de los húngaros" por su rol como reformador modernizador del siglo XIX.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.szechenyibath.com/" target="_blank">Széchenyi Bath (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="budapest-mercado-central">
+    <h3>Mercado Central (Nagy Vásárcsarnok)</h3>
+    <p>Inaugurado en 1897, es el mercado techado más grande y antiguo de Budapest. Diseñado por Samu Pecz en estilo neogótico con cerámica Zsolnay (la firma húngara famosa por sus tejas con esmalte iridiscente, también usadas en el Parlamento y en San Esteban). Parte de la estructura interna en hierro fue diseñada por la firma de <strong>Gustave Eiffel</strong>.</p>
+    <p>Sobrevivió a la Primera Guerra Mundial, a la Segunda Guerra Mundial (con daños menores) y a 40 años de comunismo. Hoy tiene tres niveles: planta baja con productos frescos, primer piso con comida preparada y artesanías (es donde se come <em>lángos</em> — pan frito con crema agria, queso rallado y ajo, comida callejera nacional), y planta baja con supermercado y carnicerías.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://nagycsarnok.hu/" target="_blank">Mercado Central (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="budapest-crucero">
+    <h3>Crucero por el Danubio</h3>
+    <p>El Danubio es el segundo río más largo de Europa (2.850 km, después del Volga), naciendo en la Selva Negra alemana y desembocando en el Mar Negro en Rumania. Cruza 10 países y atraviesa 4 capitales europeas — Viena, Bratislava, Budapest y Belgrado — siendo la principal arteria fluvial de Europa Central.</p>
+    <p>El tramo en Budapest entre el Puente de las Cadenas (Lánchíd, 1849, primer puente permanente entre Buda y Pest, financiado por István Széchenyi) y el Puente Margarita (Margit híd, 1876) es Patrimonio UNESCO desde 1987 — incluye las orillas, el Castillo de Buda y la Calle Andrássy.</p>
+    <p>El paseo nocturno permite ver el Parlamento iluminado desde el agua: una vista que solo está disponible desde el río.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://whc.unesco.org/en/list/400/" target="_blank">UNESCO World Heritage</a>
+    </div>
+  </article>
+</section>
+
+<!-- ============ PRAGA ============ -->
+<section class="city" id="praga">
+  <h2>Praga</h2>
+  <div class="city-overview">
+    <p>Praga es conocida como "la ciudad de las cien torres" (en realidad tiene más de 500) y como "la Madre de las ciudades", título medieval que reconocía su importancia. Fue capital del Sacro Imperio Romano Germánico bajo <strong>Carlos IV de Luxemburgo</strong> (1346-1378), quien la transformó en una de las grandes capitales de la Europa medieval: fundó la Universidad de Praga (1348, la más antigua de Europa Central), construyó la Ciudad Nueva (Nové Město) y encargó el Puente de Carlos y la Catedral de San Vito.</p>
+    <p>Es Patrimonio UNESCO desde 1992. Sobrevivió casi intacta a las dos guerras mundiales — Hitler ordenó deliberadamente no bombardearla porque planeaba convertirla en una de las "ciudades modelo" del Reich tras la victoria. Esa siniestra preservación nos permite ver hoy un casco antiguo medieval-barroco prácticamente íntegro.</p>
+    <p>Los checos consumen más cerveza per cápita que cualquier otro país del mundo (188 litros/persona/año). La cerveza checa, especialmente la Pilsner originaria de Plzeň, se considera entre las mejores del planeta.</p>
+  </div>
+
+  <article class="place" id="praga-reloj-astronomico">
+    <h3>Reloj Astronómico (Staroměstský orloj)</h3>
+    <p>Instalado en 1410 en el Antiguo Ayuntamiento de Praga, es el reloj astronómico medieval más antiguo del mundo todavía en funcionamiento. Su mecanismo original ha sido restaurado varias veces pero conserva el corazón del diseño de Mikuláš de Kadaň y el astrónomo Jan Šindel.</p>
+    <p>El reloj marca cuatro tiempos simultáneamente: hora local de Praga, hora del Antiguo Sistema Bohemio (donde el día empezaba al atardecer), hora babilónica desde el amanecer, y el tiempo sideral (estrellas). Las dos esferas también muestran las fases de la luna, el zodiaco, y la posición exacta del sol en el cielo.</p>
+    <p>Cada hora en punto se activa la "Marcha de los Apóstoles": en dos ventanas superiores desfilan los 12 apóstoles, mientras la figura de la Muerte (un esqueleto con campanita) hace sonar el carillón y un gallo de oro canta al final.</p>
+    <p>La leyenda dice que las autoridades del siglo XV cegaron al maestro relojero Hanuš para que no pudiera construir un reloj similar para otra ciudad — leyenda que probablemente sea falsa, pero alimentó el mito gótico del reloj durante 500 años.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.prague.eu/en/object/places/188/the-astronomical-clock" target="_blank">Prague City Tourism (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="praga-josefov">
+    <h3>Josefov (Barrio Judío)</h3>
+    <p>Josefov es el antiguo barrio judío de Praga, uno de los asentamientos judíos más antiguos de Europa Central (documentado desde el siglo X). Fue gueto cerrado entre 1215 y 1850; los judíos de Bohemia vivieron aquí bajo restricciones durante 650 años hasta la emancipación de 1849 promulgada por el emperador José II (de quien toma el nombre el barrio).</p>
+    <p>Durante la Segunda Guerra Mundial, Adolf Eichmann y Reinhard Heydrich planeaban convertir Josefov en el "Museo Central de la Raza Judía Extinta" tras el Holocausto — un macabro proyecto que terminó preservando paradójicamente la mayor colección de objetos rituales judíos de Europa, porque los nazis trajeron las pertenencias de comunidades judías exterminadas en toda Bohemia y Moravia.</p>
+    <p>La <strong>Sinagoga Vieja-Nueva</strong> (Staronová synagoga) de 1270 es la sinagoga activa más antigua de Europa. Según la leyenda, en su ático reposa el <em>Golem</em> de Praga, hombre de barro creado por el rabino Loew en el siglo XVI para proteger al gueto. El cementerio judío antiguo contiene más de 12.000 lápidas apiladas en hasta 12 capas, porque los judíos no podían enterrar fuera del gueto.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.jewishmuseum.cz/en/" target="_blank">Museo Judío de Praga (oficial)</a> · <a href="https://www.britannica.com/biography/Judah-Loew-ben-Bezalel" target="_blank">Britannica: Rabino Loew</a>
+    </div>
+  </article>
+
+  <article class="place" id="praga-puente-carlos">
+    <h3>Karlův most (Puente de Carlos)</h3>
+    <p>Encargado por el emperador <strong>Carlos IV</strong> en 1357 sobre el río Moldava (Vltava), reemplazó al anterior puente Judit destruido por una inundación. La primera piedra se colocó a una fecha y hora calculadas por los astrólogos de la corte: <strong>9 de julio de 1357 a las 5:31 de la mañana</strong> — un palíndromo numérico (135797531) considerado mágicamente protector. El puente sigue en pie 668 años después.</p>
+    <p>Mide 516 metros, tiene 16 arcos y está adornado con 30 estatuas barrocas (originalmente solo el Crucifijo gótico; las demás se agregaron entre 1683 y 1714). Hasta 1841 fue el único puente sobre el Moldava en Praga.</p>
+    <p>La estatua más famosa es la de <strong>San Juan Nepomuceno</strong>, ahogado en este puente en 1393 por orden del rey Wenceslao IV por negarse a revelar el secreto de confesión de la reina. La leyenda dice que cinco estrellas aparecieron flotando sobre el agua donde se hundió su cuerpo — todavía rodean su halo en las estatuas. Tocar la placa metálica al pie de la estatua trae buena suerte y la promesa de volver a Praga.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.prague.eu/en/object/places/93/charles-bridge-karluv-most" target="_blank">Prague City Tourism</a> · <a href="https://www.britannica.com/biography/Charles-IV-Holy-Roman-emperor" target="_blank">Britannica: Carlos IV</a>
+    </div>
+  </article>
+
+  <article class="place" id="praga-castillo">
+    <h3>Pražský hrad (Castillo de Praga)</h3>
+    <p>Según el Libro Guinness de los Récords, es el complejo de castillos más grande del mundo: 70.000 m² (casi 7 hectáreas). Su fundación se atribuye al príncipe Bořivoj I de Bohemia hacia el año 880. Por más de mil años ha sido sede del poder político checo: residencia de los duques bohemios (siglo IX), reyes de Bohemia (siglo XI), emperadores del Sacro Imperio bajo Carlos IV (siglo XIV) y Rodolfo II (siglo XVI), presidentes checoslovacos desde 1918, y presidentes checos desde 1993.</p>
+    <p>La pieza central es la <strong>Catedral de San Vito</strong>, iniciada en 1344 por Carlos IV y completada recién en 1929 — 585 años de construcción. Es la catedral coronaria de Bohemia (coronaciones reales hasta 1836), guarda las joyas de la corona checa (solo se exhiben cada 8-10 años) y contiene la capilla de San Wenceslao decorada con 1.345 piedras semipreciosas.</p>
+    <p>La calle de las casas pequeñas (Zlatá ulička, "Callejón de Oro") debe su nombre a los alquimistas que vivieron allí bajo Rodolfo II buscando la piedra filosofal. <strong>Franz Kafka</strong> vivió en la casa nº 22 entre 1916 y 1917, donde escribió varios de sus relatos.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.hrad.cz/en" target="_blank">Castillo de Praga (oficial)</a> · <a href="https://www.britannica.com/topic/Prague-Castle" target="_blank">Britannica</a>
+    </div>
+  </article>
+
+  <article class="place" id="praga-casa-danzante">
+    <h3>Tančící dům (Casa Danzante)</h3>
+    <p>Edificio de oficinas inaugurado en 1996, diseñado por el canadiense <strong>Frank Gehry</strong> en colaboración con el arquitecto croata-checo Vlado Milunić. El proyecto se levantó en un solar bombardeado durante la liberación de Praga de 1945 (uno de los pocos sitios bombardeados de la ciudad) y vacío durante 50 años bajo el comunismo.</p>
+    <p>Las dos torres están deliberadamente diseñadas como dos figuras bailando juntas — popularmente se las llama "Fred y Ginger" por los bailarines Fred Astaire y Ginger Rogers. La torre "femenina" (de vidrio, con cintura "ahogada") se inclina contra la torre "masculina" (de hormigón, más rígida).</p>
+    <p>Es deconstructivismo en su forma más juguetona. Tiene un restaurante panorámico en lo más alto y un hotel.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://tadu.cz/en/" target="_blank">Dancing House (oficial)</a> · <a href="https://www.britannica.com/biography/Frank-Gehry" target="_blank">Britannica: Frank Gehry</a>
+    </div>
+  </article>
+
+  <article class="place" id="praga-u-fleku">
+    <h3>U Fleků</h3>
+    <p>Cervecería en funcionamiento continuo desde <strong>1499</strong> — anterior al descubrimiento de América por solo siete años. Es la cervecería más antigua de Praga y una de las más antiguas del mundo. Produce su propia cerveza negra exclusiva, la "Flekovský tmavý ležák 13°" (lager oscura de 13° grados Plato), receta que solo se vende dentro del propio establecimiento — no se exporta ni se vende en supermercados.</p>
+    <p>El local conserva ambiente medieval con vigas de madera, jarras de barro y mesas comunales. Una tradición particular: los meseros pasan constantemente ofreciendo más cerveza, y solo dejan de servir cuando el cliente apoya el posavasos sobre la jarra vacía. Otra: ofrecen <em>becherovka</em> (licor herbal checo) en chupitos como digestivo.</p>
+    <p>Han pasado por aquí Mozart, Bismarck, Kafka y el presidente checo Václav Havel.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://en.ufleku.cz/" target="_blank">U Fleků (oficial)</a>
+    </div>
+  </article>
+</section>
+
+<!-- ============ ÁMSTERDAM ============ -->
+<section class="city" id="amsterdam">
+  <h2>Ámsterdam</h2>
+  <div class="city-overview">
+    <p>Ámsterdam empezó en el siglo XII como una aldea de pescadores junto al río Amstel, en un terreno tan pantanoso que cada edificio se construye sobre estacas de madera clavadas hasta la capa firme de arena (típicamente 12-20 metros bajo tierra; el Palacio Real, sobre 13.659 estacas). El nombre viene de "Aemstelledamme" — el dique sobre el Amstel.</p>
+    <p>El <strong>Siglo de Oro</strong> holandés (siglo XVII) la convirtió en epicentro del comercio mundial. La Compañía Holandesa de las Indias Orientales (VOC), fundada en 1602 en Ámsterdam, fue la primera multinacional moderna y la primera empresa en cotizar acciones públicamente — fundando la Bolsa de Valores de Ámsterdam, la más antigua del mundo. El capital generado financió la construcción del anillo de canales que hoy define la ciudad.</p>
+    <p>El centro tiene 165 canales, más de 1.500 puentes (más que Venecia), 90 islas y aproximadamente 2.500 casas-barco. El anillo de canales es Patrimonio UNESCO desde 2010.</p>
+    <p>Curiosidad: hay más bicicletas que habitantes (881.000 habitantes vs ~1.000.000 de bicicletas). Cada año se sacan 12.000-15.000 bicicletas robadas o abandonadas del fondo de los canales.</p>
+  </div>
+
+  <article class="place" id="amsterdam-jordaan">
+    <h3>Jordaan</h3>
+    <p>Antiguo barrio obrero del siglo XVII, construido como expansión rápida para alojar a los inmigrantes hugonotes franceses (calvinistas perseguidos en Francia tras la revocación del Edicto de Nantes en 1685). El nombre viene probablemente del francés <em>jardin</em> (jardín), porque las calles llevan nombres de flores y plantas: Bloemgracht (canal de las flores), Lindengracht (canal de los tilos), Rozengracht (canal de las rosas).</p>
+    <p>Durante la Segunda Guerra Mundial fue uno de los focos de la resistencia holandesa: aquí se escondieron miles de judíos y disidentes en sótanos y áticos (incluida Anne Frank, a metros del Jordaan).</p>
+    <p>Los <strong>Negen Straatjes</strong> ("Nueve Callecitas") son nueve calles peatonales transversales entre los tres canales principales (Herengracht, Keizersgracht y Prinsengracht), conocidas como una de las mejores zonas de compras boutique de Europa, con tiendas independientes desde el siglo XVII.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.iamsterdam.com/en/see-and-do/neighbourhoods/jordaan" target="_blank">I Amsterdam (oficial)</a>
+    </div>
+  </article>
+
+  <article class="place" id="amsterdam-anne-frank">
+    <h3>Anne Frank Huis</h3>
+    <p>Casa-museo en el número 263 de Prinsengracht, donde la familia Frank, judíos alemanes refugiados en Holanda en 1933, se escondió de los nazis desde el <strong>6 de julio de 1942</strong>. La parte trasera del edificio (Achterhuis, "anexo trasero") se convirtió en escondite oculto detrás de una librería giratoria. Allí vivieron escondidos durante 25 meses ocho personas: Otto Frank, su esposa Edith, sus hijas Margot (16) y Anne (13), la familia Van Pels (Hermann, Auguste y Peter) y el dentista Fritz Pfeffer.</p>
+    <p><strong>Anne Frank</strong> empezó a escribir su diario el 12 de junio de 1942, dos días antes de cumplir 13 años. Lo continuó durante los 25 meses de escondite. Su última entrada es del 1 de agosto de 1944. Tres días después, el 4 de agosto, fueron descubiertos y arrestados — todavía no se sabe quién los delató.</p>
+    <p>Anne fue deportada a Auschwitz y luego a Bergen-Belsen, donde murió de tifus en febrero o marzo de 1945, a los 15 años, semanas antes de la liberación del campo. Otto Frank, el único superviviente, regresó a Ámsterdam y publicó el diario en 1947. Se ha traducido a más de 70 idiomas.</p>
+    <p>La visita actual conserva el anexo tal como estaba en 1944: las habitaciones vacías (Otto Frank pidió no amueblarlas como recordatorio del vacío del Holocausto), las marcas de altura de Anne y Margot en la pared, las fotos de cine que Anne pegó en su pared para "alegrar" su cuarto.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.annefrank.org/en/" target="_blank">Anne Frank House (oficial)</a> · <a href="https://www.ushmm.org/" target="_blank">U.S. Holocaust Memorial Museum</a>
+    </div>
+  </article>
+
+  <article class="place" id="amsterdam-canales">
+    <h3>Canales del Siglo de Oro</h3>
+    <p>El "Grachtengordel" (anillo de canales) es la obra urbana más ambiciosa del siglo XVII europeo. Diseñado entre 1612 y 1665 como una expansión planificada que cuadruplicó la superficie de Ámsterdam, consta de cuatro canales concéntricos: Singel, Herengracht, Keizersgracht y Prinsengracht. El proyecto fue radical: por primera vez una ciudad se diseñaba de forma totalmente racional, con calles y canales paralelos, lotes de tamaño uniforme y normas estrictas de altura.</p>
+    <p>La idea era a la vez defensiva (los canales como foso), comercial (cada casa tenía su propio muelle) y simbólica (mostrar la riqueza de Ámsterdam al mundo). Los hugonotes franceses, los judíos sefardíes, los inmigrantes alemanes y portugueses se asentaron aquí. La altura uniforme y los tejados escalonados crean la "skyline" característica.</p>
+    <p>El anillo de canales es Patrimonio UNESCO desde 2010 — fue una de las inscripciones más rápidas del siglo XXI, aprobada en su primer intento.</p>
+    <p>Un paseo en barco por los canales (clásico de Ámsterdam, hay tours de día y nocturnos con iluminación) revela detalles imposibles de ver caminando: las "casas inclinadas" (diseñadas con un ligero ángulo para no romper paredes al subir muebles con poleas), las puertas más estrechas de Europa, las casas-barco habitadas.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://whc.unesco.org/en/list/1349/" target="_blank">UNESCO World Heritage</a> · <a href="https://www.iamsterdam.com/en/see-and-do/canals" target="_blank">I Amsterdam</a>
+    </div>
+  </article>
+
+  <article class="place" id="amsterdam-rijksmuseum">
+    <h3>Rijksmuseum</h3>
+    <p>El Museo Nacional de los Países Bajos, fundado en 1800 por orden del rey Luis Bonaparte (hermano de Napoleón, instalado como rey de Holanda) y expandido al edificio actual en 1885 por Pierre Cuypers. Contiene 8.000 obras expuestas y 1 millón en reserva.</p>
+    <p>La pieza más famosa es <strong>"La Ronda de Noche"</strong> (1642) de Rembrandt — una pintura grupal de 4 metros de ancho que muestra la compañía cívica de Frans Banninck Cocq saliendo a patrullar. Rembrandt rompió todas las convenciones del género del retrato grupal: en lugar de poses estáticas como una foto escolar, mostró movimiento, luz dramática y personajes individualizados. Los miembros de la guardia se quejaron porque algunos aparecían en sombra.</p>
+    <p>Otros tesoros: <em>La Lechera</em> de Vermeer (c. 1660), <em>Los síndicos de los pañeros</em> de Rembrandt, los retratos íntimos de Frans Hals, y la única pintura completa que se conserva de un autorretrato del joven Vincent van Gogh en su periodo holandés.</p>
+    <p>El museo se cerró diez años (2003-2013) para una restauración integral que costó 375 millones de euros. Hoy es referencia mundial en museografía.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.rijksmuseum.nl/en" target="_blank">Rijksmuseum (oficial)</a> · <a href="https://www.britannica.com/biography/Rembrandt-van-Rijn" target="_blank">Britannica: Rembrandt</a>
+    </div>
+  </article>
+
+  <article class="place" id="amsterdam-van-gogh">
+    <h3>Van Gogh Museum</h3>
+    <p>Inaugurado en 1973, contiene la mayor colección del mundo de <strong>Vincent van Gogh</strong> (1853-1890): unas 200 pinturas, 500 dibujos y 750 cartas escritas — esencialmente todo su archivo personal.</p>
+    <p>La colección llegó al museo por una historia singular: cuando Van Gogh murió en 1890 a los 37 años (de heridas autoinflingidas con un arma de fuego), había vendido apenas un cuadro en toda su vida (<em>El viñedo rojo</em>). Su hermano <strong>Theo van Gogh</strong>, marchante de arte que lo había mantenido económicamente durante años, heredó toda su obra pero murió seis meses después de Vincent, también con problemas mentales. La colección pasó a su viuda Johanna Bonger, quien dedicó el resto de su vida a promover la obra de su cuñado: organizó exhibiciones, tradujo y publicó la correspondencia, contactó a coleccionistas. Sin ella, Van Gogh sería desconocido.</p>
+    <p>Las obras imprescindibles: <em>Los girasoles</em> (1888), <em>El dormitorio en Arlés</em> (1888), <em>Los comedores de patatas</em> (1885), múltiples autorretratos del período parisino, y <em>Trigal con cuervos</em> (1890), pintada pocas semanas antes de su muerte.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.vangoghmuseum.nl/en" target="_blank">Van Gogh Museum (oficial)</a> · <a href="https://www.britannica.com/biography/Vincent-van-Gogh" target="_blank">Britannica</a>
+    </div>
+  </article>
+
+  <article class="place" id="amsterdam-vondelpark">
+    <h3>Vondelpark</h3>
+    <p>El parque urbano más visitado de los Países Bajos: 10 millones de visitas al año en 47 hectáreas. Inaugurado en 1865 como "Nieuwe Park" ("Parque Nuevo"), fue financiado por suscripción privada de la clase burguesa amsterdamesa que quería un "Hyde Park" propio. En 1867, una escultura del poeta neerlandés <strong>Joost van den Vondel</strong> (1587-1679, llamado "el Shakespeare neerlandés") se instaló en el parque, y el nombre se popularizó hasta volverse oficial.</p>
+    <p>El parque tiene seis lagos artificiales conectados, un anfiteatro (donde se dan conciertos gratuitos en verano), un pabellón modernista de 1881 que ahora es museo del cine (Eye Filmmuseum), y un puente para bicicletas que es la principal arteria de movilidad ciclista del oeste de Ámsterdam.</p>
+    <p>Es legalmente uno de los pocos lugares de Holanda donde se permite tomar el sol sin ropa.</p>
+    <div class="sources">
+      <strong>Fuentes</strong>
+      <a href="https://www.iamsterdam.com/en/see-and-do/things-to-do/parks-outdoors/vondelpark" target="_blank">I Amsterdam (oficial)</a>
+    </div>
+  </article>
+</section>
+
+<footer class="about">
+  <p><strong>Sobre este documento</strong></p>
+  <p>Resúmenes históricos compilados a partir de fuentes establecidas: el Centro de Patrimonio Mundial de la UNESCO, la Encyclopaedia Britannica, sitios oficiales de tourism boards europeas y de los museos y monumentos referidos en cada parada. Cada artículo cita sus fuentes específicas al pie.</p>
+  <p>Deliberadamente no se usa Wikipedia como fuente. Cualquier corrección o ampliación es bienvenida — escribirla en el documento original y el itinerario.</p>
+  <p style="margin-top: 10px; color: var(--ink-3);">Curado por viaje · Mayo 2026</p>
+</footer>
+
+</body>
+</html>
