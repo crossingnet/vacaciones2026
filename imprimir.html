@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Viaje Europa 2026 · Versión imprimible</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fff; color: #000; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.45;
+    padding: 20px 18px;
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 13px;
+  }
+  h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
+  h2 { font-size: 19px; font-weight: 700; margin-top: 22px; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 2px solid #1a3a6e; color: #1a3a6e; }
+  h3 { font-size: 16px; font-weight: 700; margin-top: 14px; margin-bottom: 6px; color: #1a1a1c; }
+  h4 { font-size: 13.5px; font-weight: 700; margin-top: 10px; margin-bottom: 4px; }
+  p { margin-bottom: 6px; }
+  ul { margin-left: 18px; margin-bottom: 6px; }
+  li { margin-bottom: 3px; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 12px; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #f0f0f0; font-weight: 700; }
+
+  .header {
+    text-align: center;
+    border-bottom: 3px solid #1a3a6e;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+  }
+  .subtitle { font-size: 13px; color: #555; margin-top: 4px; }
+
+  .quick-ref {
+    background: #f7f7fb;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 12px 0 20px;
+  }
+  .quick-ref h2 {
+    border-bottom: none;
+    color: #1a3a6e;
+    margin-top: 0;
+  }
+  .quick-ref-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .qr-card { padding: 6px 8px; background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; }
+  .qr-card strong { font-size: 11px; text-transform: uppercase; color: #666; letter-spacing: 0.5px; }
+
+  .flight {
+    background: #1a3a6e;
+    color: #fff;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 10px 0;
+  }
+  .flight .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; opacity: 0.85; }
+  .flight .codes { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+  .flight .codes .iata { font-size: 22px; font-weight: 800; }
+  .flight .codes .arrow { opacity: 0.7; }
+  .flight .details { font-size: 11.5px; margin-top: 4px; opacity: 0.95; }
+
+  .day {
+    margin-top: 22px;
+    padding: 10px 14px;
+    background: #f7f7fb;
+    border-left: 4px solid #1a3a6e;
+    border-radius: 0 4px 4px 0;
+    page-break-inside: avoid;
+  }
+  .day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .day-city {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a3a6e;
+  }
+  .day-dates {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .badge {
+    display: inline-block;
+    background: #e8f1ff;
+    color: #1a3a6e;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-right: 4px;
+  }
+  .info-row {
+    margin: 8px 0;
+    font-size: 12px;
+  }
+  .info-row strong { display: block; font-size: 10px; text-transform: uppercase; color: #555; letter-spacing: 0.4px; margin-bottom: 2px; }
+
+  .transit-mini {
+    background: #fff7e6;
+    border: 1px solid #f0d499;
+    padding: 6px 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 11.5px;
+  }
+  .transit-mini strong { color: #8a4d00; }
+
+  .activity-list { margin-top: 8px; }
+  .activity-list li {
+    margin-bottom: 4px;
+    font-size: 12px;
+    list-style: none;
+    padding-left: 18px;
+    position: relative;
+  }
+  .activity-list li::before {
+    content: counter(item);
+    counter-increment: item;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #1a3a6e;
+    color: #fff;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .activity-list { counter-reset: item; }
+  .activity-list .star { color: #c89200; font-weight: 700; }
+
+  footer.bottom {
+    margin-top: 30px;
+    padding: 14px 16px;
+    background: #f0f0f0;
+    border-radius: 6px;
+    font-size: 11px;
+    color: #555;
+  }
+
+  .toc {
+    background: #f7f7fb;
+    border: 1px solid #ccc;
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin: 10px 0 20px;
+  }
+  .toc ul { columns: 2; column-gap: 16px; margin-left: 16px; }
+  .toc li { font-size: 12px; }
+  .toc a { color: #1a3a6e; text-decoration: none; }
+
+  .no-print { /* hidden in print */ }
+
+  @media print {
+    body { padding: 12px; font-size: 11pt; max-width: 100%; }
+    .no-print { display: none; }
+    .day, .flight, .quick-ref { page-break-inside: avoid; }
+    h2 { page-break-after: avoid; }
+    a { color: #1a3a6e; text-decoration: none; }
+    @page { size: A4; margin: 1.2cm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Mi Viaje · Europa 2026</h1>
+  <div class="subtitle">9 Junio → 30 Junio · 21 días · 11 ciudades · 8 países</div>
+  <div class="no-print" style="margin-top: 10px; font-size: 12px;">
+    <button onclick="window.print()" style="background:#1a3a6e;color:#fff;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-weight:600;">🖨️ Imprimir / Guardar PDF</button>
+    <a href="index.html" style="margin-left:10px;color:#1a3a6e;text-decoration:none;">← Volver a la app</a>
+  </div>
+</div>
+
+<!-- =================== TARJETA DE REFERENCIA RÁPIDA =================== -->
+<div class="quick-ref">
+  <h2>📋 Referencia rápida</h2>
+
+  <h4 style="margin-top: 10px;">✈️ Vuelos KLM (Reserva: X6G5YP)</h4>
+  <ul style="font-size: 12px;">
+    <li><strong>KL702</strong> EZE→AMS · Mar 9 Jun 15:05 → Mié 10 Jun 09:10</li>
+    <li><strong>KL1356</strong> PRG→AMS · Sáb 27 Jun 14:30 → 16:00 (Embraer 195 E2)</li>
+    <li><strong>KL701</strong> AMS→EZE · Lun 29 Jun 21:10 → Mar 30 Jun 05:50 (Terminal 1A, Boeing 777-200)</li>
+  </ul>
+
+  <h4>🏨 Hoteles (números de reserva Booking)</h4>
+  <table>
+    <tr><th>Ciudad</th><th>Hotel</th><th>Reserva</th><th>PIN</th></tr>
+    <tr><td>Luxemburgo</td><td>Modern Studio Near Gare</td><td>6773096856</td><td>8130</td></tr>
+    <tr><td>Metz</td><td>Hôtel Escurial - Centre Gare</td><td>5045617669</td><td>4313</td></tr>
+    <tr><td>Estrasburgo</td><td>Citadines Kléber</td><td>5321045626</td><td>0809</td></tr>
+    <tr><td>Berna</td><td>NH Bern The Bristol</td><td>5986065525</td><td>6217</td></tr>
+    <tr><td>Zúrich</td><td>easyHotel City Main Station</td><td>6137402424</td><td>7861</td></tr>
+    <tr><td>Salzburgo</td><td>Cocoon Salzburg</td><td>8278380014599652774</td><td>950832</td></tr>
+    <tr><td>Viena</td><td>FortyPlusOne Hotel Vienna</td><td>5986000607</td><td>2906</td></tr>
+    <tr><td>Bratislava</td><td>Park Inn Radisson Danube</td><td>5881072658</td><td>6804</td></tr>
+    <tr><td>Budapest</td><td>Danubius Hotel Astoria</td><td>6840927106</td><td>—</td></tr>
+    <tr><td>Praga</td><td>Perla Hotel</td><td>5740113078</td><td>3461</td></tr>
+    <tr><td>Ámsterdam</td><td>Singel Hotel Amsterdam</td><td>6044568455</td><td>—</td></tr>
+  </table>
+
+  <h4>📞 Teléfonos clave de hoteles</h4>
+  <ul style="font-size: 11.5px; columns: 2; column-gap: 16px; margin-left: 16px;">
+    <li>Luxemburgo: +33 7 55 54 60 13</li>
+    <li>Metz: +33 387697334</li>
+    <li>Estrasburgo: +33 3 90 22 47 00</li>
+    <li>Berna: +41 313102266</li>
+    <li>Zúrich: +41 43 322 05 51</li>
+    <li>Salzburgo: +43 664 88168519</li>
+    <li>Viena: +43 6764141066</li>
+    <li>Bratislava: +421 2/593 400 00</li>
+    <li>Budapest: (consultar email)</li>
+    <li>Praga: +420 227022077</li>
+    <li>Ámsterdam: (consultar email)</li>
+  </ul>
+</div>
+
+<!-- =================== ÍNDICE =================== -->
+<div class="toc">
+  <strong>📖 Índice del itinerario</strong>
+  <ul>
+    <li><a href="#vuelo-ida">✈️ Vuelo de ida (9-10 Jun)</a></li>
+    <li><a href="#dia-luxemburgo">📍 Luxemburgo (10-11)</a></li>
+    <li><a href="#dia-metz">📍 Metz (11-12)</a></li>
+    <li><a href="#dia-estrasburgo">📍 Estrasburgo (12-14)</a></li>
+    <li><a href="#dia-berna">📍 Berna (14-15)</a></li>
+    <li><a href="#dia-zurich">📍 Zúrich (15-17)</a></li>
+    <li><a href="#dia-salzburgo">📍 Salzburgo (17-19)</a></li>
+    <li><a href="#dia-viena">📍 Viena (19-21)</a></li>
+    <li><a href="#dia-bratislava">📍 Bratislava (21-22)</a></li>
+    <li><a href="#dia-budapest">📍 Budapest (22-24)</a></li>
+    <li><a href="#dia-praga">📍 Praga (24-27)</a></li>
+    <li><a href="#vuelo-praga">✈️ Vuelo PRG-AMS (27)</a></li>
+    <li><a href="#dia-amsterdam">📍 Ámsterdam (27-29)</a></li>
+    <li><a href="#vuelo-vuelta">✈️ Vuelo de vuelta (29-30)</a></li>
+  </ul>
+</div>
+
+<!-- =================== VUELO IDA =================== -->
+<h2 id="vuelo-ida">✈️ Vuelo de ida — Mar 9 Jun</h2>
+<div class="flight">
+  <span class="label">KLM · KL702 · Reserva X6G5YP</span>
+  <div class="codes">
+    <div><span class="iata">EZE</span><br><small>Buenos Aires<br>Mar 9 Jun · 15:05</small></div>
+    <div class="arrow">→ 13h 05min →</div>
+    <div style="text-align:right;"><span class="iata">AMS</span><br><small>Ámsterdam Schiphol<br>Mié 10 Jun · 09:10</small></div>
+  </div>
+</div>
+
+<!-- =================== LUXEMBURGO =================== -->
+<div class="day" id="dia-luxemburgo">
+  <div class="day-header"><span class="day-city">🇱🇺 Luxemburgo</span><span class="day-dates">Mié 10 → Jue 11 · 1 noche</span></div>
+
+  <div class="transit-mini">
+    <strong>🚆 Llegada:</strong> Tren Eurocity Direct 9532 desde Schiphol Airport <strong>11:12 → Bruselas-Midi 13:11</strong> (transbordo 21 min) → Intercity 2113 <strong>13:32 → Luxemburgo 16:49</strong>. Bookeado en Omio.
+  </div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>Modern Studio Near Gare & City Center, Wi-Fi<br>Rue de Vianden 45, Hollerich, 2680 Luxembourg<br>📞 +33 7 55 54 60 13 · Reserva 6773096856 · PIN 8130</div>
+
+  <div class="info-row"><strong>📍 Estación de tren</strong>Gare de Luxembourg (al lado del hotel)</div>
+
+  <div class="info-row"><strong>⭐ Recorrido a pie sugerido</strong>
+    <ol class="activity-list">
+      <li>Palais Grand-Ducal · gratis · 15 min</li>
+      <li class="star">★ Casemates du Bock · €8 · 1h · Túneles UNESCO</li>
+      <li class="star">★ Chemin de la Corniche · gratis · 30 min · Mirador</li>
+      <li>Vallée du Grund · gratis · 1h · Bajada al barrio antiguo</li>
+    </ol>
+  </div>
+</div>
+
+<!-- =================== METZ =================== -->
+<div class="day" id="dia-metz">
+  <div class="day-header"><span class="day-city">🇫🇷 Metz</span><span class="day-dates">Jue 11 → Vie 12 · 1 noche</span></div>
+
+  <div class="transit-mini">
+    <strong>🚆 Tren Luxemburgo → Metz-Ville</strong> · Sale 15:15 → Llega 16:14 · 59 min · Omio
+  </div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>Hôtel Escurial - Centre Gare ★★★<br>18 Rue Pasteur, 57000 Metz<br>📞 +33 387697334 · Reserva 5045617669 · PIN 4313<br><em>Standard Double Room €96.35</em></div>
+
+  <div class="info-row"><strong>⭐ Recorrido</strong>
+    <ol class="activity-list">
+      <li>Place Saint-Louis · gratis · 20 min</li>
+      <li class="star">★ Cathédrale Saint-Étienne · gratis · 45 min · Vitrales Chagall</li>
+      <li>Plan d'Eau y Temple Neuf · gratis · 30 min</li>
+      <li>Centre Pompidou-Metz · €12 · 2h</li>
+    </ol>
+  </div>
+</div>
+
+<!-- =================== ESTRASBURGO =================== -->
+<div class="day" id="dia-estrasburgo">
+  <div class="day-header"><span class="day-city">🇫🇷 Estrasburgo</span><span class="day-dates">Vie 12 → Dom 14 · 2 noches</span></div>
+
+  <div class="transit-mini">
+    <strong>🚆 Metz → Estrasburgo</strong> · Sale 12:10 → Llega 12:58 · 48 min · Omio
+  </div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>Citadines Kléber Strasbourg ★★★<br>50-54 Rue Du Jeu Des Enfants, 67000 Estrasburgo<br>📞 +33 3 90 22 47 00 · Reserva 5321045626 · PIN 0809<br><em>Standard Studio €184.55 · 2 noches</em></div>
+
+  <div class="info-row"><strong>⭐ Recorrido casco antiguo</strong>
+    <ol class="activity-list">
+      <li>Place Kléber · gratis · 20 min</li>
+      <li class="star">★ Cathédrale Notre-Dame · gratis (€8 torre) · 1h · Reloj astronómico 12:30</li>
+      <li class="star">★ Petite France · gratis · 1-2h · Patrimonio UNESCO</li>
+      <li>Batorama paseo en barco · €16 · 1h 10min</li>
+      <li>Parlamento Europeo · gratis (con reserva)</li>
+    </ol>
+  </div>
+
+  <div class="info-row"><strong>🚆 Excursión Sáb 13 Jun — Colmar</strong><br>
+    Ida: TGV INOUI <strong>2363</strong> · Estrasburgo 09:13 → Colmar 09:42 (29 min) · Reserva P3F3S8<br>
+    Vuelta: TGV INOUI <strong>12176</strong> · Colmar 15:27 → Estrasburgo 15:54 (27 min) · Reserva P3H8DF<br>
+    <em>~5h 45min en Colmar — pueblo de cuento que inspiró "La Bella y la Bestia"</em>
+  </div>
+</div>
+
+<!-- =================== BERNA =================== -->
+<div class="day" id="dia-berna">
+  <div class="day-header"><span class="day-city">🇨🇭 Berna</span><span class="day-dates">Dom 14 → Lun 15 · 1 noche</span></div>
+
+  <div class="transit-mini">
+    <strong>🚆 Estrasburgo → Bern Hauptbahnhof</strong> · Sale 10:52 → Llega 14:56 · 4h 04min · Omio<br>
+    <em>⚠️ Mañana corta: check-out hotel hasta 11:00 / tren 10:52 — salir ~10:00.</em>
+  </div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>NH Bern The Bristol ★★★★<br>Schauplatzgasse 10, Rotes Quartier, 3011 Bern<br>📞 +41 313102266 · Reserva 5986065525 · PIN 6217<br><em>Standard Double Room CHF 140.03</em></div>
+
+  <div class="info-row"><strong>⭐ Recorrido casco antiguo UNESCO</strong>
+    <ol class="activity-list">
+      <li class="star">★ Zytglogge (Torre del Reloj) · gratis · 30 min</li>
+      <li>Catedral Münster · €7 torre · 45 min · 312 escalones</li>
+      <li class="star">★ Casco Antiguo + arcadas · gratis · 1-2h</li>
+      <li>Paseo del río Aare · gratis · 1h</li>
+      <li>BärenPark (osos) · gratis · 30 min</li>
+    </ol>
+  </div>
+</div>
+
+<!-- =================== ZURICH =================== -->
+<div class="day" id="dia-zurich">
+  <div class="day-header"><span class="day-city">🇨🇭 Zúrich</span><span class="day-dates">Lun 15 → Mié 17 · 2 noches</span></div>
+
+  <div class="transit-mini">
+    <strong>🚆 Bern → Zürich HB</strong> · Sale 11:36 → Llega 12:54 · 1h 18min · Omio<br>
+    <em>⚠️ Check-out hotel 12:00 / tren 11:36 — apretado.</em>
+  </div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>easyHotel Zürich City Main Station ★★★<br>33 Klingenstrasse, 8005 Zurich · Distrito 5<br>📞 +41 43 322 05 51 · Reserva 6137402424 · PIN 7861</div>
+
+  <div class="info-row"><strong>⭐ Recorrido</strong>
+    <ol class="activity-list">
+      <li>Bahnhofstrasse · gratis · 1h</li>
+      <li>Grossmünster · €5 torres · 45 min</li>
+      <li class="star">★ Lago de Zúrich (Bürkliplatz) · gratis · 1-2h</li>
+      <li class="star">★ Lindt Home of Chocolate (Kilchberg, S-Bahn) · €18 · 1.5h · Reservar</li>
+      <li>Uetliberg mirador · €10 tren · 2h</li>
+      <li>Vaduz (Liechtenstein) excursión · €40 · medio día</li>
+    </ol>
+  </div>
+</div>
+
+<!-- =================== SALZBURGO =================== -->
+<div class="day" id="dia-salzburgo">
+  <div class="day-header"><span class="day-city">🇦🇹 Salzburgo</span><span class="day-dates">Mié 17 → Vie 19 · 2 noches</span></div>
+
+  <div class="transit-mini">
+    <strong>🚆 Zúrich → Salzburg Hbf</strong> · Sale 08:32 → Llega 15:02 · 6h 30min · Omio
+  </div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>Cocoon Salzburg ★★★★ (8.6)<br>29 Rainerstraße, Elisabeth-Vorstadt, 5020 Salzburg<br>📞 +43 664 88168519 · Reserva 8278380014599652774 · PIN 950832<br><em>Twin Room · al lado de la Hauptbahnhof</em></div>
+
+  <div class="info-row"><strong>⭐ Recorrido casco antiguo UNESCO</strong>
+    <ol class="activity-list">
+      <li class="star">★ Mirabellgarten · gratis · 45 min · Sound of Music</li>
+      <li>Mozarts Geburtshaus (Getreidegasse 9) · €13.5 · 1h</li>
+      <li>Getreidegasse · gratis · 30 min</li>
+      <li class="star">★ Festung Hohensalzburg · €17 · 2-3h · Fortaleza imperdible</li>
+      <li>Mönchsberg mirador · €3.7 ascensor · 1h</li>
+      <li>Sound of Music Tour · €60 · 4h (opcional)</li>
+    </ol>
+  </div>
+</div>
+
+<!-- =================== VIENA =================== -->
+<div class="day" id="dia-viena">
+  <div class="day-header"><span class="day-city">🇦🇹 Viena</span><span class="day-dates">Vie 19 → Dom 21 · 2 noches</span></div>
+
+  <div class="transit-mini">
+    <strong>🚆 Salzburg → Wien Hauptbahnhof</strong> · Sale 08:11 → Llega 11:03 · 2h 52min · Omio
+  </div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>FortyPlusOne Hotel Vienna<br>Schönbrunner Straße 41, Margareten (Distrito 5), 1050 Vienna<br>📞 +43 6764141066 · Reserva 5986000607 · PIN 2906<br><em>1 Twin Room · +10% VAT · +3.20% City tax</em></div>
+
+  <div class="info-row"><strong>⭐ Recorrido + 🎵 Música</strong>
+    <ol class="activity-list">
+      <li class="star">★ Stephansdom · gratis · 1h · Catedral imperial</li>
+      <li>Hofburg & Sisi Museum · €19 · 2h</li>
+      <li class="star">★ Café Sacher · €10 · 45 min · Torta Sacher original</li>
+      <li>Naschmarkt · gratis · 1-2h</li>
+      <li>Belvedere (El Beso de Klimt) · €17.5 · 2h</li>
+      <li class="star">★ Schloss Schönbrunn · €32 · 3-4h · Reservar</li>
+      <li class="star">★ 🎵 Wiener Staatsoper · €15-200 · 3h · Ópera o tickets de pie</li>
+      <li class="star">★ 🎵 Wiener Musikverein (Goldener Saal) · €20-200 · 2-3h · Filarmónica</li>
+      <li>🎵 Mozarthaus Vienna · €12 · 1.5h · Casa de Mozart 1784-1787</li>
+    </ol>
+  </div>
+</div>
+
+<!-- =================== BRATISLAVA =================== -->
+<div class="day" id="dia-bratislava">
+  <div class="day-header"><span class="day-city">🇸🇰 Bratislava</span><span class="day-dates">Dom 21 → Lun 22 · 1 noche</span></div>
+
+  <div class="transit-mini">
+    <strong>🚆 Viena → Bratislava-Petržalka</strong> · Sale 09:45 → Llega 10:44 · 59 min · Omio<br>
+    <em>⚠️ Llega a Petržalka (sur del Danubio). Bus 80 o caminar 20 min al casco antiguo.</em>
+  </div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>Park Inn by Radisson Danube Bratislava<br>Rybné námestie 1, 813 38 Bratislava<br>📞 +421 2/593 400 00 · Reserva 5881072658 · PIN 6804<br><em>Sobre el Danubio, al lado del casco antiguo</em></div>
+
+  <div class="info-row"><strong>⭐ Recorrido</strong>
+    <ol class="activity-list">
+      <li class="star">★ Hrad Bratislava (Castillo) · gratis parque · 1.5h</li>
+      <li class="star">★ Staré Mesto (Casco Antiguo) · gratis · 2h</li>
+      <li>Čumil ("Man at Work") estatua · gratis · 5 min</li>
+      <li>UFO Observation Deck · €10 · 45 min</li>
+    </ol>
+  </div>
+</div>
+
+<!-- =================== BUDAPEST =================== -->
+<div class="day" id="dia-budapest">
+  <div class="day-header"><span class="day-city">🇭🇺 Budapest</span><span class="day-dates">Lun 22 → Mié 24 · 2 noches</span></div>
+
+  <div class="transit-mini">
+    <strong>🚌 BUS FlixBus · Bratislava Mlynské Nivy → Budapest-Kelenföld</strong><br>
+    Sale 10:00 (estación Mlynské Nivy 31) → Llega 12:25 · 2h 25min · Omio<br>
+    <em>De Kelenföld al centro: metro M4 (~15 min).</em>
+  </div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>Danubius Hotel Astoria City Center ★★★★<br>Kossuth Lajos u. 19-21, 1053 Budapest<br>Reserva 6840927106<br><em>Pleno centro de Pest, al lado del metro Astoria (M2)</em></div>
+
+  <div class="info-row"><strong>⭐ Recorrido</strong>
+    <ol class="activity-list">
+      <li class="star">★ Parlamento Húngaro · €16 · 45 min · Reservar 2-3 sem antes</li>
+      <li class="star">★ Halászbástya (Bastión Pescadores) · gratis · 1h · Vista nocturna</li>
+      <li>Szimpla Kert (ruin bar) · gratis entrada · 2h</li>
+      <li class="star">★ Termas Széchenyi · €32 · 3h · Reservar</li>
+      <li>Mercado Central · gratis · 1h · Probar lángos</li>
+      <li>Crucero nocturno Danubio · €20 · 1h</li>
+    </ol>
+  </div>
+</div>
+
+<!-- =================== PRAGA =================== -->
+<div class="day" id="dia-praga">
+  <div class="day-header"><span class="day-city">🇨🇿 Praga</span><span class="day-dates">Mié 24 → Sáb 27 · 3 noches</span></div>
+
+  <div class="transit-mini">
+    <strong>🚆 Budapest → Praha-Holešovice</strong> · Sale <strong>07:30 (TEMPRANO)</strong> → Llega 14:26 · 6h 56min · Omio<br>
+    <em>Holešovice está en el norte de Praga, metro C. Estar en estación a las 07:00.</em>
+  </div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>Perla Hotel ★★★★<br>Perlova 1, Prague 1, 110 00, República Checa<br>📞 +420 227022077 · Reserva 5740113078 · PIN 3461<br><em>Double/Twin €314.60 + €37.75 VAT · 3 noches</em></div>
+
+  <div class="info-row"><strong>⭐ Recorrido + 🎵 Música</strong>
+    <ol class="activity-list">
+      <li class="star">★ Reloj Astronómico · gratis · 20 min</li>
+      <li>Josefov (Barrio Judío) · €20 combo · 2h</li>
+      <li class="star">★ Karlův most (Puente de Carlos) · gratis · 45 min</li>
+      <li class="star">★ Castillo de Praga · €20 · 3h</li>
+      <li>Tančící dům (Casa Danzante) · gratis exterior · 30 min</li>
+      <li>U Fleků (cervecería 1499) · €15 · 1.5h</li>
+      <li class="star">★ 🎵 Stavovské divadlo · €20-90 · 3h · Mozart estrenó Don Giovanni acá</li>
+      <li class="star">★ 🎵 Rudolfinum (Sala Dvořák) · €20-100 · 2h · Filarmónica Checa</li>
+      <li>🎵 Reduta Jazz Club · €15-25 · 2h · Club jazz más antiguo de Europa Central</li>
+    </ol>
+  </div>
+</div>
+
+<!-- =================== VUELO PRG-AMS =================== -->
+<h2 id="vuelo-praga">✈️ Vuelo Praga → Ámsterdam — Sáb 27 Jun</h2>
+<div class="flight">
+  <span class="label">KLM Cityhopper · KL1356 · Embraer 195 E2 · Economy</span>
+  <div class="codes">
+    <div><span class="iata">PRG</span><br><small>Václav Havel (T2)<br>Sáb 27 Jun · 14:30</small></div>
+    <div class="arrow">→ 1h 30min →</div>
+    <div style="text-align:right;"><span class="iata">AMS</span><br><small>Schiphol<br>Sáb 27 Jun · 16:00</small></div>
+  </div>
+  <div class="details">⚠️ Sin equipaje despachado · 2 bolsos de mano por persona</div>
+</div>
+
+<!-- =================== AMSTERDAM =================== -->
+<div class="day" id="dia-amsterdam">
+  <div class="day-header"><span class="day-city">🇳🇱 Ámsterdam</span><span class="day-dates">Sáb 27 → Lun 29 · 2 noches</span></div>
+
+  <div class="info-row"><strong>🏨 Hotel</strong>Singel Hotel Amsterdam<br>Singel 13-17, 1012 VC Amsterdam<br>Reserva 6044568455<br><em>Sobre el canal Singel, 5-10 min caminando de Amsterdam Centraal</em></div>
+
+  <div class="info-row"><strong>⭐ Recorrido</strong>
+    <ol class="activity-list">
+      <li>Jordaan · gratis · 2h · Nine Streets compras</li>
+      <li class="star">★ Anne Frank Huis · €16 · 1h · IMPRESCINDIBLE reservar online 6 sem antes</li>
+      <li class="star">★ Paseo en barco por canales · €18-25 · 1.5h</li>
+      <li class="star">★ Rijksmuseum · €25 · 3h · Reservar</li>
+      <li class="star">★ Van Gogh Museum · €22 · 2h · Reservar OBLIGATORIO</li>
+      <li>Vondelpark · gratis · 2h</li>
+    </ol>
+  </div>
+</div>
+
+<!-- =================== VUELO VUELTA =================== -->
+<h2 id="vuelo-vuelta">✈️ Vuelo de vuelta — Lun 29 Jun</h2>
+<div class="flight">
+  <span class="label">KLM · KL701 · Boeing 777-200 · Reserva X6G5YP</span>
+  <div class="codes">
+    <div><span class="iata">AMS</span><br><small>Schiphol<br>Lun 29 Jun · 21:10</small></div>
+    <div class="arrow">→ 13h 40min →</div>
+    <div style="text-align:right;"><span class="iata">EZE</span><br><small>Buenos Aires<br>Mar 30 Jun · 05:50<br>Terminal 1A</small></div>
+  </div>
+</div>
+
+<footer class="bottom">
+  <p><strong>Esta versión</strong> está pensada para imprimir en papel o guardar como PDF en el celular como respaldo offline. Para la experiencia interactiva (mapas, clima en tiempo real, recorridos a pie con GPS), abrí <code>index.html</code>.</p>
+  <p style="margin-top: 6px;">Documento generado para Mayo 2026 · Itinerario 9-30 Junio 2026</p>
+</footer>
+
+</body>
+</html>
