@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fafafa">
+<title>Checklist de actividades · Europa 2026</title>
+<style>
+  :root {
+    --bg: #f6f6f7;
+    --paper: #ffffff;
+    --ink: #1a1a1c;
+    --ink-2: #5b5851;
+    --ink-3: #9a9a9f;
+    --line: #e6e6e9;
+    --accent: #1a3a6e;
+    --star: #c89200;
+    --check: #1a7a3e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    line-height: 1.45;
+    padding: 18px 14px calc(40px + env(safe-area-inset-bottom));
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 14px;
+  }
+  header.top {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+  }
+  header.top h1 { font-size: 22px; font-weight: 700; color: var(--accent); }
+  header.top .subtitle { font-size: 12px; color: var(--ink-2); margin-top: 4px; }
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 12px;
+    flex-wrap: wrap;
+  }
+  .nav-links a {
+    color: var(--accent);
+    text-decoration: none;
+    padding: 5px 10px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  .progress-summary {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .progress-summary strong { color: var(--check); font-weight: 700; }
+  .progress-summary .controls { display: flex; gap: 6px; }
+  .progress-summary button {
+    font: inherit;
+    font-size: 11px;
+    padding: 4px 9px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--ink-2);
+  }
+  section.city {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+  .city-head {
+    padding: 12px 14px;
+    background: linear-gradient(135deg, #f3f1ea, #ede9dc);
+    border-bottom: 1px solid var(--line);
+  }
+  .city-head .name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .city-head .meta {
+    font-size: 11.5px;
+    color: var(--ink-2);
+    margin-top: 3px;
+  }
+  .city-head .meta strong { color: var(--ink); font-weight: 600; }
+  .group-label {
+    padding: 8px 14px 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--ink-3);
+    font-weight: 700;
+    background: var(--bg);
+  }
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .item:first-child { border-top: none; }
+  .item input[type=checkbox] {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    cursor: pointer;
+    accent-color: var(--check);
+  }
+  .item-text { flex: 1; min-width: 0; }
+  .item-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .item-name .star { color: var(--star); margin-right: 3px; }
+  .item-name .num {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    margin-right: 6px;
+    vertical-align: 1px;
+  }
+  .item-desc { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+  .item-tags {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 999px;
+    line-height: 1.3;
+  }
+  .tag-free { background: #e6f6ea; color: #1a7a3e; }
+  .tag-paid { background: #f0f0f3; color: #5b5851; }
+  .tag-time { background: #eef3fc; color: #2b5fc2; }
+  .tag-reserve { background: #fdecea; color: #b3261e; }
+  .tag-music { background: #f3e6f8; color: #6b2c8c; }
+  .item.checked {
+    background: #f0faf3;
+  }
+  .item.checked .item-name {
+    text-decoration: line-through;
+    color: var(--ink-2);
+  }
+
+  footer.bottom {
+    margin-top: 22px;
+    padding: 14px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 11.5px;
+    color: var(--ink-2);
+  }
+
+  @media print {
+    body { background: #fff; max-width: 100%; padding: 8px; font-size: 11pt; }
+    .nav-links, .progress-summary .controls, .no-print { display: none; }
+    section.city { break-inside: avoid; border: 1px solid #999; }
+    .city-head { background: #f5f5f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .item input[type=checkbox] { width: 14px; height: 14px; }
+    @page { size: A4; margin: 1.2cm; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>✅ Checklist de Actividades</h1>
+  <div class="subtitle">Europa · 9-30 Junio 2026 · Tildá lo que querés hacer (se guarda)</div>
+  <div class="nav-links no-print">
+    <a href="index.html">🏠 App</a>
+    <a href="historia.html">📖 Historia</a>
+    <a href="imprimir.html">🖨️ Versión papel</a>
+    <a href="#" onclick="window.print(); return false;">🖨 Imprimir</a>
+  </div>
+</header>
+
+<div class="progress-summary">
+  <span><strong id="checked-count">0</strong> de <span id="total-count">0</span> tildados</span>
+  <div class="controls">
+    <button onclick="resetAll()">↻ Limpiar</button>
+    <button onclick="toggleAll()">Tildar todo</button>
+  </div>
+</div>
+
+<main id="list"></main>
+
+<footer class="bottom">
+  <p><strong>Cómo usarla:</strong> tildá cada actividad que quieras hacer o ya hiciste. Lo tildado se guarda en este celular (no requiere internet). Se vuelve a ver al recargar.</p>
+  <p style="margin-top: 6px;">Para imprimir: usá el botón 🖨 arriba. Los tildes salen impresos como casillas que podés marcar con birome.</p>
+</footer>
+
+<script src="places.js"></script>
+<script>
+const CITY_ORDER = [
+  { key: 'luxemburgo', flag: '🇱🇺', name: 'Luxemburgo',  dates: '10 - 11 Jun', nights: 1, country: 'Luxemburgo' },
+  { key: 'metz',       flag: '🇫🇷', name: 'Metz',        dates: '11 - 12 Jun', nights: 1, country: 'Francia' },
+  { key: 'estrasburgo',flag: '🇫🇷', name: 'Estrasburgo', dates: '12 - 14 Jun', nights: 2, country: 'Francia' },
+  { key: 'berna',      flag: '🇨🇭', name: 'Berna',       dates: '14 - 15 Jun', nights: 1, country: 'Suiza' },
+  { key: 'zurich',     flag: '🇨🇭', name: 'Zúrich',      dates: '15 - 17 Jun', nights: 2, country: 'Suiza' },
+  { key: 'salzburgo',  flag: '🇦🇹', name: 'Salzburgo',   dates: '17 - 19 Jun', nights: 2, country: 'Austria' },
+  { key: 'viena',      flag: '🇦🇹', name: 'Viena',       dates: '19 - 21 Jun', nights: 2, country: 'Austria' },
+  { key: 'bratislava', flag: '🇸🇰', name: 'Bratislava',  dates: '21 - 22 Jun', nights: 1, country: 'Eslovaquia' },
+  { key: 'budapest',   flag: '🇭🇺', name: 'Budapest',    dates: '22 - 24 Jun', nights: 2, country: 'Hungría' },
+  { key: 'praga',      flag: '🇨🇿', name: 'Praga',       dates: '24 - 27 Jun', nights: 3, country: 'Chequia' },
+  { key: 'amsterdam',  flag: '🇳🇱', name: 'Ámsterdam',   dates: '27 - 29 Jun', nights: 2, country: 'Países Bajos' },
+];
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+function renderActivity(a, cityKey, idx) {
+  const id = `${cityKey}-${idx}`;
+  const isFree = /gratis/i.test(a.cost);
+  const isPaid = !isFree;
+  const isMusic = /^🎵/.test(a.name);
+  const nameClean = a.name.replace(/^🎵\s*/, '');
+  return `
+    <label class="item" data-id="${id}">
+      <input type="checkbox" data-id="${id}">
+      <span class="item-text">
+        <span class="item-name">
+          <span class="num">${idx + 1}</span>
+          ${a.imperdible ? '<span class="star">★</span>' : ''}${isMusic ? '🎵 ' : ''}${escapeHtml(nameClean)}
+        </span>
+        <div class="item-desc">${escapeHtml(a.desc)}</div>
+        <div class="item-tags">
+          ${isFree ? '<span class="tag tag-free">🆓 Gratis</span>' : `<span class="tag tag-paid">🎟️ ${escapeHtml(a.cost)}</span>`}
+          ${a.time ? `<span class="tag tag-time">⏱️ ${escapeHtml(a.time)}</span>` : ''}
+          ${a.booking ? '<span class="tag tag-reserve">🎫 Reservar</span>' : ''}
+          ${isMusic ? '<span class="tag tag-music">🎵 Música</span>' : ''}
+        </div>
+      </span>
+    </label>
+  `;
+}
+
+function render() {
+  const list = document.getElementById('list');
+  let total = 0;
+  list.innerHTML = CITY_ORDER.map(city => {
+    const data = PLACES[city.key];
+    if (!data || !data.activities) return '';
+    const acts = data.activities;
+    total += acts.length;
+    // Orden: imperdibles primero (preservando orden interno), después el resto
+    const sorted = [...acts.map((a, i) => ({ a, originalIdx: i }))]
+      .sort((x, y) => (y.a.imperdible ? 1 : 0) - (x.a.imperdible ? 1 : 0));
+    const imperdibles = sorted.filter(s => s.a.imperdible);
+    const otras = sorted.filter(s => !s.a.imperdible);
+
+    return `
+      <section class="city" id="city-${city.key}">
+        <div class="city-head">
+          <div class="name">${city.flag} ${escapeHtml(city.name)} <span style="font-size:11px;color:#888;font-weight:500;">(${escapeHtml(city.country)})</span></div>
+          <div class="meta"><strong>${escapeHtml(city.dates)}</strong> · ${city.nights} noche${city.nights > 1 ? 's' : ''} · ${acts.length} actividades</div>
+        </div>
+        ${imperdibles.length ? `
+          <div class="group-label">⭐ Imperdibles (${imperdibles.length})</div>
+          ${imperdibles.map((s, i) => renderActivity(s.a, city.key, s.originalIdx)).join('')}
+        ` : ''}
+        ${otras.length ? `
+          <div class="group-label">📋 Recomendadas (${otras.length})</div>
+          ${otras.map((s, i) => renderActivity(s.a, city.key, s.originalIdx)).join('')}
+        ` : ''}
+      </section>
+    `;
+  }).join('');
+  document.getElementById('total-count').textContent = total;
+
+  // Restore checked state from localStorage
+  document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    const id = cb.dataset.id;
+    if (localStorage.getItem(`act:${id}`) === '1') {
+      cb.checked = true;
+      cb.closest('.item').classList.add('checked');
+    }
+    cb.addEventListener('change', () => {
+      if (cb.checked) {
+        localStorage.setItem(`act:${id}`, '1');
+        cb.closest('.item').classList.add('checked');
+      } else {
+        localStorage.removeItem(`act:${id}`);
+        cb.closest('.item').classList.remove('checked');
+      }
+      updateCount();
+    });
+  });
+  updateCount();
+}
+
+function updateCount() {
+  const checked = document.querySelectorAll('input[type=checkbox]:checked').length;
+  document.getElementById('checked-count').textContent = checked;
+}
+
+function resetAll() {
+  if (!confirm('¿Destildar todas las actividades?')) return;
+  document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.checked = false;
+    localStorage.removeItem(`act:${cb.dataset.id}`);
+    cb.closest('.item').classList.remove('checked');
+  });
+  updateCount();
+}
+
+function toggleAll() {
+  const total = document.querySelectorAll('input[type=checkbox]').length;
+  const checked = document.querySelectorAll('input[type=checkbox]:checked').length;
+  const newState = checked < total;
+  document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.checked = newState;
+    if (newState) localStorage.setItem(`act:${cb.dataset.id}`, '1');
+    else localStorage.removeItem(`act:${cb.dataset.id}`);
+    cb.closest('.item').classList.toggle('checked', newState);
+  });
+  updateCount();
+}
+
+render();
+</script>
+</body>
+</html>
